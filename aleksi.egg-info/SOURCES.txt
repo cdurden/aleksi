@@ -1,7 +1,0 @@
-setup.py
-aleksi.egg-info/PKG-INFO
-aleksi.egg-info/SOURCES.txt
-aleksi.egg-info/dependency_links.txt
-aleksi.egg-info/entry_points.txt
-aleksi.egg-info/requires.txt
-aleksi.egg-info/top_level.txt

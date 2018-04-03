@@ -6,9 +6,9 @@
       <ul>
           <li><a href="${request.route_url('about')}"><b>Aleksi</b></a></li>
           <li><a id="leave_session_button" href="${request.route_url('browse_sessions')}"><span class="fas-inverse icon-th-large"></span><span class="mobile-hide">Sessions</span></a></li>
-          <li><a id="update_website_button" href="javascript:update_current_website()"><span class="fas-inverse icon-refresh"></span></a></li>
+          <li><a id="update_website_button" href="javascript:update_current_website()"><span class="fas-inverse icon-refresh"><span class="mobile-hide">Update Website</span></span></a></li>
           <!--          <li><a id="open_config_dialog_button">Link behavior</a></li> -->
-          <li><a id="open_session_dialog_button"><span class="fas-inverse icon-cog"></span></a></li>
+          <li><a id="open_session_dialog_button"><span class="fas-inverse icon-cog"></span><span class="mobile-hide">Settings</span></a></li>
           <li><a href="${request.route_url('logout')}">Logout</a></li>
 <!--
           <li><a id="open_quizlet_dialog_button">Quizlet configuration</a></li>

@@ -16,3 +16,4 @@ var/
 *.egg
 
 aleksi_aws.log
+aleksi_aws.sqlite

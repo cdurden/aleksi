@@ -31,7 +31,7 @@ def validate_email(strategy, backend, code, partial_token):
     # me == the sender's email address
     # you == the recipient's email address
     msg['Subject'] = 'Aleksi email validation request'
-    msg['From'] = 'noreply@lukethefinn.com'
+    msg['From'] = 'noreply@aleksi.org'
     msg['To'] = code.email
     
     # Send the message via our own SMTP server.

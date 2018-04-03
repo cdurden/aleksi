@@ -4,10 +4,10 @@ body {
 body p,h1,h2,h3,h4,h5,h6,pre {
     margin: 1.5em;
 }
-.right ul {
+ul.right {
     display: inline;
 }
-.right ul {
+ul.right {
     float: right;
 }
 @media only screen and (max-width: 479px) {

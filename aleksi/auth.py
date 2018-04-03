@@ -33,11 +33,11 @@ def partial_pipeline_data(backend, user=None, *args, **kwargs):
     data = backend.strategy.request_data()
     print(data['cookies'])
     if 'signature' in data:
-        try:
-            signed_details = signed_deserialize(data['signature'], session_secret)
-            session = Session.objects.get(pk=signed_details['session_key'])
-        except BadSignature, Session.DoesNotExist:
-            raise InvalidEmail(backend)
+#        try:
+#            signed_details = signed_deserialize(data['signature'], session_secret)
+#            session = Session.objects.get(pk=signed_details['session_key'])
+#        except BadSignature, Session.DoesNotExist:
+#            raise InvalidEmail(backend)
 
         session_details = session.get_decoded()
         backend.strategy.session_set('email_validation_address', session_details['email_validation_address'])

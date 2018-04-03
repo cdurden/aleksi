@@ -22,7 +22,7 @@
 </head>
 <body>
     <div data-role="page">
-        <div data-role="header">
+        <div data-role="header" style="max-width: 40em;">
     <tal:block metal:define-slot="header">
     <h1>
 <!--

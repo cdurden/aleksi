@@ -9,6 +9,8 @@
           <li><a id="update_website_button" href="javascript:update_current_website()"><span class="fas-inverse icon-refresh"></span><span class="mobile-hide">Update Website</span></a></li>
           <!--          <li><a id="open_config_dialog_button">Link behavior</a></li> -->
           <li><a id="open_session_dialog_button"><span class="fas-inverse icon-cog"></span><span class="mobile-hide">Settings</span></a></li>
+      </ul>
+      <ul class="right">
           <li><a href="${request.route_url('logout')}">Logout</a></li>
 <!--
           <li><a id="open_quizlet_dialog_button">Quizlet configuration</a></li>

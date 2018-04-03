@@ -17,7 +17,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     username = Column(String(200), nullable=False, unique=True)
     email = Column(String(200), nullable=False, unique=True)
-    password = Column(String(200), nullable=False)
+    password = Column(String(200))
     name = Column(String(100))
     active = Column(Boolean, default=True)
     sessions = relationship("Session")

@@ -20,49 +20,25 @@ from social_core.actions import do_disconnect
 session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
 USER_FIELDS = ['username', 'email']
 
-def partial_pipeline_data(backend, user=None, *args, **kwargs):
-    """
-    Monkey-patch utils.partial_pipeline_data to enable us to retrieve session data by signature key in request.
-    This is necessary to allow users to follow a link in an email to validate their account from a different
-    browser than the one they were using to sign up for the account, or after they've closed/re-opened said
-    browser and potentially flushed their cookies. By adding the session key to a signed base64 encoded signature
-    on the email request, we can retrieve the necessary details from our Django session table.
-    We fetch only the needed details to complete the pipeline authorization process from the session, to prevent
-    nefarious use.
-    """
-    print("partial_pipeline_data")
+def validate_email(backend, user=None, *args, **kwargs):
     data = backend.strategy.request_data()
+    if 'signature' not in data:
+        signature = backend.strategy.session_get('signature', None)
     if 'signature' in data:
+        signature = data['signature']
+        backend.strategy.session_set('signature', signature)
+    if signature:
         try:
-            signed_details = signed_deserialize(data['signature'], session_secret)
+            signed_details = signed_deserialize(signature, session_secret)
 #            session = Session.objects.get(pk=signed_details['session_key'])
         except BadSignature:
             raise InvalidEmail(backend)
-
-        session_details = session.get_decoded()
-        backend.strategy.session_set('email_validation_address', signed_details['email'])
-        print(signed_details['email'])
-        #backend.strategy.session_set('next', session_details.get('next'))
-        #backend.strategy.session_set('partial_pipeline', session_details['partial_pipeline'])
-        #backend.strategy.session_set(backend.name + '_state', session_details.get(backend.name + '_state'))
-        #backend.strategy.session_set(backend.name + 'unauthorized_token_name',
-        #                             session_details.get(backend.name + 'unauthorized_token_name'))
-
-    partial = backend.strategy.session_get('partial_pipeline', None)
-    if partial:
-        idx, backend_name, xargs, xkwargs = \
-            backend.strategy.partial_from_session(partial)
-        if backend_name == backend.name:
-            kwargs.setdefault('pipeline_index', idx)
-            if user:  # don't update user if it's None
-                kwargs.setdefault('user', user)
-            kwargs.setdefault('request', backend.strategy.request_data())
-            xkwargs.update(kwargs)
-            return xargs, xkwargs
-        else:
-            backend.strategy.clean_partial_pipeline()
-
-utils.partial_pipeline_data = partial_pipeline_data
+        email = signed_details['email']
+        print(email)
+        return {'email_validated': True,
+                'email': email}
+    else:
+        return
 
 def send_validation_email(strategy, backend, code, partial_token):
     print("sending email validation")
@@ -144,6 +120,9 @@ def create_user(strategy, backend, request, details, *args, **kwargs):
         user = DBSession.query(User).filter_by(email=email).one()
     except NoResultFound:
         user = User(email=email, username=email)
+
+    if 'password' in details:
+        user.set_password(details['password'])
         #raise AuthForbidden(backend, "Email or password not valid")
 
     return {'user': user, 'email': email}
@@ -257,6 +236,32 @@ def collect_email(strategy, backend, request, details, *args, **kwargs):
     return {'is_new': is_new}
 
 @partial
+def collect_password(strategy, backend, request, details, *args, **kwargs):
+    if backend.name != 'email':
+        return
+    # session 'local_password' is set by the pipeline infrastructure
+    # because it exists in FIELDS_STORED_IN_SESSION
+    email = details['email']
+    data = backend.strategy.request_data()
+    details['password']= data['password']
+
+    # grab the user object from the database (remember that they may
+    # not be logged in yet) and set their email.  (Assumes that the
+    # email address was captured in an earlier step.)
+    try:
+        user = DBSession.query(User).filter_by(email=email).one()
+        is_new = False
+    except NoResultFound:
+        is_new = True
+
+#        user = User(email=email, username=email)
+#        DBSession.add(user)
+#        DBSession.flush()
+    # continue the pipeline
+    return {'is_new': is_new}
+
+
+@partial
 def store_backend(strategy, backend, request, details, *args, **kwargs):
     strategy.session_set('backend_name', backend.name)
     return
@@ -307,10 +312,10 @@ def get_user(request):
 #    request = event['request']
 #    event['social'] = backends(request, request.user)
 @partial
-def mail_validation(backend, details, is_new=False, *args, **kwargs):
+def mail_validation(backend, details, is_new=False, is_validated=False, *args, **kwargs):
     requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
                           backend.setting('FORCE_EMAIL_VALIDATION', False)
-    send_validation = details.get('email') and \
+    send_validation = details.get('email') and not is_validated \
                       (is_new or backend.setting('PASSWORDLESS', False))
     email = details.get('email')
     print(requires_validation)

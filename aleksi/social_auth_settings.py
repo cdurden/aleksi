@@ -33,6 +33,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.get_username',
     'aleksi.auth.collect_email',
     'aleksi.auth.mail_validation',
+    'aleksi.auth.collect_password',
     'aleksi.auth.create_user',
     'aleksi.auth.disassociate_social_user',
     'aleksi.auth.social_user',

@@ -30,6 +30,7 @@ def partial_pipeline_data(backend, user=None, *args, **kwargs):
     We fetch only the needed details to complete the pipeline authorization process from the session, to prevent
     nefarious use.
     """
+    print("partial_pipeline_data")
     data = backend.strategy.request_data()
     if 'signature' in data:
         try:

@@ -16,7 +16,9 @@ here = os.path.dirname(__file__)
 
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
 
-session_factory = UnencryptedCookieSessionFactoryConfig('4ab5fdd18e4c74bf5f1fc87945bc49a7',timeout=3600)
+from auth import session_secret
+#session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
+session_factory = UnencryptedCookieSessionFactoryConfig(session_secret,timeout=3600)
 
 from aleksi import social_auth_settings
 from aleksi import social_auth_local_settings

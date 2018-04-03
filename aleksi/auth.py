@@ -227,7 +227,6 @@ def create_social_user(strategy, details, backend, user=None, *args, **kwargs):
 
 @partial
 def collect_email(strategy, backend, request, details, *args, **kwargs):
-    print(request['cookies'])
     if backend.name != 'email' and backend.name != 'google-oauth2':
         return
     # session 'local_password' is set by the pipeline infrastructure

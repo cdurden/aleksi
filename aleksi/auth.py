@@ -31,21 +31,21 @@ def partial_pipeline_data(backend, user=None, *args, **kwargs):
     nefarious use.
     """
     data = backend.strategy.request_data()
-    print(data['cookies'])
     if 'signature' in data:
-#        try:
-#            signed_details = signed_deserialize(data['signature'], session_secret)
+        try:
+            signed_details = signed_deserialize(data['signature'], session_secret)
 #            session = Session.objects.get(pk=signed_details['session_key'])
-#        except BadSignature, Session.DoesNotExist:
-#            raise InvalidEmail(backend)
+        except BadSignature:
+            raise InvalidEmail(backend)
 
         session_details = session.get_decoded()
-        backend.strategy.session_set('email_validation_address', session_details['email_validation_address'])
-        backend.strategy.session_set('next', session_details.get('next'))
-        backend.strategy.session_set('partial_pipeline', session_details['partial_pipeline'])
-        backend.strategy.session_set(backend.name + '_state', session_details.get(backend.name + '_state'))
-        backend.strategy.session_set(backend.name + 'unauthorized_token_name',
-                                     session_details.get(backend.name + 'unauthorized_token_name'))
+        backend.strategy.session_set('email_validation_address', signed_details['email'])
+        print(signed_details['email'])
+        #backend.strategy.session_set('next', session_details.get('next'))
+        #backend.strategy.session_set('partial_pipeline', session_details['partial_pipeline'])
+        #backend.strategy.session_set(backend.name + '_state', session_details.get(backend.name + '_state'))
+        #backend.strategy.session_set(backend.name + 'unauthorized_token_name',
+        #                             session_details.get(backend.name + 'unauthorized_token_name'))
 
     partial = backend.strategy.session_get('partial_pipeline', None)
     if partial:
@@ -65,7 +65,9 @@ utils.partial_pipeline_data = partial_pipeline_data
 
 def send_validation_email(strategy, backend, code, partial_token):
     print("sending email validation")
-    url = url_for('social:complete', backend=backend.name)+'?verification_code='+code.code
+    signature = signed_serialize(code.email, session_secret)
+
+    url = url_for('social:complete', backend=backend.name)+'?verification_code='+code.code+"&signature="+signature
     import smtplib
     
     # Import the email modules we'll need

@@ -31,6 +31,7 @@ def partial_pipeline_data(backend, user=None, *args, **kwargs):
     nefarious use.
     """
     data = backend.strategy.request_data()
+    print(data['cookies'])
     if 'signature' in data:
         try:
             signed_details = signed_deserialize(data['signature'], session_secret)
@@ -224,6 +225,7 @@ def create_social_user(strategy, details, backend, user=None, *args, **kwargs):
 
 @partial
 def collect_email(strategy, backend, request, details, *args, **kwargs):
+    print(request['cookies'])
     if backend.name != 'email' and backend.name != 'google-oauth2':
         return
     # session 'local_password' is set by the pipeline infrastructure

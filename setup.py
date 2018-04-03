@@ -12,6 +12,7 @@ requires = [
     'social-auth-app-pyramid',
     'pyramid',
     'pyramid_tm',
+    'pyramid_beaker',
     'waitress',
     'zope.sqlalchemy',
 ]

@@ -1,6 +1,7 @@
 __pycache__/
 *.py[cod]
 
+data/
 bin/
 build/
 develop-eggs/

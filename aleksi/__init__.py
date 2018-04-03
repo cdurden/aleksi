@@ -15,10 +15,13 @@ from .models import DBSession, Base
 here = os.path.dirname(__file__)
 
 from pyramid.session import UnencryptedCookieSessionFactoryConfig
+#from pyramid_beaker import BeakerSessionFactoryConfig
+from pyramid_beaker import session_factory_from_settings
 
 from auth import session_secret
 #session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
-session_factory = UnencryptedCookieSessionFactoryConfig(session_secret,timeout=3600)
+#session_factory = UnencryptedCookieSessionFactoryConfig(session_secret,timeout=3600)
+#session_factory = BeakerSessionFactoryConfig()
 
 from aleksi import social_auth_settings
 from aleksi import social_auth_local_settings
@@ -184,6 +187,7 @@ def commit_veto(request, response):
 def main(global_config, **settings):
 #    settings['tm.commit_veto'] = 'aleksi.commit_veto'
     engine = engine_from_config(settings, 'sqlalchemy.')
+    session_factory = session_factory_from_settings(settings)
     listen(engine, "connect", do_connect)
     listen(engine, "begin", do_begin)
     initialize_sql(engine)
@@ -193,6 +197,7 @@ def main(global_config, **settings):
     config.registry.settings.update(get_settings(social_auth_settings))
     config.registry.settings.update(social_auth_local_settings.SOCIAL_AUTH_KEYS)
     config.include('social_pyramid')
+    config.include('pyramid_beaker')
     config.include('pyramid_chameleon')
 #    config.add_route('request_linked_website', '/request_linked_website')
 #    config.add_route('inject_js', '/inject_js')

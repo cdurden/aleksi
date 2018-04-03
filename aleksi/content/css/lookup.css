@@ -4,6 +4,9 @@ body {
 body p,h1,h2,h3,h4,h5,h6,pre {
     margin: 1.5em;
 }
+@media only screen and (max-width: 479px) {
+    .mobile-hide{ display: none !important; }
+}
 #associated_quizlet_set_div label {
     font-weight: bold;
 }

@@ -11,6 +11,7 @@ from social_pyramid.models import init_social
 from aleksi import get_settings
 from aleksi.models import DBSession, Base
 from aleksi import social_auth_settings
+from aleksi.models.user import User
 from aleksi.models.website import Website
 from aleksi.models.session import Session, Pin
 from aleksi.models.sanakirja import *
@@ -33,6 +34,9 @@ def main(argv=sys.argv):
     init_social(get_settings(social_auth_settings), Base, DBSession)
     engine = engine_from_config(settings, 'sqlalchemy.')
     DBSession.configure(bind=engine)
+    print(Base.metadata)
+    for t in Base.metadata.sorted_tables:
+        print(t.name)
     Base.metadata.create_all(engine)
 
 

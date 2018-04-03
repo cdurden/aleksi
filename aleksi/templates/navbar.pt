@@ -3,7 +3,7 @@
 
 <div id="navbar">
   <div id="tophiddenbar">
-      <ul>
+      <ul class="left">
           <li><a href="${request.route_url('about')}"><b>Aleksi</b></a></li>
           <li><a id="leave_session_button" href="${request.route_url('browse_sessions')}"><span class="fas-inverse icon-th-large"></span><span class="mobile-hide">Sessions</span></a></li>
           <li><a id="update_website_button" href="javascript:update_current_website()"><span class="fas-inverse icon-refresh"></span><span class="mobile-hide">Update Website</span></a></li>

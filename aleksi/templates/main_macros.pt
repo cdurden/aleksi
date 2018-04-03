@@ -26,7 +26,7 @@
     <tal:block metal:define-slot="header">
     <h1>
 <!--
-<div style="display: inline-block; vertical-align: top;"><span style="font-size: 60pt; line-height: 0.8;">Aleksi</span><div style="display: inline-block; vertical-align: bottom;"><span style="color: blue; font-size: 40pt; line-height: 0.8;">theFinn</span><div style="display: block; height: 1.4em;"><span style="font-size: 14pt; vertical-align: middle;">-ishReadingAssistant</span></div></div><div style="direction: rtl; text-align: right;"><span style="font-weight: normal; font-size: 12pt;">with a morpheme analysis unit powered by <a href="http://voikko.puimula.org"><span style="color: blue;">Voikko</span></a></span></div></div>
+<div style="display: inline-block; vertical-align: top;"><span style="font-size: 60pt; line-height: 0.8;">Aleksi</span><div style="display: inline-block; vertical-align: bottom;"><span style="color: blue; font-size: 40pt; line-height: 0.8;">theFinn</span><div style="display: block; height: 1.4em;"><span style="font-size: 14pt; vertical-align: middle;">-ishReadingAssistant</span></div></div><div style="direction: rtl; text-align: right;"><span style="font-weight: normal; font-size: 12pt;">with a morpheme analysis unit powered by <a href="http://voikko.puimula.org"><span style="color: blue; text-decoration: none;">Voikko</span></a></span></div></div>
 -->
 <tal:block metal:define-macro="logo">
 <div style="width: 100%; display: inline-block; vertical-align: bottom;">
@@ -54,7 +54,7 @@
       </tal:block>
         </div><!-- /content -->
 <div data-role="footer"> 
-    <h4 style="color: darkslategrey;">Powered by <a href="http://voikko.puimula.org"><span style="color: blue;">Voikko</span></a> and <a href="http://en.wiktionary.org"><span style="color: blue;">Wiktionary</span></a></h4>
+    <h4 style="color: darkslategrey;">Powered by <a href="http://voikko.puimula.org"><span style="color: blue; text-decoration: none;">Voikko</span></a> and <a href="http://en.wiktionary.org"><span style="color: blue; text-decoration: none;">Wiktionary</span></a></h4>
 </div> 
         </div><!-- /page -->
       <tal:block metal:define-slot="confirm_delete_dialog">

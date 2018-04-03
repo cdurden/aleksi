@@ -18,7 +18,7 @@ from pyramid.session import UnencryptedCookieSessionFactoryConfig
 #from pyramid_beaker import BeakerSessionFactoryConfig
 from pyramid_beaker import session_factory_from_settings
 
-from auth import session_secret
+from aleksi.auth import session_secret
 #session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
 #session_factory = UnencryptedCookieSessionFactoryConfig(session_secret,timeout=3600)
 #session_factory = BeakerSessionFactoryConfig()

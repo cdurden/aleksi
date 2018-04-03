@@ -1,0 +1,8 @@
+pyparsing
+bs4
+sqlalchemy
+pyramid_chameleon
+pyramid
+pyramid_tm
+waitress
+zope.sqlalchemy

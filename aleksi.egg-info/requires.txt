@@ -1,0 +1,13 @@
+filemagic
+passlib
+bcrypt
+pyparsing
+bs4
+sqlalchemy
+pyramid_chameleon
+social-auth-core
+social-auth-app-pyramid
+pyramid
+pyramid_tm
+waitress
+zope.sqlalchemy

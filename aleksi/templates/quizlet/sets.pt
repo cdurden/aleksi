@@ -1,0 +1,11 @@
+
+      <p>Sets:</p>
+      <span tal:repeat="set sets" tal:omit-tag="">
+        <h1>${set.title}</h1>
+        <table>
+          <tr tal:repeat="term set.terms" >
+              <td class="label"><a tal:content="term.term"/></td>
+              <td><a tal:content="term.definition"/></td>
+          </tr>
+        </table>
+      </span>

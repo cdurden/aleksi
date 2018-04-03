@@ -1,0 +1,65 @@
+#navbar {
+  background-color: #333;
+  position: fixed;
+  top: -50px;
+  width: 100%;
+  display:block;
+  transition: top 0.3s;
+}
+.iconlink {
+    color: darkslategray !important;
+    text-decoration: none;
+}
+div#config_dialog {
+    padding: 0;
+}
+.notitle .ui-dialog-titlebar {display:none}
+.ui-title {
+        margin: 0.1em 2% 0.1em !important;
+        text-align: left !important;
+    }
+div.links {
+    margin-right: 2px;
+    width: max-content;
+    direction: rtl;
+    margin-left: auto;
+}
+
+body {
+       font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif !important; 
+          font-weight: 300;
+      }
+h1 {
+    font-size: 48pt;
+    margin: 0px 0px 10px 0px;
+    text-shadow: none !important;
+}
+h2 {
+    margin: 0px 0px 5px 0px;
+}
+h3 {
+    margin: 0px 0px 3px 0px;
+}
+.ui-front{z-index:0 !important; } 
+.ui-selectmenu-open {z-index:9999 !important;}
+.tile {
+    padding:.2cm;
+    float:left;
+    width:300px;
+    height:300px;
+    border:thin black ridge;
+    margin:.1cm;
+    font-size:medium;
+}
+.tile a {
+    text-decoration: none;
+}
+.clearleft {
+    display: float;
+    clear: left;
+}
+#create_session_form {
+}
+button {
+    margin-bottom: 10px;
+}

@@ -1,0 +1,42 @@
+<div id="yui3-cssreset" metal:define-macro="layout">
+<div id="aleksi">
+  <div id="aleksi_dialog">
+    <ul id="aleksi_tabs">
+      <li><a id="aleksi_word" href="#aleksi_main" tal:content="python: analysis_results['word'] or default">none</a></li>
+      <li><a href="#aleksi_pins">Pins</a></li>
+      <li id="ui-tab-dialog-close"></li>
+    </ul>
+    <div id="aleksi_main">
+      <span id="requesting_analysis">Requesting analysis...</span>
+      <span id="analysis_failed">Analysis failed, no results found.</span>
+      <span id="analysis_results">
+        <p>Dictionary entries:</p>
+        <tal:block metal:define-slot="aleksi_translations_table">
+        </tal:block>
+        <p>Morphological analysis:</p>
+        <tal:block metal:define-slot="aleksi_morph_tag_tables">
+        </tal:block>
+        <div class="reference">Powered by <a class="reference" href="http://voikko.puimula.org/">Voikko</a></div>
+      </span>
+    </div>
+    <div id="aleksi_pins">
+      <div id="aleksi_pins_table_div">
+        <p>Pins:</p>
+        <table id="aleksi_pins_table">
+        </table>
+      </div>
+      <div id="aleksi_quizlet_sync">
+        <!-- 
+        <form>
+              <a id="sync_to_quizlet_button" href="javascript:sync_to_quizlet()">Sync with Quizlet</a>
+              <div id="associated_quizlet_set_div"><label for="associated_quizlet_set">Associated Quizlet Set:</label><span id="associated_quizlet_set"></span></div>
+        </form>
+        -->
+      </div>
+    </div>
+    <!--
+        <span tal:content="morphs" />
+    -->
+  </div>
+</div>
+</div>

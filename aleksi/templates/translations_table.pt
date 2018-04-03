@@ -1,0 +1,12 @@
+        <span tal:repeat="translation analysis_results.morpheme_translations" tal:omit-tag="">
+          <tr tal:repeat="en translation.en" >
+              <td class="label"><a tal:condition="repeat.en.start" tal:content="translation.fi"/></td>
+              <td><span tal:content="en"></span></td>
+              <td><a href="javascript:add_term('${translation.fi}','${en}')"><span style="display:inline-block; direction:rtl;" class="ui-icon ui-icon-pin-s"></span></a></td>
+          </tr>
+          <tr>
+            <td colspan=3>
+              <div tal:condition="'source' in translation and translation.source" class="reference">Source: <a class="reference" tal:attributes="href translation.source_url" target="_blank" tal:content="translation.source"/></div>
+            </td>
+          </tr>
+        </span>

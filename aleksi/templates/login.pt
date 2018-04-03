@@ -1,0 +1,25 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+    <div class="ui-content">
+      <div>
+        ${msg}
+      </div>
+      <div style="display:inline;">
+        <div><a href="${request.route_url('social.auth', backend='email')}">Login by email</a></div>
+        <!--
+        <div><a href="${request.route_url('social.auth', backend='facebook')}">Login with Facebook</a></div>
+        -->
+        <div><a data-ajax="false" href="${request.route_url('social.auth', backend='google-oauth2')}">Login with Google</a></div>
+      </div>
+      <div style="display:inline;">
+        <div><a href="${request.route_url('signup_email')}">Sign-up by email</a></div>
+        <!--
+        <div><a href="${request.route_url('social.auth', backend='facebook',_query={'next':request.url})}">Sign-up with Facebook</a></div>
+        <div><a href="${request.route_url('social.auth', backend='google-oauth2',_query={'next':request.url})}">Sign-up with Google</a></div>
+        -->
+      </div>
+    </div>
+  </span>
+</span>

@@ -1,0 +1,17 @@
+<div id="config_dialog">
+</div>
+
+<div id="navbar">
+  <div id="tophiddenbar">
+      <ul>
+          <li><a href=""><b>Aleksi</b></a></li>
+          <li><a id="leave_session_button" href="${request.route_url('browse_sessions')}">Back to session browser</a></li>
+          <!--          <li><a id="open_config_dialog_button">Link behavior</a></li> -->
+      </ul>
+  </div>
+</div>
+<div id="session_dialog">
+</div>
+      <!--<a id="closer">Close</a>-->
+<div id="quizlet_dialog">
+</div>

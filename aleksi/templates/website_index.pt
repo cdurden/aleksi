@@ -1,0 +1,21 @@
+<html>
+<head>
+    <link rel="stylesheet" tal:attributes="href request.static_path('aleksi:content/css/lookup.css')"/>
+</head>
+  <body>
+    <div>
+        <h1>Luke eli suomalainen lukemisen opas</h1>
+        <p>Click on one of the URLs below to see a copy of the website from the date indicated. The website that will appear will be modified so that you can click on a word to show its morphological information.</p>
+      <table>
+        <tr>
+          <th>URL</th>
+          <th>Date time</th>
+        </tr>
+        <tr tal:repeat="website websites" tal:omit-tag="">
+          <td><a tal:attributes="href request.route_path('verkkosivu', website_id=website.id)" tal:content="website.url" /></td>
+          <td tal:content="website.datetime" />
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+    <div class="ui-content">
+      <div>
+        ${msg}
+      </div>
+      <div>
+        <form method="POST" action="${request.route_url('signup_email')}">
+            <label for="signup_email">Email: </label><input id="signup_email" name="email" type="text"/>
+            <label for="signup_password">Password: </label><input id="signup_password" name="password" type="password"/>
+            <input name="submit" type="submit" value="Sign up"/>
+        </form>
+      </div>
+    </div>
+  </span>
+</span>

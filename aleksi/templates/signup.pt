@@ -1,0 +1,13 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+    <div class="ui-content">
+        <a href="${request.route_url('signup_email')}">Sign-up by email</a>
+        <!--
+        <a href="${request.route_url('social.auth', backend='facebook',_query={'next':request.url})}">Sign-up with Facebook</a>
+        <a href="${request.route_url('social.auth', backend='google-oauth2',_query={'next':request.url})}">Sign-up with Google</a>
+        -->
+    </div>
+  </span>
+</span>

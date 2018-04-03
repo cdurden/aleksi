@@ -1,0 +1,6 @@
+[submodule "corevoikko"]
+	path = corevoikko
+	url = https://github.com/voikko/corevoikko.git
+[submodule "hfst-ospell"]
+	path = hfst-ospell
+	url = https://github.com/hfst/hfst-ospell.git

@@ -1,0 +1,74 @@
+
+
+<span metal:use-macro="dialog_macros['layout']">
+  <span metal:fill-slot="aleksi_translations_table">
+    <table id="aleksi_translations_table">
+      <span tal:repeat="translation analysis_results.morpheme_translations" tal:omit-tag="">
+        <tr tal:repeat="en translation.en" >
+            <td class="label"><a tal:condition="repeat.en.start" tal:content="translation.fi"/></td>
+            <td><span tal:content="en"></span></td>
+            <td><a href="javascript:add_term('${translation.fi}','${en}')"><span style="display:inline-block; direction:rtl;" class="ui-icon ui-icon-pin-s"></span></a></td>
+        </tr>
+        <tr>
+          <td colspan=3>
+            <div tal:condition="'source' in translation and translation.source" class="reference">Source: <a class="reference" tal:attributes="href translation.source_url" target="_blank" tal:content="translation.source"/></div>
+          </td>
+        </tr>
+      </span>
+    </table>
+  </span>
+
+  <span metal:fill-slot="aleksi_morph_table">
+    <table id="aleksi_morph_tags_table">
+      <span tal:repeat="tag analysis_results.morph_tags" tal:omit-tag="">
+      <tr tal:condition="'CLASS' in tag"><td class="label">Class</td> <td tal:content="structure: tag['CLASS']" /></tr>
+      <tr tal:condition="'SIJAMUOTO' in tag"><td class="label">Case</td> <td tal:content="structure: tag['SIJAMUOTO']" /></tr>
+      <tr tal:condition="'NUMBER' in tag"><td class="label">Number</td> <td tal:content="structure: tag['NUMBER']" /></tr>
+      <tr tal:condition="'MOOD' in tag"><td class="label">Mood</td> <td tal:content="structure: tag['MOOD']" /></tr>
+      <tr tal:condition="'PERSON' in tag"><td class="label">Person</td> <td tal:content="structure: tag['PERSON']" /></tr>
+      <tr tal:condition="'TENSE' in tag"><td class="label">Tense</td> <td tal:content="structure: tag['TENSE']" /></tr>
+      <tr tal:condition="'NEGATIVE' in tag">
+        <td class="label"></td>
+        <td>
+          <span tal:switch="structure: tag['NEGATIVE']" tal:omit-tag="">
+            <span tal:case="'true'" tal:content="'negative'">
+            </span>
+          </span>
+        </td>
+      </tr>
+      <tr tal:condition="'BASEFORM' in tag"><td class="label">Base word</td> <td tal:content="structure: tag['BASEFORM']" /></tr>
+      <tr tal:condition="'WORDBASES' in tag"><td class="label">Morphemes</td> <td tal:content="structure: tag['WORDBASES']" /></tr>
+      </span>
+    </table>
+  </span>
+  <span metal:fill-slot="aleksi_quizlet_study_set_radio_buttons">
+    <span tal:repeat="set request.quizlet_sets" tal:omit-tag="">
+      <input type="radio" id="radio${repeat['set'].index}" name="set_id" value="${set.id}" tal:attributes="checked python: session is not None and session.quizlet_set_id==set.id">
+      <label class="radio_input_label" for="radio${repeat['set'].index}">${set.title}</label><br/>
+    </span>
+  </span>
+  <span metal:fill-slot="aleksi_quizlet_study_set_radio_buttons">
+              <fieldset>
+                <span tal:repeat="set request.quizlet_sets" tal:omit-tag="">
+                  <input type="radio" id="radio${repeat['set'].index}" name="set_id" value="${set.id}" tal:attributes="checked python: session is not None and session.quizlet_set_id==set.id">
+                  <label class="radio_input_label" for="radio${repeat['set'].index}">${set.title}</label><br/>
+                </span>
+                <fieldset>
+                  <legend>
+                    <input type="radio" id="radio_new_set" name="set_id" value="new">
+                    <label for="radio_new_set">
+                      Create new study set:
+                    </label>
+                  </legend>
+                <label style="float: left; padding-right: 5px;">Title: </label> <span class="fill"><input type="text" id="new_set_title_input" name="new_set_title"/></span>
+                <label style="float: left; padding-right: 5px;">Description: </label> <span class="fill"><input type="text" id="new_set_description_input" name="new_set_description"/></span>
+                </fieldset>
+                <!-- </label><br/>-->
+                <a id="save_session_button" tal:attributes="href python: 'javascript:save_session(\'{:s}\')'.format(request.route_url('save_session'))">Save Session Configuration</a>
+                <a id="quizlet_refresh_button" href="javascript:update_quizlet_data()">Refresh Quizlet Study Sets</a>
+                <a id="quizlet-disconnect-button" href="${request.route_url('social.logout', backend='quizlet')}">Disconnect from Quizlet</a>
+              </fieldset>
+        <span tal:condition="not request.quizlet_sets" tal:omit-tag="">
+          <a id="quizlet-connect-button" href="${request.route_url('social.auth',backend='quizlet')}">Connect with Quizlet</a>
+        </span>
+</span>

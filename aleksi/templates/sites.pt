@@ -1,0 +1,18 @@
+<span metal:use-macro="main['layout']">
+  <span metal:fill-slot="content">
+    <h3>Finnish language sites</h3>
+    <ul tal:define="sites python:
+        {
+          'https://yle.fi/uutiset/osasto/selkouutiset/':'Selkouutiset',
+          'http://www.iltalehti.fi/':'Iltalehti',
+          'https://www.hs.fi/':'Helsingin Sanomat',
+          'http://www.helsinki.fi/kksc/language.services/':'Kielipalvelut',
+          'http://www11.edu.fi/ymmarra/':'Ymmärrä suomea!',
+          'https://yle.fi/aihe/oppiminen':'Yle oppiminen',
+        };">
+        <li tal:repeat="(url,desc) python:sites.items()">
+            <a tal:attributes="href structure: request.route_path('inject_js')+'?url='+url" tal:content="desc">Site name</a>
+        </li>
+    </ul>
+  </span>
+</span>

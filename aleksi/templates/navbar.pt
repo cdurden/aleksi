@@ -1,0 +1,217 @@
+<div id="config_dialog">
+</div>
+
+<div id="navbar">
+  <div id="tophiddenbar">
+      <ul>
+          <li><a href="${request.route_url('about')}"><b>Aleksi</b></a></li>
+          <li><a id="leave_session_button" href="${request.route_url('browse_sessions')}"><span class="fas-inverse icon-th-large"></span></a></li>
+          <li><a id="update_website_button" href="javascript:update_current_website()"><span class="fas-inverse icon-refresh"></span></a></li>
+          <!--          <li><a id="open_config_dialog_button">Link behavior</a></li> -->
+          <li><a id="open_session_dialog_button"><span class="fas-inverse icon-cog"></span></a></li>
+          <li><a href="${request.route_url('logout')}">Logout</a></li>
+<!--
+          <li><a id="open_quizlet_dialog_button">Quizlet configuration</a></li>
+-->
+      </ul>
+  </div>
+</div>
+<div id="session_dialog">
+  <form>
+        <!-- title and active website -->
+<!--          <fieldset class="ui-widget ui-widget-content">
+  <legend>Session configuration</legend>-->
+    <input type="hidden" autofocus="autofocus" />
+    <div><label style="padding-right: 5px;">Session title: </label></div>
+    <div><span class="fill"><input type="text" id="session_title_input" name="session_title" value="${session.title}"/></span></div>
+  
+    <fieldset class="ui-widget ui-widget-content">
+      <legend>Website Configuration</legend>
+      <div class="controlgroup-vertical-b">
+        <div>
+          <input name="website_setter" type="radio" id="set_url_option" value="set_url">
+          <label style="padding-right: 5px;" for="set_url_option">
+            <div style="display: inline;">
+               Set Website URL:
+            </div>
+          <!--<option type="radio" id="disable_links_option" value="disable">-->
+          </label>
+        </div>
+        <div id="set_website_url" class="controlgroup-b">
+          <span class="fill">
+            <input type="text" id="website_url_input" name="website_url" value="${session.website.url}">
+          </span>
+        </div>
+        <div>
+        <input name="website_setter" type="radio" id="select_website_option" value="select_active" checked>
+          <label style="padding-right: 5px;" for="select_website_option">
+                Select Active Website:
+          </label>
+        </div>
+        <div id="website_selector" class="controlgroup-b">
+          <tal:block metal:define-slot="aleksi_website_selector">
+            <fieldset>
+            </fieldset>
+          </tal:block>
+        </div>
+        <!--
+        <label style="padding-right: 5px;">Last retrieved at:</label>
+        <span class="fill" id="website_datetime">${session.website.datetime.strftime("%Y-%m-%d %H:%M")}</span>
+        <span class="fill">
+          <a id="update_website_button" href="javascript:update_website()">Add Webpage to Session</a>
+        </span>
+        -->
+    </fieldset>
+
+    <fieldset class="ui-widget ui-widget-content">
+      <legend>Link behavior</legend>
+      <div class="controlgroup-b" id="link_behavior_selector">
+          <!--<select id="link_behavior" name="link_behavior">-->
+                <div style="display: block;">
+              <input name="link_behavior" type="radio" id="disable_links_option" value="disable" tal:attributes="checked python:session.link_behavior=='disable'">
+              <label style="padding-right: 5px;" for="disable_links_option">
+                    Disable links
+              </label>
+              <!--<option type="radio" id="disable_links_option" value="disable">-->
+                </div>
+                <div style="display: block;">
+              <input name="link_behavior" type="radio" id="follow_external_links_option" value="follow_external" tal:attributes="checked python:session.link_behavior=='follow_external'">
+              <label style="padding-right: 5px;" for="follow_external_links_option">
+                    Follow links to external URLs
+              </label>
+              <!--<option type="radio" id="follow_external_links_option" value="follow_external"/>-->
+                </div>
+                <div style="display: block;">
+              <input name="link_behavior" type="radio" id="update_session_website_links_option" value="update_session_website" tal:attributes="checked python:session.link_behavior=='update_session_website'">
+              <label style="padding-right: 5px;" for="update_session_website_links_option">
+                    Load the linked website into the current session
+              </label>
+              <!--<option type="radio" id="update_session_website_links_option" value="update_session_website"/>-->
+                </div>
+              <!--</select>-->
+      </div>
+    </fieldset> 
+
+    <input tal:condition="session is not None" type="hidden" id="session_id_input" name="session_id" value="${session.id}"/>
+    <!--
+  </fieldset>
+    -->
+  </form>
+  <!--
+</div>
+<div id="quizlet_dialog">
+  -->
+      <!-- associated Quizlet set -->
+
+  <div>
+    <a id="quizlet-connect-button" href="${request.route_url('social.auth',backend='quizlet')}">Connect with Quizlet</a>
+  </div>
+  <div id="quizlet">  
+    <fieldset class="ui-widget ui-widget-content">
+      <legend>Associated Quizlet study set</legend>
+      <div class="controlgroup-vertical-b">
+        <div id="quizlet_set_selector">
+          <tal:block metal:define-slot="aleksi_quizlet_set_selector">
+            <fieldset>
+            </fieldset>
+          </tal:block>
+          <a id="get_quizlet_sets_button" href="javascript:get_quizlet_sets()">Refresh Quizlet Study Sets</a>
+        </div>
+      </div>
+      <form action="javascript:create_quizlet_set('${request.route_url('create_quizlet_set')}')" id="create_quizlet_set_form">
+        <!-- create new Quizlet set -->
+        <div class="controlgroup-vertical-b">
+          <div>
+            <label style="padding-right: 5px;">New Quizlet set title: </label>
+          </div>
+          <div>
+            <span class="fill"><input type="text" id="new_quizlet_set_title_input" name="new_quizlet_set_title"/></span>
+          </div>
+          <a id="create_quizlet_set_button" href="javascript:create_quizlet_set()">Create</a>
+        </div>
+      </form>
+    </fieldset>
+    <fieldset class="ui-widget ui-widget-content">
+      <legend>Sync behavior</legend>
+      <div class="controlgroup-vertical-b">
+          <!--
+        <table stlye="border: 0px;">
+          <tr>
+            <td colspan=2>
+          -->
+          <!--
+            </td>
+          </tr>
+          <tr>
+            <td>
+          -->
+                <div style="display: block;">
+              <input type="checkbox" id="prune_quizlet_on_sync_input" name="prune_quizlet_on_sync"/>
+              <label style="padding-right: 5px;" for="prune_quizlet_on_sync_input">
+                    Remove extra Quizlet terms on sync
+              </label>
+                </div>
+          <!--
+            </td>
+            <td style="vertical-align:top">
+              <span style='display: inline-block; direction: rtl;'>
+          -->
+          <!--
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+          -->
+                <div style="display: block;">
+              <input type="checkbox" id="prune_pins_on_sync_input" name="prune_pins_on_sync"/>
+              <label style="padding-right: 5px;" for="prune_pins_on_sync_input">
+                    Remove extra pins on sync
+              </label>
+                </div>
+          <!--
+            </td>
+            <td style="vertical-align:top">
+              <span style='display: inline-block; direction: rtl;'>
+          -->
+          <!--
+              </span>
+            </td>
+          </tr>
+        </table>
+          -->
+      </div>
+    </fieldset>
+  </div>
+  <!--
+    <fieldset class="ui-widget ui-widget-content">
+      <legend>Link behavior</legend>
+      <div class="controlgroup-vertical-b" id="link_behavior_selector">
+              <label style="padding-right: 5px;" for="disable_links_option">
+                <div style="display: inline;">
+                    Disable links
+                </div>
+              </label>
+              <input name="link_behavior" type="radio" id="disable_links_option" value="disable" checked>
+              <label style="padding-right: 5px;" for="follow_external_links_option">
+                <div style="display: inline;">
+                    Follow links to external URLs
+                </div>
+              </label>
+              <input name="link_behavior" type="radio" id="follow_external_links_option" value="follow_external"/>
+              <label style="padding-right: 5px;" for="update_session_website_links_option">
+                <div style="display: inline;">
+                    Load the linked website into the current session 
+                </div>
+              </label>
+              <input name="link_behavior" type="radio" id="update_session_website_links_option" value="update_session_website"/>
+      </div>
+    </fieldset>
+    -->
+  <div id="quizlet_connecting"><center><img src="${request.static_path('aleksi:content/img/loading_spinner.gif')}" height="25"/></center></div>
+  <a id="save_session_button" href="javascript:save_session()">Save</a>
+  <a id="share_session_button" href="javascript:share_session()">Share</a>
+  <div id="shared_session">
+    <a id="shared_session_link">Sharable link to session</a>
+  </div>
+</div>

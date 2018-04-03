@@ -1,0 +1,169 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+    <script src="${request.static_path('aleksi:content/js/jqm.autoComplete-1.5.2-min.js')}"></script> 
+    <script>
+        var suggested_sites = [{
+               label: 'Yle Uuutiset selkosuomeksi | Yle Uutiset | yle.fi',
+               value: 'https://yle.fi/uutiset/osasto/selkouutiset/'
+            },{
+              label: 'Helsingin Sanomat - Uutiset | HS.fi',
+              value: 'http://www.hs.fi/'
+        }];
+        $( function() {
+            $("#new_session_url_input").autocomplete({
+                target: $('#suggestions'),
+                source: suggested_sites,
+                callback: function(e) {
+                    var $a = $(e.currentTarget); // access the selected item
+                    $('#new_session_url_input').val($a.data('autocomplete').value); // place the value of the selection into the search box
+                    $("#new_session_url_input").autocomplete('clear'); // clear the listview
+                },
+                minLength: 1,
+                matchFromStart: false
+            });
+        });
+    </script>
+  <script>
+  var session_id;
+  function delete_session(session_id) {
+    var delete_url_tmpl = "${request.route_path('delete_session', session_id='__session_id')}";
+    var delete_url = delete_url_tmpl.replace("__session_id",session_id);
+    window.location.href = delete_url;
+  }
+  $( function() {
+      /*
+    $("a.deletelink").click(function(e) {
+      e.preventDefault();
+      var session_id = $(this).attr('data-session_id');
+      function confirm_delete_closure(session_id) {
+        function confirm_delete_session(e) {
+          e.preventDefault();
+          delete_session(session_id);
+        }
+      } 
+      $("#confirm_delete").click(confirm_delete_closure(session_id));
+      $('#dialog-confirm').dialog("open");
+    });
+    $( "#dialog-confirm" ).dialog({
+      resizable: false,
+      height: "auto",
+      width: 400,
+      modal: true,
+      buttons: [{
+        id: "confirm_delete",
+        text: "Delete session",
+        click: function() {
+          $( this ).dialog( "close" );
+        },
+        id: "cancel_delete",
+        text: "Cancel",
+        click: function() {
+          $( this ).dialog( "close" );
+        },
+      }]
+    });
+    */
+//      $("#website_url_input").autocomplete({ source: suggested_sites});
+  });
+function confirm_delete_session(session_title, callback) {
+  $("#confirm_delete_button").on("click.sure", function() {
+    callback();
+  });
+  $(".session_title_span").text(session_title);
+  $.mobile.changePage("#confirm_delete_session");
+}
+  </script>
+  </span>
+  <span metal:fill-slot="content">
+
+    <div class="ui-content">
+    <h2>My Sessions</h2>
+        <div class="tile" style="width:300px;height:300px;overflow:hidden" tal:repeat="session python:user.sessions">
+            <!--
+            <table style="width: 100%;">
+                <tr>
+                    <td>
+            -->
+            <div style="float: left; max-width: 80%;">
+                <div>
+                  <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
+                    <h3>${(session.title[:75] + '..') if len(session.title) > 75 else session.title}</h3>
+                  </a>
+                </div>
+              <div>${session.website.datetime.strftime("%Y-%m-%d %H:%M")}</div>
+            </div>
+            <div>
+            <!--
+                    </td>
+                    <td style="direction: rtl;">
+                        <div class="links">
+                        </div>
+            -->
+                        <!--
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        -->
+                      <div style="float: right;">
+                        <div class="links">
+                            <a href="#" class="iconlink" title="${python: '\n'.join([pin.fi for pin in session.pins])}">
+                                ${python: len(session.pins)} <i class="icon-pushpin"></i>
+                            </a>
+                            <!--<a class="iconlink deletelink" href="javascript:confirm_delete_session ${session.id})" data-session_id="${session.id}" data-ajax="false">-->
+                        </div>
+                        <div class="links">
+                            <a class="iconlink deletelink" href="javascript:confirm_delete_session('${session.title}', function() {delete_session(${session.id})})" data-ajax="false">
+                                <i class="icon-trash"></i>
+                            </a>
+                            <a class="iconlink" href="${session.website.url}" data-ajax="false">
+                                <i class="icon icon-external-link"></i>
+                            </a>
+                        </div>
+                      </div>
+            </div>
+            <!--
+                    </td>
+                </tr>
+            </table>
+            -->
+            <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
+                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}" width=300/>
+            </a>
+        </div>
+    </div>
+    <div class="ui-content" id="create_session" style="max-width: 40em;">
+    <h2>Create a New Session</h2>
+        <!--<button id="create_session_btn">Create a New Session</button>-->
+    <form action="${request.route_path('create_session')}"  method="POST"  id="create_session_form" data-ajax="false">
+        <div data-role="fieldcontain">
+            <!--
+            <div><label for="new_session_title">Session heading:</label></div>
+            <input name="title" data-clear-btn="true" id="new_session_title" type="text" placeholder="Yle Uutiset Selkosuomeksi" size="30" >
+            <div id="website_selector" name="new_session_website"></div>
+            -->
+            <div><label for="new_session_url">Website URL:</label></div>
+            <input name="url" type="url" id="new_session_url_input" data-clear-btn="true">
+            <ul id="suggestions" data-role="listview" data-inset="true"></ul>
+            <!--<input class="btn" type="submit" value="Create" name="create">-->
+        </div>
+            <input class="btn" id="create_session_submit_btn" type="submit" name="create" value="Create Session">
+        </form>
+</div>
+
+  </span>
+  <span metal:fill-slot="confirm_delete_dialog" tal:omit-tag="">
+    <div id="confirm_delete_session" data-role="dialog" data-close-btn="none">
+        <div data-role="header">    
+           <h1>Delete session?</h1>
+        </div> 
+        <div data-role="content">   
+            Are you sure you would like to delete the session: <span class="session_title_span"></span>?
+            <a href="#" id="confirm_delete_button" data-role="button">Delete</a>            
+            <a href="#" data-role="button" data-rel="back">Cancel</a>            
+        </div>
+    </div>
+  </span>
+</span>

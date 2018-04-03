@@ -1,0 +1,9 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+    <div class="ui-content">
+        An email validation request was sent to the email address that you entered. Please check your email and follow the link to verify that this is a valid email address.
+    </div>
+  </span>
+</span>

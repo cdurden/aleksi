@@ -1,0 +1,10 @@
+<span metal:use-macro="main['layout']">
+  <span metal:fill-slot="content">
+    <h3>Request Finnish Web Helper for a page</h3>
+    <form action="inject_js">
+        <label for="url">URL</label>
+        <input type="text" id="url" name="url" width="1024" style="width: 400px;">
+        <input type="button" name="submit" value="Request">
+    </form>
+  </span>
+</span>

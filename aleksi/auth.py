@@ -321,7 +321,7 @@ def mail_validation(backend, details, is_new=False, is_validated=False, *args, *
     requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
                           backend.setting('FORCE_EMAIL_VALIDATION', False)
     print(backend.setting)
-    send_validation = details.get('email') and not is_validated \
+    send_validation = details.get('email') and not is_validated and \
                       (is_new or backend.setting('PASSWORDLESS', False))
     email = details.get('email')
     print(requires_validation)

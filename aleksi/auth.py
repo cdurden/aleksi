@@ -22,9 +22,15 @@ from social_core.actions import do_disconnect
 session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
 USER_FIELDS = ['username', 'email']
 
-def report(backend, *args, **kwargs):
-    print("report")
-    return
+def no_new_users(backend, *args, **kwargs):
+    if backend.name == 'email':
+        email = strategy.session_get('email', None)
+    elif backend.name == 'google-oauth2':
+        email = kwargs['uid']
+    try:
+        user = DBSession.query(User).filter_by(email=email).one()
+    except NoResultFound:
+        raise AuthForbidden(backend, "Aleksi is not currently allowing new users to sign up or sign in automatically")
 
 def validate_email(email, verification_code, signature):
     try:

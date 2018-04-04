@@ -4,7 +4,7 @@
 <div id="navbar">
   <div id="tophiddenbar">
       <ul>
-          <li><a href=""><b>Aleksi</b></a></li>
+          <li><a href="${request.route_url('main')}"><b>Aleksi</b></a></li>
           <li><a id="leave_session_button" href="${request.route_url('browse_sessions')}">Back to session browser</a></li>
           <!--          <li><a id="open_config_dialog_button">Link behavior</a></li> -->
       </ul>

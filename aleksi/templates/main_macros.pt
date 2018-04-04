@@ -16,7 +16,6 @@
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
     <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
     <title>${title}</title>
-    <!--<link rel="stylesheet" href="${request.resource_url(request.virtual_root,'css','main.css')}"/>-->
     <script src="${request.static_path('aleksi:content/js/main.js')}"></script>
     <more metal:define-slot="head-more"></more>
 </head>

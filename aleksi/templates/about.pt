@@ -20,6 +20,11 @@
     Now that my session is connect to a Quizlet study set, I can transfer my pinned words to Quizlet by clicking Sync with Quizlet.
     I can then use Quizlet to study my words.
     
+    <video width="320" height="240" controls>
+        <source src="${request.static_path('aleksi:content/video/aleksi.mkv')}" type="video/mp4">
+       <source src="movie.ogg" type="video/ogg">
+       Your browser does not support the video tag.
+    </video>
 
     </div>
     <div class="ui-content">

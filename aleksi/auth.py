@@ -334,6 +334,8 @@ def get_user(request):
 @partial
 def mail_validation(backend, details, is_new=False, email_is_validated=False, *args, **kwargs):
     print("mail_validation")
+    if backend.name != 'email':
+        return
     try:
         is_signup = kwargs['signup']
     except:

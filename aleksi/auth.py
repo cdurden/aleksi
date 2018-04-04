@@ -30,7 +30,7 @@ def validate_email(backend, user=None, *args, **kwargs):
         signature = backend.strategy.session_get('signature', None)
     if 'signature' in data:
         signature = data['signature']
-        backend.strategy.session_set('signature', signature)
+        #backend.strategy.session_set('signature', signature)
     if signature:
         try:
             signed_details = signed_deserialize(signature, session_secret)

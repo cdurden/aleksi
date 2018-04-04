@@ -4,7 +4,7 @@
 <div id="navbar">
   <div id="tophiddenbar">
       <ul class="left">
-          <li><a href="${request.route_url('about')}"><b>Aleksi</b></a></li>
+          <li><a href="${request.route_url('main')}"><b>Aleksi</b></a></li>
           <li><a id="leave_session_button" href="${request.route_url('browse_sessions')}"><span class="fas-inverse icon-th-large"></span><span class="mobile-hide">Sessions</span></a></li>
           <li><a id="update_website_button" href="javascript:update_current_website()"><span class="fas-inverse icon-refresh"></span><span class="mobile-hide">Update Website</span></a></li>
           <!--          <li><a id="open_config_dialog_button">Link behavior</a></li> -->

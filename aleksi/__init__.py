@@ -196,6 +196,7 @@ def main(global_config, **settings):
     config = Configurator(settings=settings, session_factory=session_factory, autocommit=True)
     config.registry.settings.update(get_settings(social_auth_settings))
     config.registry.settings.update(social_auth_local_settings.SOCIAL_AUTH_KEYS)
+    config.include('pyramid_debugtoolbar')
     config.include('social_pyramid')
     config.include('pyramid_beaker')
     config.include('pyramid_chameleon')

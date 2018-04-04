@@ -320,6 +320,7 @@ def get_user(request):
 def mail_validation(backend, details, is_new=False, is_validated=False, *args, **kwargs):
     requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
                           backend.setting('FORCE_EMAIL_VALIDATION', False)
+    print(backend.setting)
     send_validation = details.get('email') and not is_validated \
                       (is_new or backend.setting('PASSWORDLESS', False))
     email = details.get('email')

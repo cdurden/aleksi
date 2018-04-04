@@ -27,7 +27,7 @@ ul.right {
         -moz-opacity:0.5;
         -khtml-opacity: 0.5;
         opacity: 0.5;
-        z-index: 998;
+        z-index: 100002 !important;
         text-align: center;
     }
 #aleksi_overlay img {
@@ -45,7 +45,7 @@ ul.right {
   width: 100%;
   display:block;
   transition: top 0.3s;
-  z-index: 99998 !important;
+  z-index: 100001 !important;
   font-family: "HelsinginText","Helvetica","Arial",sans-serif;
 }
 div.ui-dialog {

@@ -8,6 +8,7 @@ requires = [
     'bs4',
     'sqlalchemy',
     'pyramid_chameleon',
+    'pyramid_debugtoolbar',
     'social-auth-core',
     'social-auth-app-pyramid',
     'pyramid',

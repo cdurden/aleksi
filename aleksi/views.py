@@ -134,7 +134,7 @@ def auth_forbidden(exc, request):
     # If the view has two formal arguments, the first is the context.
     # The context is always available as ``request.context`` too.
     msg = exc.args[0] if exc.args else ""
-    return login_email(request, msg=msg)
+    return login_email(request, msg=msg, do_login=False)
     #return exc.HTTPFound(request.route_url("get_quizlet_sets"))
 
 @view_config(context=EmailAuthForbidden, renderer='templates/login_email.pt')

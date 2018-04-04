@@ -79,7 +79,7 @@ function confirm_delete_session(session_title, callback) {
     <div class="ui-content">
     <h2>My Sessions</h2>
         <p tal:condition="python: len(user.sessions)==0">You do not have any existing sessions.</p>
-        <div class="tile" style="width:300px;height:300px;overflow:hidden" tal:repeat="session python:user.sessions">
+        <div class="tile" style="overflow:hidden" tal:repeat="session python:user.sessions">
             <!--
             <table style="width: 100%;">
                 <tr>
@@ -131,7 +131,7 @@ function confirm_delete_session(session_title, callback) {
             </table>
             -->
             <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
-                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}" width=300/>
+                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}" width="14em"/>
             </a>
         </div>
     </div>

@@ -98,9 +98,10 @@ def auth_forbidden(exc, request):
 @view_config(route_name='validate_email')
 def validate_email(request, *args, **kwargs):
     print("validate_email view")
-    strategy = load_strategy(request)
-    backend = load_backend(strategy, 'email', "social:begin")
-    return do_auth(backend, *args, **kwargs)
+    #strategy = load_strategy(request)
+    #backend = load_backend(strategy, 'email', "social:begin")
+    #strategy = request.strategy
+    return do_auth(request.backend, *args, **kwargs)
 
 
 @view_config(route_name='login_email', renderer='templates/login_email.pt')
@@ -112,9 +113,9 @@ def login_email(request, *args, **kwargs):
         request.session['email'] = email 
         print(request.session)
         #return HTTPFound(location=request.route_url('index'))
-        strategy = load_strategy(request)
-        backend = load_backend(strategy, 'email', "social:complete")
-        return do_complete(backend, login=login_user, *args, **kwargs)
+        #strategy = load_strategy(request)
+        #backend = load_backend(strategy, 'email', "social:complete")
+        return do_complete(request.backend, login=login_user, *args, **kwargs)
         #return exc.HTTPFound(location=url_for('social:complete', backend='email', _query: {'email': email} ))
     print(request.session)
     main_macros = get_renderer('templates/main_macros.pt').implementation()
@@ -159,9 +160,9 @@ def signup_email(request, *args, **kwargs):
             print("need to validate email")
             request.session['email'] = email 
             request.session['local_password'] = password 
-            strategy = load_strategy(request)
-            backend = load_backend(strategy, 'email', "social:complete")
-            return do_complete(backend, login=login_user, *args, **kwargs)
+            #strategy = load_strategy(request)
+            #backend = load_backend(strategy, 'email', "social:complete")
+            return do_complete(request.backend, login=login_user, *args, **kwargs)
         else:
             raise UserAlreadyExists("The email address you entered has already been used.")
     if 'email_validated' in request.session:
@@ -305,9 +306,10 @@ def load_shared_session(request):
 #@psa('social.logout')
 def logout(request, redirect_name='next'):
     logout_user(request)
-    strategy = load_strategy(request)
+    #strategy = load_strategy(request)
     backend_name = request.session['backend_name']
-    backend = load_backend(strategy, backend_name, "social:logout")
+    #backend = load_backend(strategy, backend_name, "social:logout")
+    backend = request.backend
     url = backend.strategy.absolute_uri(
         backend.strategy.request_data().get(redirect_name, '') or
         backend.setting('DISCONNECT_REDIRECT_URL') or

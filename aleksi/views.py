@@ -97,6 +97,7 @@ def auth_forbidden(exc, request):
 
 @view_config(route_name='validate_email')
 def validate_email(request, *args, **kwargs):
+    print("validate_email view")
     strategy = load_strategy(request)
     backend = load_backend(strategy, 'email', "social:begin")
     return do_auth(backend, *args, **kwargs)

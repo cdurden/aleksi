@@ -30,7 +30,7 @@ def no_new_users(strategy, backend, request, details, *args, **kwargs):
     try:
         user = DBSession.query(User).filter_by(email=email).one()
     except NoResultFound:
-        raise AuthForbidden(backend, "Aleksi is not currently allowing new users to sign up or sign in automatically")
+        raise AuthForbidden(backend, "Sorry, Aleksi is not currently allowing new users to sign up or sign in automatically.")
 
 def validate_email(email, verification_code, signature):
     try:

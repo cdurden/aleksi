@@ -34,6 +34,7 @@
       <div tal:condition="'user_id' not in request.session">
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('login')}">Get started</a></div>
       </div>
+      <p><b>Note:</b> Aleksi is not currently allowing new users to sign up or sign in automatically.
     </div>
     <div class="ui-content">
         <h2 class="mc-text-center">Demo video</h2>

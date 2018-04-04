@@ -102,7 +102,7 @@ def validate_email(request, *args, **kwargs):
     #backend = load_backend(strategy, 'email', "social:begin")
     #strategy = request.strategy
 
-#@view_config(route_name='set_password', renderer='templates/login_email.pt')
+@view_config(route_name='set_password', renderer='templates/login_email.pt')
 def set_password(request, *args, **kwargs):
     partial_token = request.GET.get('partial_token')
     partial = strategy.partial_load(partial_token)

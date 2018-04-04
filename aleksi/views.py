@@ -95,6 +95,13 @@ def auth_forbidden(exc, request):
 #    #return login(request, msg=msg)
 #    return exc.HTTPFound(request.static_path('aleksi:content/html/done.html'))
 
+@view_config(route_name='validate_email')
+def validate_email(request, *args, **kwargs):
+    strategy = load_strategy(request)
+    backend = load_backend(strategy, 'email', "social:begin")
+    return do_auth(backend, *args, **kwargs)
+
+
 @view_config(route_name='login_email', renderer='templates/login_email.pt')
 def login_email(request, *args, **kwargs):
     if request.method == 'POST':

@@ -27,19 +27,19 @@
 
     </div>
     <div class="ui-content">
-        <video controls>
-           <source src="${request.static_path('aleksi:content/video/aleksi.mkv')}" type="video/mp4">
-           <source src="movie.ogg" type="video/ogg">
-           Your browser does not support the video tag.
-        </video>
-    </div>
-    <div class="ui-content">
       <div tal:condition="'user_id' in request.session">
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_path('browse_sessions')}">Continue to session browser</a></div>
       </div>
       <div tal:condition="'user_id' not in request.session">
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('login')}">Get started</a></div>
       </div>
+    </div>
+    <div class="ui-content">
+        <video controls>
+           <source src="${request.static_path('aleksi:content/video/aleksi.mkv')}" type="video/mp4">
+           <source src="movie.ogg" type="video/ogg">
+           Your browser does not support the video tag.
+        </video>
     </div>
   </span>
 </span>

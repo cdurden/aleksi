@@ -88,10 +88,9 @@ def signup_email(request, *args, **kwargs):
         #password = request.params['password']
         try:
             user = DBSession.query(User).filter_by(email=email).one()
-            if user.password is not None:
-                raise UserAlreadyExists("The email address you entered has already been used.")
+            raise UserAlreadyExists("The email address you entered has already been used.")
             # here, we could allow a user who has logged in with Google to set the password, so that he can later login natively
-            # We would check whether the user is associated with a Google account and then ...
+            # We would introduce a condition before raising the exception to check whether the user is associated with a Google account. If so, we would not raise this exception...
         except NoResultFound:
             print("need to validate email")
             request.session['email'] = email 

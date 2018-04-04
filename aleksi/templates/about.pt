@@ -4,10 +4,13 @@
   <span metal:fill-slot="content">
     <div class="ui-content">
         <h2 class="mc-text-center">About Aleksi</h2>
-    Aleksi is a program that helps readers translate words on Finnish-language websites: 
-        <!--
         Aleksi on <b>a</b>uttaja <b>l</b>ukemista <b>e</b>sineitä <b>k</b>ielellä <b>s</b>uomen <b>i</b>nternetissä.
-        -->
+
+    Aleksi is a program that helps readers translate words on Finnish-language websites.
+    When a reader clicks on a word Aleksi will find its word parts and present their translations.
+    Readers can pin the words that they encounter and study them by connecting Aleksi with Quizlet.
+    
+        <!--
     I will use Aleksi to read an article from the Finnish news website Yle selkouutiset.
     To create an Aleksi session, I will copy the article's address into the field labelled Website URL.
     Once my session has loaded, I can ask for help by clicking a Finnish word.
@@ -19,6 +22,7 @@
     First, I will connect to Quizlet and create a study set for this session. 
     Now that my session is connect to a Quizlet study set, I can transfer my pinned words to Quizlet by clicking Sync with Quizlet.
     I can then use Quizlet to study my words.
+        -->
     
 
     </div>

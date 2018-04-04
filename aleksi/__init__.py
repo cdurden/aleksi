@@ -1,6 +1,7 @@
 from pyramid.config import Configurator
 
 from social_pyramid.strategy import PyramidStrategy
+from webob.multidict import NoVars
 
 def _request_data(self, merge=True):
     """Return current request data (POST or GET)"""

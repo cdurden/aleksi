@@ -1,3 +1,4 @@
+
 from pyramid.config import Configurator
 
 from social_pyramid.strategy import PyramidStrategy
@@ -203,9 +204,21 @@ def commit_veto(request, response):
         return 'commit' not in xtm
     return response.status.startswith(('4', '5'))
 
+class Root(object):
+    def __init__(self, request):
+        settings = request.registry.settings
+        settings['SOCIAL_AUTH_LOGIN_URL'] = '/login'
+        settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = '/login_email'
+        settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = '/set_password'
+        settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = '/email_verify_sent'
+
 def main(global_config, **settings):
 #    settings['tm.commit_veto'] = 'aleksi.commit_veto'
 #    settings['STRATEGY'] = 'aleksi.PyramidStrategy'
+    #settings['SOCIAL_AUTH_LOGIN_URL'] = '/login'
+    #settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = '/login_email'
+    #settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = '/set_password'
+    #settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = '/email_verify_sent'
     engine = engine_from_config(settings, 'sqlalchemy.')
     session_factory = session_factory_from_settings(settings)
     listen(engine, "connect", do_connect)
@@ -213,7 +226,7 @@ def main(global_config, **settings):
     initialize_sql(engine)
     #DBSession.configure(bind=engine)
     #Base.metadata.bind = engine
-    config = Configurator(settings=settings, session_factory=session_factory, autocommit=True)
+    config = Configurator(settings=settings, session_factory=session_factory, root_factory=Root, autocommit=True)
     config.registry.settings.update(get_settings(social_auth_settings))
     config.registry.settings.update(social_auth_local_settings.SOCIAL_AUTH_KEYS)
     config.include('social_pyramid')

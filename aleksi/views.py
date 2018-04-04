@@ -130,7 +130,7 @@ def login_email(request, *args, **kwargs):
         #strategy = load_strategy(request)
         #backend = load_backend(strategy, 'email', "social:complete")
         #return do_complete(request.backend, login=login_user, *args, **kwargs)
-        return exc.HTTPFound(location=url_for('social:complete', backend='email', _query: {'email': email} ))
+        return exc.HTTPFound(location=url_for('social:complete', backend='email', _query={'email': email} ))
     print(request.session)
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)

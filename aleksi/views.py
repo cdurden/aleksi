@@ -769,7 +769,8 @@ def sync_to_quizlet(request):
             if prune_pins_on_sync:
                 new_pins.append(pin)
                 #session.pins.remove(pin)
-    session.pins = new_pins
+    if prune_pins_on_sync:
+        session.pins = new_pins
     for pin2 in session.pins:
         print(pin2.fi+pin2.en)
     session.save()

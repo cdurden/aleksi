@@ -195,6 +195,7 @@ def login_email(request, *args, **kwargs):
         do_login = kwargs['do_login']
     except:
         do_login = True
+    user=get_user(request)
     if request.method == 'POST' and do_login:
         email = request.params['email']
         password = request.params['password']
@@ -213,30 +214,33 @@ def login_email(request, *args, **kwargs):
         msg = kwargs['msg']
     except KeyError:
         msg = ''
-    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg}
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg, 'user': user}
 
 @view_config(route_name='login', renderer='templates/login.pt')
 def login(request, *args, **kwargs):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
+    user=get_user(request)
     try:
         msg = kwargs['msg']
     except KeyError:
         msg = ''
-    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg}
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg, 'user': user}
 
 @view_config(route_name='signup_email_successful', renderer='templates/login_email.pt')
 def signup_email_successful(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
+    user=get_user(request)
     msg = 'Signup successful. You may now login.'
-    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg}
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg, 'user': user}
 
 @view_config(route_name='email_validation_sent', renderer='templates/email_verify_sent.pt')
 def email_validation_sent(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
-    return {'request': request, 'main_macros': main_macros, 'title': 'Email validation sent'}
+    user=get_user(request)
+    return {'request': request, 'main_macros': main_macros, 'title': 'Email validation sent', 'user': user}
 
 
 @view_config(route_name='signup', renderer='templates/signup.pt')
@@ -245,20 +249,18 @@ def signup(request, *args, **kwargs):
         msg = kwargs['msg']
     except KeyError:
         msg = ''
+    user=get_user(request)
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
-    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg}
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg, 'user': user}
 
 @view_config(route_name='main', renderer='templates/about.pt')
 @view_config(route_name='about', renderer='templates/about.pt')
 def about(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
-    try:
-        username = request.session['username']
-    except: 
-        username = None
-    return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi', 'username': username}
+    user=get_user(request)
+    return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi', 'user': user}
 
 @view_config(route_name='browse_sessions', renderer='templates/sessions.pt')
 def browse_sessions(request):

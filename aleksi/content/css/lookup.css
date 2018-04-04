@@ -1,7 +1,7 @@
 body {
     margin: 0px !important;
 }
-body > p,h1,h2,h3,h4,h5,h6,pre {
+body > p, body > h1, body > h2, body > h3, body > h4, body > h5, body > h6, body > pre {
     margin: 1.5em;
 }
 ul.left {

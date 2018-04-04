@@ -20,6 +20,10 @@ from social_core.actions import do_disconnect
 session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
 USER_FIELDS = ['username', 'email']
 
+def report(backend, *args, **kwargs):
+    print("report")
+    return
+
 def validate_email(backend, user=None, *args, **kwargs):
     data = backend.strategy.request_data()
     if 'signature' not in data:

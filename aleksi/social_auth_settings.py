@@ -26,8 +26,8 @@ SOCIAL_AUTH_AUTHENTICATION_BACKENDS = (
 SOCIAL_AUTH_TRAILING_SLASH = True
 
 SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
     'aleksi.auth.report',
+    'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
 #    'aleksi.auth.create_social_user',

@@ -20,7 +20,7 @@
     <more metal:define-slot="head-more"></more>
 </head>
 <body>
-    <div data-role="page">
+    <div data-role="page" data-title="${title}">
         <div data-role="header">
     <tal:block metal:define-slot="header">
     <h1>

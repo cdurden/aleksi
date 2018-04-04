@@ -131,7 +131,7 @@ function confirm_delete_session(session_title, callback) {
             </table>
             -->
             <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
-                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}" width="14em"/>
+                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}"/>
             </a>
         </div>
     </div>

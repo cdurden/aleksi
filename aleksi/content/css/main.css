@@ -65,6 +65,9 @@ h3 {
     margin:.1cm;
     font-size:medium;
 }
+.tile img {
+    width: 14em;
+}
 .tile a {
     text-decoration: none;
 }

@@ -249,13 +249,13 @@ def signup(request, *args, **kwargs):
     here = os.path.dirname(__file__)
     return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg}
 
+@view_config(route_name='main', renderer='templates/about.pt')
 @view_config(route_name='about', renderer='templates/about.pt')
 def about(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
     return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi'}
 
-@view_config(route_name='index', renderer='templates/sessions.pt')
 @view_config(route_name='browse_sessions', renderer='templates/sessions.pt')
 def browse_sessions(request):
     print(request.session)

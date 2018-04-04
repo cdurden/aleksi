@@ -209,6 +209,7 @@ class Root(object):
         settings = request.registry.settings
         settings['SOCIAL_AUTH_LOGIN_URL'] = request.route_url('login')
         settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = request.route_url('login_email')
+        settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('browse_sessions')
         settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')
         settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = request.route_url('email_validation_sent')
 
@@ -248,8 +249,8 @@ def main(global_config, **settings):
     config.add_route('load_shared_session', '/s/{shared_session_hash}')
     config.add_route('get_shared_session', '/get_shared_session/{shared_session_hash}')
     config.add_route('delete_session', '/delete_session/{session_id}')
-    config.add_route('index','')
     config.add_route('browse_sessions', '/sessions')
+    config.add_route('main','')
     config.add_route('about', '/about')
     config.add_route('signup', '/signup_all')
     config.add_route('signup_email', '/signup')

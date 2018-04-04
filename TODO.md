@@ -1,5 +1,17 @@
 # TODO
 
+## Video
+1. Login
+2. Mouseover Create New Session
+3. Open tab with article to read 
+4. Copy URL into Create new Session form
+5. Lookup and pin words:
+avarusasema, hajosi, ilmakehään, Tyynimeri, jäänteet, syösksyä
+6. Check pins
+7. Open settings, Connect to Quizlet
+8. Create Quizlet study set: avarusasema
+9. Open Quizlet 
+
 ## High priority
 
 Sync to Quizlet:

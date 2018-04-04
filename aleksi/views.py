@@ -101,6 +101,20 @@ def validate_email(request, *args, **kwargs):
     #strategy = load_strategy(request)
     #backend = load_backend(strategy, 'email', "social:begin")
     #strategy = request.strategy
+
+@view_config(route_name='set_password', renderer='templates/login_email.pt')
+def set_password(request, *args, **kwargs):
+    partial_token = request.GET.get('partial_token')
+    partial = strategy.partial_load(partial_token)
+    context = common_context(
+        request.registry.settings['SOCIAL_AUTH_AUTHENTICATION_BACKENDS'],
+        strategy,
+        user=get_user(request),
+        plus_id=request.registry.settings['SOCIAL_AUTH_GOOGLE_PLUS_KEY'],
+        email_required=True,
+        partial_backend_name=partial.backend,
+        partial_token=partial_token
+    )
     return do_auth(request.backend, *args, **kwargs)
 
 
@@ -115,8 +129,8 @@ def login_email(request, *args, **kwargs):
         #return HTTPFound(location=request.route_url('index'))
         #strategy = load_strategy(request)
         #backend = load_backend(strategy, 'email', "social:complete")
-        return do_complete(request.backend, login=login_user, *args, **kwargs)
-        #return exc.HTTPFound(location=url_for('social:complete', backend='email', _query: {'email': email} ))
+        #return do_complete(request.backend, login=login_user, *args, **kwargs)
+        return exc.HTTPFound(location=url_for('social:complete', backend='email', _query: {'email': email} ))
     print(request.session)
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)

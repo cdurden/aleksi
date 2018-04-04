@@ -42,7 +42,7 @@ def send_validation_email(strategy, backend, code, partial_token):
     print("sending email validation")
     signature = signed_serialize({'email': code['email'], 'code': code['code']}, session_secret)
 
-    url = url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
+    url = 'http://www.aleksi.org'+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
     import smtplib
     
     # Import the email modules we'll need

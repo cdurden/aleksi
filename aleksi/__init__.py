@@ -1,4 +1,22 @@
 from pyramid.config import Configurator
+
+from social_pyramid.strategy import PyramidStrategy
+
+def _request_data(self, merge=True):
+    """Return current request data (POST or GET)"""
+    if self.request.method == 'POST':
+        if merge:
+            data = self.request.POST.copy().mixed()
+            if not isinstance(self.request.GET, NoVars):
+                data.update(self.request.GET.mixed())
+        else:
+            data = self.request.POST.mixed()
+    else:
+        data = self.request.GET.mixed()
+    return data
+
+PyramidStrategy.request_data = _request_data
+
 #from paste.deploy.converters import asbool
 #import pyramid.httpexceptions as exc
 #from subprocess import call
@@ -186,6 +204,7 @@ def commit_veto(request, response):
 
 def main(global_config, **settings):
 #    settings['tm.commit_veto'] = 'aleksi.commit_veto'
+#    settings['STRATEGY'] = 'aleksi.PyramidStrategy'
     engine = engine_from_config(settings, 'sqlalchemy.')
     session_factory = session_factory_from_settings(settings)
     listen(engine, "connect", do_connect)

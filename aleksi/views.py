@@ -104,6 +104,7 @@ def validate_email(request, *args, **kwargs):
 
 @view_config(route_name='set_password', renderer='templates/login_email.pt')
 def set_password(request, *args, **kwargs):
+    strategy = load_strategy(request)
     partial_token = request.GET.get('partial_token')
     partial = strategy.partial_load(partial_token)
     context = common_context(

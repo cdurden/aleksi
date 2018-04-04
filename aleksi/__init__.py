@@ -207,10 +207,10 @@ def commit_veto(request, response):
 class Root(object):
     def __init__(self, request):
         settings = request.registry.settings
-        settings['SOCIAL_AUTH_LOGIN_URL'] = '/login'
-        settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = '/login_email'
-        settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = '/set_password'
-        settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = '/email_verify_sent'
+        settings['SOCIAL_AUTH_LOGIN_URL'] = request.route_url('login')
+        settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = request.route_url('login_email')
+        settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')
+        settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = request.route_url('email_verify_sent')
 
 def main(global_config, **settings):
 #    settings['tm.commit_veto'] = 'aleksi.commit_veto'

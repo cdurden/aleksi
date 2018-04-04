@@ -35,6 +35,7 @@
       </div>
     </div>
     <div class="ui-content">
+        <h2 class="mc-text-center">Demo video</h2>
         <video controls>
            <source src="${request.static_path('aleksi:content/video/aleksi.mkv')}" type="video/mp4">
            <source src="movie.ogg" type="video/ogg">

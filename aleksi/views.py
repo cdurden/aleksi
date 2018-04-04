@@ -88,7 +88,8 @@ def signup_email(request, *args, **kwargs):
         #password = request.params['password']
         try:
             user = DBSession.query(User).filter_by(email=email).one()
-            raise UserAlreadyExists("The email address you entered has already been used.")
+            if user.password is not None:
+                raise UserAlreadyExists("The email address you entered has already been used.")
         except NoResultFound:
             print("need to validate email")
             request.session['email'] = email 

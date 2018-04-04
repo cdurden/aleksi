@@ -122,6 +122,8 @@ def create_user(strategy, backend, request, details, email_is_validated=False, *
     # email address was captured in an earlier step.)
     try:
         user = DBSession.query(User).filter_by(email=email).one()
+        if user.password is None and backend.name == 'email' and email_is_validated:
+            user.set_password(details['password'])
     except NoResultFound:
         #if email_is_validated or backend.name == 'google-oauth2': # might also set password if email does not require validation
         if email_is_validated or backend.name == 'google-oauth2': # might also set password if email does not require validation

@@ -317,13 +317,13 @@ def load_shared_session(request):
 
 @view_config(route_name='logout', request_method=('GET', 'POST'), renderer='json')
 @view_config(route_name='social.logout', request_method=('GET', 'POST'), renderer='json')
-@psa('social.logout')
+#@psa('social.logout')
 def logout(request, redirect_name='next'):
     logout_user(request)
-    #strategy = load_strategy(request)
+    strategy = load_strategy(request)
     backend_name = request.session['backend_name']
-    #backend = load_backend(strategy, backend_name, "social:logout")
-    backend = request.backend
+    backend = load_backend(strategy, backend_name, "social:logout")
+    #backend = request.backend
     url = backend.strategy.absolute_uri(
         backend.strategy.request_data().get(redirect_name, '') or
         backend.setting('DISCONNECT_REDIRECT_URL') or

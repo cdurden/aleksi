@@ -1,3 +1,4 @@
+import uuid
 from social_core import utils
 import pyramid.httpexceptions as exc
 from pyramid.events import subscriber, BeforeRender
@@ -14,7 +15,8 @@ from aleksi import smtp_credentials
 from sqlalchemy.orm.exc import NoResultFound
 
 from social_core.pipeline.partial import partial
-from social_core.exceptions import AuthForbidden, InvalidEmail
+#from social_core.exceptions import AuthForbidden, InvalidEmail
+from aleksi.exceptions import *
 from social_core.actions import do_disconnect
 
 session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
@@ -24,31 +26,23 @@ def report(backend, *args, **kwargs):
     print("report")
     return
 
-def validate_email(backend, user=None, *args, **kwargs):
-    data = backend.strategy.request_data()
-    if 'signature' not in data:
-        signature = backend.strategy.session_get('signature', None)
-    if 'signature' in data:
-        signature = data['signature']
-        #backend.strategy.session_set('signature', signature)
-    if signature:
-        try:
-            signed_details = signed_deserialize(signature, session_secret)
-#            session = Session.objects.get(pk=signed_details['session_key'])
-        except BadSignature:
-            raise InvalidEmail(backend)
-        email = signed_details['email']
-        print(email)
-        return {'email_validated': True,
-                'email': email}
+def validate_email(email, verification_code, signature):
+    try:
+        signed_details = signed_deserialize(signature, session_secret)
+#        session = Session.objects.get(pk=signed_details['session_key'])
+    except BadSignature:
+        raise EmailValidationFailure("Email validation failed")
+    if signed_details['email'] == email and signed_details['code'] == verification_code:
+        return(True)
     else:
-        return
+        raise EmailValidationFailure("Email validation failed")
 
 def send_validation_email(strategy, backend, code, partial_token):
+#def send_validation_email(strategy, backend, partial_token):
     print("sending email validation")
-    signature = signed_serialize(code.email, session_secret)
+    signature = signed_serialize({'email': code['email'], 'code': code['code']}, session_secret)
 
-    url = url_for('social:complete', backend=backend.name)+'?verification_code='+code.code+"&signature="+signature
+    url = url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
     import smtplib
     
     # Import the email modules we'll need
@@ -62,12 +56,14 @@ def send_validation_email(strategy, backend, code, partial_token):
     # you == the recipient's email address
     msg['Subject'] = 'Aleksi email validation request'
     msg['From'] = 'noreply@aleksi.org'
-    msg['To'] = code.email
+    msg['To'] = code['email']
     
     # Send the message via our own SMTP server.
-    s = smtplib.SMTP('email-smtp.us-east-1.amazonaws.com') # fix hardcoding
-    s.starttls()
-    s.login(smtp_credentials.username, smtp_credentials.password) 
+    #s = smtplib.SMTP('email-smtp.us-east-1.amazonaws.com') # fix hardcoding
+    #s.starttls()
+    #s.login(smtp_credentials.username, smtp_credentials.password) 
+    print(msg)
+    s = smtplib.SMTP('localhost') # fix hardcoding
     s.send_message(msg)
     s.quit()
 
@@ -98,9 +94,11 @@ def register_user(strategy, backend, request, details, *args, **kwargs):
         raise AuthForbidden(backend, "Email or password not valid")
 
     return {'user': user, 'email': email}
+
 @partial
-def create_user(strategy, backend, request, details, *args, **kwargs):
+def create_user(strategy, backend, request, details, email_is_validated=False, *args, **kwargs):
     print("create_user")
+    print(email_is_validated)
     if backend.name != 'email' and backend.name != 'google-oauth2':
         return
     # session 'local_password' is set by the pipeline infrastructure
@@ -115,7 +113,9 @@ def create_user(strategy, backend, request, details, *args, **kwargs):
         # if we return something besides a dict or None, then that is
         # returned to the user -- in this case we will redirect to a
         # view that can be used to get a email
-        return exc.HTTPFound(request.route_url("login_email"))
+        return backend.strategy.redirect(
+            backend.strategy.setting('LOGIN_URL')
+        )
 
     # grab the user object from the database (remember that they may
     # not be logged in yet) and set their password.  (Assumes that the
@@ -123,11 +123,16 @@ def create_user(strategy, backend, request, details, *args, **kwargs):
     try:
         user = DBSession.query(User).filter_by(email=email).one()
     except NoResultFound:
-        user = User(email=email, username=email)
-
-    if 'password' in details:
-        user.set_password(details['password'])
-        #raise AuthForbidden(backend, "Email or password not valid")
+        #if email_is_validated or backend.name == 'google-oauth2': # might also set password if email does not require validation
+        if email_is_validated: # might also set password if email does not require validation
+            print("creating new user")
+            user = User(email=email, username=email)
+            DBSession.add(user)
+            if 'password' in details:
+                user.set_password(details['password'])
+        else:
+            if backend.name == 'email':
+                raise EmailAuthForbidden(backend, "Email or password not valid")
 
     return {'user': user, 'email': email}
 
@@ -252,6 +257,7 @@ def collect_password(strategy, backend, request, details, *args, **kwargs):
     try:
         details['password'] = data['password']
     except KeyError:
+        strategy.session_set('email', email)
         return backend.strategy.redirect(
             backend.strategy.setting('PASSWORD_FORM_URL')
         )
@@ -293,17 +299,18 @@ def login_required(request):
     return getattr(request, 'user', None) is not None
 
 def validate_password(strategy, backend, user, is_new=False, *args, **kwargs):
+    print("validate_password")
     if backend.name != 'email':
         return
 
-    password = backend.strategy.session_get('local_password', None)
+    password = backend.strategy.request_data()['password']
 #    if is_new:
 #        user.set_password(password)
 #        user.save()
 #    elif not user.validate_password(password):
     if not user.validate_password(password):
         # return {'user': None, 'social': None}
-        raise AuthForbidden(backend, "Email or password not valid")
+        raise EmailAuthForbidden(backend, "Email or password not valid")
 
 def get_user(request):
     print(request.session)
@@ -323,12 +330,16 @@ def get_user(request):
 #    request = event['request']
 #    event['social'] = backends(request, request.user)
 @partial
-def mail_validation(backend, details, is_new=False, is_validated=False, *args, **kwargs):
+def mail_validation(backend, details, is_new=False, email_is_validated=False, *args, **kwargs):
     print("mail_validation")
-    requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
-                          backend.setting('FORCE_EMAIL_VALIDATION', False)
+    try:
+        is_signup = kwargs['signup']
+    except:
+        is_signup = False
+    requires_validation = is_signup and (backend.REQUIRES_EMAIL_VALIDATION or \
+                          backend.setting('FORCE_EMAIL_VALIDATION', False))
     print(backend.setting)
-    send_validation = details.get('email') and not is_validated and \
+    send_validation = details.get('email') and \
                       (is_new or backend.setting('PASSWORDLESS', False))
     email = details.get('email')
     print(requires_validation)
@@ -336,17 +347,27 @@ def mail_validation(backend, details, is_new=False, is_validated=False, *args, *
     if requires_validation and send_validation:
         data = backend.strategy.request_data()
         if 'verification_code' in data:
+            #strategy.session_set('verification_code', data['verification_code'])
+            #strategy.session_set('signature', data['signature'])
             backend.strategy.session_pop('email_validation_address')
-            if not backend.strategy.validate_email(details['email'],
-                                                   data['verification_code']):
-                raise InvalidEmail(backend)
+            email_is_validated = validate_email(details['email'], data['verification_code'], data['signature'])
+            backend.strategy.session_set('email', email)
+            print("email is validated")
+            print(email_is_validated)
+            return {'email_is_validated': email_is_validated}
         else:
             current_partial = kwargs.get('current_partial')
-            print(backend.strategy.storage.code)
-            backend.strategy.storage.code.make_code(email)
-            backend.strategy.send_email_validation(backend,
-                                                   details['email'],
-                                                   current_partial.token)
+            #print(backend.strategy.storage.code)
+            code = {'email': email,
+                    'code': uuid.uuid4().hex}
+            try:
+                send_validation_email(backend.strategy, backend, code, current_partial.token)
+            except Exception as e:
+                raise EmailValidationFailure("The recipient address was refused when trying to send a validation email to "+email)
+            #backend.strategy.storage.code.make_code(email)
+            #backend.strategy.send_email_validation(backend,
+            #                                       details['email'],
+            #                                       current_partial.token)
             backend.strategy.session_set('email_validation_address',
                                          details['email'])
             return backend.strategy.redirect(

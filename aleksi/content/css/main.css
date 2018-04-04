@@ -1,3 +1,13 @@
+a {
+    text-decoration: none;
+    color: #3388cc;
+}
+p:empty {
+    display: none
+}
+div.btn-container {
+    max-width: 20em;
+}
 #navbar {
   background-color: #333;
   position: fixed;

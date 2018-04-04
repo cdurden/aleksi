@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 requires = [
     'filemagic',
@@ -20,6 +20,10 @@ requires = [
 
 setup(name='aleksi',
       install_requires=requires,
+      packages=find_packages(),
+      package_data={
+          '': ['templates/*.pt','content/html/*.html','content/css/*.css','content/js/*.js']
+          },
       entry_points="""\
       [paste.app_factory]
       main = aleksi:main

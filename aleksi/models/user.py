@@ -1,5 +1,6 @@
 from . import Base
-from passlib.hash import bcrypt
+#from passlib.hash import bcrypt
+from passlib.hash import pbkdf2_sha256
 
 from sqlalchemy import (
     Column,
@@ -29,7 +30,8 @@ class User(Base):
         return True
 
     def set_password(self, password):
-        self.password = bcrypt.encrypt(password)
+        self.password = pbkdf2_sha256.hash(password)
 
     def validate_password(self, password):
-        return bcrypt.verify(password, self.password)
+        return pbkdf2_sha256.verify(password, self.password)
+        #return bcrypt.verify(password, self.password)

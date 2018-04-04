@@ -17,7 +17,8 @@ from pyramid.view import render_view_to_response
 from social_pyramid.utils import load_strategy, load_backend
 from social_core.actions import do_complete, do_auth
 from social_core.backends.email import EmailAuth
-from social_core.exceptions import AuthForbidden, AuthAlreadyAssociated, AuthCanceled
+#from social_core.exceptions import AuthForbidden, AuthAlreadyAssociated, AuthCanceled
+from aleksi.exceptions import *
 
 from .utils import common_context, associations, url_for
 from social_core.utils import sanitize_redirect
@@ -60,23 +61,86 @@ def get_settings(module):
               if key not in module.__builtins__ and
                  key not in ['__builtins__', '__file__'] }
 
-class UserAlreadyExists(Exception):
-    pass
+@view_config(context=EmailValidationFailure, renderer='templates/signup_email.pt')
+def email_validation_failure(e, request):
+    # If the view has two formal arguments, the first is the context.
+    # The context is always available as ``request.context`` too.
+    msg = e.args[0] if e.args else ""
+    return signup_email(request, msg=msg, do_signup=False)
+    #return exc.HTTPFound(request.route_url("signup_email",_query={'msg': 'A user with that email address already exists.'}))
 
 @view_config(context=UserAlreadyExists, renderer='templates/signup_email.pt')
 def user_already_exists(e, request):
     # If the view has two formal arguments, the first is the context.
     # The context is always available as ``request.context`` too.
     msg = e.args[0] if e.args else ""
-    #return signup_email(request, msg=msg)
-    return exc.HTTPFound(request.route_url("signup_email",_query={'msg': 'A user with that email address already exists.'}))
+    return signup_email(request, msg=msg, do_signup=False)
+    #return exc.HTTPFound(request.route_url("signup_email",_query={'msg': 'A user with that email address already exists.'}))
+
+@view_config(route_name='signup_email', renderer='templates/signup_email.pt')
+def signup_email(request, *args, **kwargs):
+    try:
+        do_signup = kwargs['do_signup']
+    except:
+        do_signup = True
+    if request.method == 'POST' and do_signup:
+        email = request.params['email']
+        #password = request.params['password']
+        try:
+            user = DBSession.query(User).filter_by(email=email).one()
+            raise UserAlreadyExists("The email address you entered has already been used.")
+        except NoResultFound:
+            print("need to validate email")
+            request.session['email'] = email 
+            strategy = load_strategy(request)
+            #request.session['local_password'] = password 
+            #strategy = load_strategy(request)
+            backend = load_backend(strategy, 'email', 'social:complete')
+            #raise exc.HTTPFound(request.route_url("social.complete", backend="email"))
+            kwargs['signup'] = True
+            return do_complete(backend, login=login_user, *args, **kwargs)
+#    if 'email_validated' in request.session:
+#        email = request.session['email']
+#        password = request.session['local_password']
+#        new_user = User(email=email, username=email)
+#        new_user.set_password(password)
+#        DBSession.add(new_user)
+#        DBSession.flush()
+#        #raise AuthForbidden(backend, "User create. You may now login.")
+#        #return login(request, "User create. You may now login.")
+#        return exc.HTTPFound(location=request.route_url('signup_email_successful'))
+#        #return HTTPFound(location=request.route_url('index'))
+#    try:
+#        msg = request.params['msg']
+#    except KeyError:
+#        try:
+#            msg = kwargs['msg']
+#        except KeyError:
+#            msg = ''
+    else:
+        try:
+            msg = kwargs['msg']
+        except KeyError:
+            msg = ''
+        main_macros = get_renderer('templates/main_macros.pt').implementation()
+        here = os.path.dirname(__file__)
+        return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg}
+
 
 @view_config(context=AuthForbidden, renderer='templates/login.pt')
 def auth_forbidden(exc, request):
     # If the view has two formal arguments, the first is the context.
     # The context is always available as ``request.context`` too.
     msg = exc.args[0] if exc.args else ""
-    return login(request, msg=msg)
+    return login_email(request, msg=msg)
+    #return exc.HTTPFound(request.route_url("get_quizlet_sets"))
+
+@view_config(context=EmailAuthForbidden, renderer='templates/login_email.pt')
+def email_auth_forbidden(exc, request):
+    # If the view has two formal arguments, the first is the context.
+    # The context is always available as ``request.context`` too.
+    msg = exc.args[0] if exc.args else ""
+    return login_email(request, msg=msg, do_login=False)
     #return exc.HTTPFound(request.route_url("get_quizlet_sets"))
 
 #@view_config(context=AuthCanceled)
@@ -102,36 +166,44 @@ def validate_email(request, *args, **kwargs):
     #backend = load_backend(strategy, 'email', "social:begin")
     #strategy = request.strategy
 
-@view_config(route_name='set_password', renderer='templates/login_email.pt')
+@view_config(route_name='set_password', renderer='templates/set_password.pt')
 def set_password(request, *args, **kwargs):
-    strategy = load_strategy(request)
-    partial_token = request.GET.get('partial_token')
-    partial = strategy.partial_load(partial_token)
-    context = common_context(
-        request.registry.settings['SOCIAL_AUTH_AUTHENTICATION_BACKENDS'],
-        strategy,
-        user=get_user(request),
-        plus_id=request.registry.settings['SOCIAL_AUTH_GOOGLE_PLUS_KEY'],
-        email_required=True,
-        partial_backend_name=partial.backend,
-        partial_token=partial_token
-    )
-    return do_auth(request.backend, *args, **kwargs)
+    print(request.session)
+    email = request.session['email']
+#    strategy = load_strategy(request)
+#    partial_token = request.GET.get('partial_pipeline_token')
+#    partial = strategy.partial_load(partial_token)
+#    context = common_context(
+#        request.registry.settings['SOCIAL_AUTH_AUTHENTICATION_BACKENDS'],
+#        strategy,
+#        user=get_user(request),
+#        plus_id=request.registry.settings['SOCIAL_AUTH_GOOGLE_PLUS_KEY'],
+#        email_required=True,
+#        partial_backend_name=partial.backend,
+#        partial_token=partial_token
+#    )
+#    return do_auth(request.backend, *args, **kwargs)
+    main_macros = get_renderer('templates/main_macros.pt').implementation()
+    return {'request': request, 'main_macros': main_macros, 'title': 'Set password', 'msg': '', 'email': email}
 
 
 @view_config(route_name='login_email', renderer='templates/login_email.pt')
 def login_email(request, *args, **kwargs):
-    if request.method == 'POST':
+    try:
+        do_login = kwargs['do_login']
+    except:
+        do_login = True
+    if request.method == 'POST' and do_login:
         email = request.params['email']
         password = request.params['password']
         request.session['local_password'] = password
         request.session['email'] = email 
         print(request.session)
         #return HTTPFound(location=request.route_url('index'))
-        #strategy = load_strategy(request)
-        #backend = load_backend(strategy, 'email', "social:complete")
-        #return do_complete(request.backend, login=login_user, *args, **kwargs)
-        return exc.HTTPFound(location=url_for('social:complete', backend='email', _query={'email': email} ))
+        strategy = load_strategy(request)
+        backend = load_backend(strategy, 'email', "social:complete")
+        return do_complete(backend, login=login_user, *args, **kwargs)
+        #return exc.HTTPFound(location=url_for('social:complete', backend='email', _query={'email': email} ))
     print(request.session)
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
@@ -163,44 +235,6 @@ def email_validation_sent(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
     return {'request': request, 'main_macros': main_macros, 'title': 'Email validation sent'}
-
-@view_config(route_name='signup_email', renderer='templates/signup_email.pt')
-def signup_email(request, *args, **kwargs):
-    if request.method == 'POST':
-        email = request.params['email']
-        password = request.params['password']
-        try:
-            user = DBSession.query(User).filter_by(email=email).one()
-        except NoResultFound:
-            print("need to validate email")
-            request.session['email'] = email 
-            request.session['local_password'] = password 
-            #strategy = load_strategy(request)
-            #backend = load_backend(strategy, 'email', "social:complete")
-            return do_complete(request.backend, login=login_user, *args, **kwargs)
-        else:
-            raise UserAlreadyExists("The email address you entered has already been used.")
-    if 'email_validated' in request.session:
-        email = request.session['email']
-        password = request.session['local_password']
-        new_user = User(email=email, username=email)
-        new_user.set_password(password)
-        DBSession.add(new_user)
-        DBSession.flush()
-        #raise AuthForbidden(backend, "User create. You may now login.")
-        #return login(request, "User create. You may now login.")
-        return exc.HTTPFound(location=request.route_url('signup_email_successful'))
-        #return HTTPFound(location=request.route_url('index'))
-    try:
-        msg = request.params['msg']
-    except KeyError:
-        try:
-            msg = kwargs['msg']
-        except KeyError:
-            msg = ''
-    main_macros = get_renderer('templates/main_macros.pt').implementation()
-    here = os.path.dirname(__file__)
-    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg}
 
 
 @view_config(route_name='signup', renderer='templates/signup.pt')

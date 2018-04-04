@@ -1,10 +1,10 @@
 SOCIAL_AUTH_USER_MODEL = 'aleksi.models.user.User'
-SOCIAL_AUTH_LOGIN_URL = '/'
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/browse_sessions'
+SOCIAL_AUTH_LOGIN_URL = '/aleksi/login'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/aleksi/browse_sessions'
 SOCIAL_AUTH_LOGIN_FUNCTION = 'aleksi.auth.login_user'
 SOCIAL_AUTH_LOGGEDIN_FUNCTION = 'aleksi.auth.login_required'
-SOCIAL_AUTH_EMAIL_FORM_URL = '/login_email'
-SOCIAL_AUTH_PASSWORD_FORM_URL = '/set_password'
+SOCIAL_AUTH_EMAIL_FORM_URL = '/aleksi/login_email'
+SOCIAL_AUTH_PASSWORD_FORM_URL = '/aleksi/set_password'
 SOCIAL_AUTH_EMAIL_FORM_HTML = ''
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'aleksi.auth.send_validation_email'
 SOCIAL_AUTH_EMAIL_VALIDATION_URL = '/email_verify_sent'
@@ -34,16 +34,16 @@ SOCIAL_AUTH_PIPELINE = (
 #    'aleksi.auth.create_social_user',
     'social_core.pipeline.user.get_username',
     'aleksi.auth.collect_email',
-#    'aleksi.auth.mail_validation',
+    'aleksi.auth.mail_validation',
     'aleksi.auth.collect_password',
     'aleksi.auth.create_user',
+    'aleksi.auth.validate_password',
     'aleksi.auth.disassociate_social_user',
     'aleksi.auth.social_user',
 #    'social_core.pipeline.social_auth.social_user',
 #    'common.pipeline.require_email',
 #    'social_core.pipeline.user.create_user',
     'aleksi.auth.store_backend',
-    'aleksi.auth.validate_password',
     'aleksi.auth.associate_user',
 #    'social_core.pipeline.social_auth.associate_user',
     'social_core.pipeline.debug.debug',

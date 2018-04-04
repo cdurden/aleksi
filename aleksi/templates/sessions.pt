@@ -78,6 +78,7 @@ function confirm_delete_session(session_title, callback) {
 
     <div class="ui-content">
     <h2>My Sessions</h2>
+        <p tal:condition="python: len(user.sessions)==0">You do not have any existing sessions.</p>
         <div class="tile" style="width:300px;height:300px;overflow:hidden" tal:repeat="session python:user.sessions">
             <!--
             <table style="width: 100%;">

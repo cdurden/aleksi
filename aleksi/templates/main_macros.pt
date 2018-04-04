@@ -54,7 +54,7 @@
       </tal:block>
         </div><!-- /content -->
 <div data-role="footer"> 
-    <h4 style="color: darkslategrey;">Powered by <a href="http://voikko.puimula.org" style="text-decoration: none;"><span style="color: blue;">Voikko</span></a> and <a href="http://en.wiktionary.org" style="text-decoration: none;"><span style="color: blue;">Wiktionary</span></a></h4>
+    <h4 style="color: darkslategrey;">Powered by <a href="http://voikko.puimula.org" style="text-decoration: none;"><span>Voikko</span></a> and <a href="http://en.wiktionary.org" style="text-decoration: none;"><span>Wiktionary</span></a></h4>
 </div> 
         </div><!-- /page -->
       <tal:block metal:define-slot="confirm_delete_dialog">

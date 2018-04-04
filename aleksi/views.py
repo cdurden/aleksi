@@ -254,7 +254,11 @@ def signup(request, *args, **kwargs):
 def about(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
-    return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi'}
+    try:
+        username = request.session['username']
+    except: 
+        username = None
+    return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi', 'username': username}
 
 @view_config(route_name='browse_sessions', renderer='templates/sessions.pt')
 def browse_sessions(request):

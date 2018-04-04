@@ -202,7 +202,7 @@ class Website(Base):
             for url_setting in url_settings.items():
                 url_settings_script.string += "var {:s} = '{:s}';\n".format(url_setting[0],url_setting[1])
             vhost_path_link = soup.new_tag("link", id="vhost_path")
-            vhost_path_link['href'] = request.route_path('index')
+            vhost_path_link['href'] = request.route_path('main')
 
             jquery_noconflict_script = soup.new_tag("script", id="url_settings_script")
             jquery_noconflict_script.string = "var $jquery_aleksi = jQuery.noConflict();"

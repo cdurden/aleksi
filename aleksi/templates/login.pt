@@ -18,6 +18,7 @@
         <div><a href="${request.route_url('social.auth', backend='facebook',_query={'next':request.url})}">Sign-up with Facebook</a></div>
         <div><a href="${request.route_url('social.auth', backend='google-oauth2',_query={'next':request.url})}">Sign-up with Google</a></div>
         -->
+      <p><b>Note:</b> Aleksi is not currently allowing new users to sign up or sign in automatically.</p>
     </div>
   </span>
 </span>

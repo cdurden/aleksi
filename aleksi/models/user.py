@@ -33,5 +33,8 @@ class User(Base):
         self.password = pbkdf2_sha256.hash(password)
 
     def validate_password(self, password):
-        return pbkdf2_sha256.verify(password, self.password)
+        if self.password is None or password is None:
+            return False
+        else:
+            return pbkdf2_sha256.verify(password, self.password)
         #return bcrypt.verify(password, self.password)

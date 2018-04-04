@@ -248,7 +248,12 @@ def collect_password(strategy, backend, request, details, *args, **kwargs):
     # because it exists in FIELDS_STORED_IN_SESSION
     email = details['email']
     data = backend.strategy.request_data()
-    details['password']= data['password']
+    try:
+        details['password'] = data['password']
+    except KeyError:
+        return backend.strategy.redirect(
+            backend.strategy.setting('PASSWORD_FORM_URL')
+        )
 
     # grab the user object from the database (remember that they may
     # not be logged in yet) and set their email.  (Assumes that the

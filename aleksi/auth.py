@@ -242,6 +242,7 @@ def collect_email(strategy, backend, request, details, *args, **kwargs):
 
 @partial
 def collect_password(strategy, backend, request, details, *args, **kwargs):
+    print("collect_password")
     if backend.name != 'email':
         return
     # session 'local_password' is set by the pipeline infrastructure
@@ -323,6 +324,7 @@ def get_user(request):
 #    event['social'] = backends(request, request.user)
 @partial
 def mail_validation(backend, details, is_new=False, is_validated=False, *args, **kwargs):
+    print("mail_validation")
     requires_validation = backend.REQUIRES_EMAIL_VALIDATION or \
                           backend.setting('FORCE_EMAIL_VALIDATION', False)
     print(backend.setting)

@@ -124,7 +124,9 @@ class Website(Base):
             print(cmd)
             #cmd = "wget -q -t 0 -F --base={:s} {:s} -nH -O {:s}".format(base_url,self.url,tempfile_path)
             args = shlex.split(cmd)
-            check_call(args)
+            print(args)
+            retcode = check_call(args)
+            print(retcode)
             self.cached_copy = os.path.relpath(tempfile_path, self.html_path)
             self.datetime = _datetime.datetime.utcnow()
             with magic.Magic(flags=magic.MAGIC_MIME_ENCODING) as m:

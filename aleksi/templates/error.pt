@@ -1,0 +1,10 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+      <h2>Error</h2>
+    <div class="ui-content">
+        ${msg}
+    </div>
+  </span>
+</span>

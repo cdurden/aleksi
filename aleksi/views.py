@@ -11,6 +11,7 @@ from pyramid.decorator import reify
 from pyramid.renderers import get_renderer
 import pyramid.httpexceptions as exc
 from pyramid.httpexceptions import HTTPOk
+from subprocess import CalledProcessError
 
 from pyramid.view import render_view_to_response
 
@@ -60,6 +61,14 @@ def get_settings(module):
     return { key: value for key, value in module.__dict__.items()
               if key not in module.__builtins__ and
                  key not in ['__builtins__', '__file__'] }
+
+@view_config(context=AleksiError, renderer='templates/error.pt')
+def error(e, request):
+    main_macros = get_renderer('templates/main_macros.pt').implementation()
+    here = os.path.dirname(__file__)
+    user=get_user(request)
+    msg = e.args[0] if e.args else ""
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Error', 'user': user, 'msg': msg}
 
 @view_config(context=EmailValidationFailure, renderer='templates/signup_email.pt')
 def email_validation_failure(e, request):
@@ -581,7 +590,10 @@ def update_website(request):
         print(website)
         if website is None: 
             website = Website(url=url, snapshot_path=request.registry.settings['website_snapshot_dir'], html_path=request.registry.settings['cached_website_dir'], phantomjs_script_path=request.registry.settings['phantomjs_script_path'])
-            website.fetch_html(tempfile_path)
+            try:
+                website.fetch_html(tempfile_path)
+            except CalledProcessError:
+                raise LoadWebsiteError("An error occurred while trying to load the website you requested. Please check the URL and try again. If the problem persists, contact admin@aleksi.org.")
             html_path = tempfile_path
             f, tempfile_path = mkstemp(dir=request.registry.settings['website_snapshot_dir'],suffix='.png')
             website.make_snapshot(tempfile_path)

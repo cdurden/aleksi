@@ -6,7 +6,7 @@ import string
 import datetime as _datetime
 from urllib.parse import urljoin,urlsplit
 import shlex
-from subprocess import call
+from subprocess import check_call
 from sqlalchemy import Date, cast, desc
 import magic
 
@@ -124,7 +124,7 @@ class Website(Base):
             print(cmd)
             #cmd = "wget -q -t 0 -F --base={:s} {:s} -nH -O {:s}".format(base_url,self.url,tempfile_path)
             args = shlex.split(cmd)
-            call(args)
+            check_call(args)
             self.cached_copy = os.path.relpath(tempfile_path, self.html_path)
             self.datetime = _datetime.datetime.utcnow()
             with magic.Magic(flags=magic.MAGIC_MIME_ENCODING) as m:

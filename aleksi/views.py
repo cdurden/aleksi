@@ -869,7 +869,10 @@ def create_session(request):
     if regex.match(url):
         f, tempfile_path = mkstemp(dir=request.registry.settings['cached_website_dir'],suffix='.html')
         website = Website(url=url, snapshot_path=request.registry.settings['website_snapshot_dir'], html_path=request.registry.settings['cached_website_dir'], phantomjs_script_path=request.registry.settings['phantomjs_script_path'])
-        website.fetch_html(tempfile_path)
+        try:
+            website.fetch_html(tempfile_path)
+        except CalledProcessError:
+            raise LoadWebsiteError("An error occurred while trying to load the website you requested. Please check the URL and try again. If the problem persists, contact admin@aleksi.org.")
         html_path = tempfile_path
         f, tempfile_path = mkstemp(dir=request.registry.settings['website_snapshot_dir'],suffix='.png')
         website.make_snapshot(tempfile_path)

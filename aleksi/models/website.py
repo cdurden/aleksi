@@ -6,7 +6,7 @@ import string
 import datetime as _datetime
 from urllib.parse import urljoin,urlsplit
 import shlex
-from subprocess import check_call
+from subprocess import check_call, call
 from sqlalchemy import Date, cast, desc
 import magic
 

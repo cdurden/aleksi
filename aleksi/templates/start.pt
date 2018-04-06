@@ -1,0 +1,32 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+    <div class="ui-content">
+      <div>
+        ${msg}
+      </div>
+      <div>
+        <p class="mc-top-margin-1-5"><b>Existing Users</b></p>
+        <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('social.auth', backend='email')}">Sign in by Email</a></div>
+        <!--
+        <div><a href="${request.route_url('social.auth', backend='facebook')}">Login using Facebook</a></div>
+        -->
+        <p class="mc-top-margin-1-5"><b>Don't have an account?</b></p>
+        <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" data-ajax="false" href="${request.route_url('social.auth', backend='google-oauth2')}">Sign in using Google</a></div>
+        <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('signup_email')}">Sign up by Email</a></div>
+        <!--
+        <div><a href="${request.route_url('social.auth', backend='facebook',_query={'next':request.url})}">Sign-up with Facebook</a></div>
+        <div><a href="${request.route_url('social.auth', backend='google-oauth2',_query={'next':request.url})}">Sign-up with Google</a></div>
+        -->
+        <p><b>Note:</b> Aleksi is not currently allowing new users to sign up or sign in automatically.</p>
+      </div>
+      <div>
+          or
+      </div>
+      <div>
+        <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" data-ajax="false" href="${request.route_url('feed')}">Browse suggested articles</a></div>
+      </div>
+    </div>
+  </span>
+</span>

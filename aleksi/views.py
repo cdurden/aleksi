@@ -276,7 +276,7 @@ def feed(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     here = os.path.dirname(__file__)
     user=get_user(request)
-    return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi', 'user': user}
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Article Feed', 'user': user}
 
 @view_config(route_name='main', renderer='templates/about.pt')
 @view_config(route_name='about', renderer='templates/about.pt')

@@ -33,6 +33,15 @@
       <p><b>Note:</b> Aleksi is not currently allowing new users to sign up or sign in automatically.</p>
     </div>
     <div class="ui-content">
+        <h2 class="mc-text-center">How to contribute</h2>
+        <p>Aleksi currently needs the following forms of help:
+        <ul>
+            <li>Software developers to enhance Aleksi's technological capabilities</li>
+            <li>Teachers of Finnish to guide development and </li>
+        </ul>
+        </p>
+    </div>
+    <div class="ui-content">
         <h2 class="mc-text-center">Demo video</h2>
         <video controls>
            <source src="${request.static_path('aleksi:content/video/aleksi.mkv')}" type="video/mp4">

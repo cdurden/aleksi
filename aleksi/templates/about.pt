@@ -24,10 +24,6 @@
     Now that my session is connect to a Quizlet study set, I can transfer my pinned words to Quizlet by clicking Sync with Quizlet.
     I can then use Quizlet to study my words.
         -->
-    
-
-    </div>
-    <div class="ui-content">
       <div>
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('start')}">Get started</a></div>
       </div>

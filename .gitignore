@@ -15,6 +15,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+*.bak
 
 aleksi_aws.log
 aleksi_aws.sqlite

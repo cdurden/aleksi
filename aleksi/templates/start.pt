@@ -6,7 +6,7 @@
       <div>
         ${msg}
       </div>
-      <div>
+      <div style='display: inline;'>
         <p class="mc-top-margin-1-5"><b>Existing Users</b></p>
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('social.auth', backend='email')}">Sign in by Email</a></div>
         <!--
@@ -21,10 +21,10 @@
         -->
         <p><b>Note:</b> Aleksi is not currently allowing new users to sign up or sign in automatically.</p>
       </div>
-      <div>
+      <div style='display: inline;'>
           or
       </div>
-      <div>
+      <div style='display: inline;'>
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" data-ajax="false" href="${request.route_url('feed')}">Browse suggested articles</a></div>
       </div>
     </div>

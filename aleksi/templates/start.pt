@@ -14,7 +14,7 @@
         <div><a href="${request.route_url('social.auth', backend='facebook')}">Login using Facebook</a></div>
         -->
         <p class="mc-top-margin-1-5"><b>Guests</b></p>
-        <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" data-ajax="false" href="${request.route_url('feed')}">Browse public articles</a></div>
+        <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" data-ajax="false" href="${request.route_url('feed')}">Browse public article feed</a></div>
         <!--
         <p class="mc-top-margin-1-5"><b>Don't have an account?</b></p>
         <div class="btn-container"><a class="ui-btn ui-btn-b ui-corner-all" href="${request.route_url('signup_email')}">Sign up by Email</a></div>

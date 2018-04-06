@@ -2,6 +2,9 @@ video {
     width: 100%    !important;
     height: auto   !important;
 }
+.feed-container {
+    max-width: 50em;
+}
 a {
     text-decoration: none;
     color: #3388cc;

@@ -4,7 +4,7 @@
   <span metal:fill-slot="content">
     <div class="ui-content feed-container">
         <a class="blacklink" data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
-        <h2 class="mc-text-center">Yle Selkouutiset | Torstai 5.4.2018</h2>
+        <h2 class="article-title mc-text-center">Yle Selkouutiset | Torstai 5.4.2018</h2>
         </a>
         <p>
         <a  class="blacklink" data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
@@ -13,7 +13,7 @@
         </p>
     <hr>
         <a  class="blacklink" data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
-        <h2 class="mc-text-center">Faizin kuukausipalkka kokkina oli 256 euroa: "Luulin, että Suomessa on normaalia työskennellä 16–17 tuntia" – Lue kolmen kielitaidottoman tarinat</h2>
+        <h2 class="article-title mc-text-center">Faizin kuukausipalkka kokkina oli 256 euroa: "Luulin, että Suomessa on normaalia työskennellä 16–17 tuntia" – Lue kolmen kielitaidottoman tarinat</h2>
         </a>
         <p>
         <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
@@ -22,7 +22,7 @@
         </p>
     <hr>
         <a class="blacklink" data-ajax="false" href="http://www.aleksi.org/s/70e2cc6c831cfae77e29b66168db3b620e93fb045f45a0147bb2cce7">
-        <h2 class="mc-text-center">
+        <h2 class="article-title mc-text-center">
     Suomen kieli kulkee jyrkkää alamäkeä Ruotsissa – Opettaja kielsi yhdeksänvuotiasta Ursina Funkia puhumasta välitunnilla suomea
         </h2>
         </a>

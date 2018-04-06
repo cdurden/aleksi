@@ -9,6 +9,10 @@ a.blacklink {
     text-decoration: none;
     color: #000 !important;
 }
+.article-title {
+    font-family: "Sanomat","Georgia",serif;
+    font-weight: bold;
+}
 a {
     text-decoration: none;
     color: #3388cc;

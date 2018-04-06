@@ -236,6 +236,14 @@ def login(request, *args, **kwargs):
         msg = ''
     return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Login', 'msg': msg, 'user': user}
 
+@view_config(route_name='start', renderer='templates/start.pt')
+def start(request, *args, **kwargs):
+    main_macros = get_renderer('templates/main_macros.pt').implementation()
+    here = os.path.dirname(__file__)
+    user=get_user(request)
+    return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Start Page', 'msg': '', 'user': user}
+
+
 @view_config(route_name='signup_email_successful', renderer='templates/login_email.pt')
 def signup_email_successful(request):
     main_macros = get_renderer('templates/main_macros.pt').implementation()

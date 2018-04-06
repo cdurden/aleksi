@@ -3,25 +3,31 @@
   </span>
   <span metal:fill-slot="content">
     <div class="ui-content feed-container">
-        <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
         <p>
+        <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
             <img class="feed-container" src="https://img.yle.fi/uutiset/kuopio/article10042688.ece/ALTERNATES/w580h326/liikuntatunti%20jumppatunti%20koululiikunta%20jumppasali%20nuorten%20likkuminen%20motoriikka">
+        </a>
         </p>
+        <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
         <h2 class="mc-text-center">Yle Selkouutiset | Torstai 5.4.2018</h2>
         </a>
     </div>
     <hr>
     <div class="ui-content feed-container">
-        <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
         <p>
+        <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
             <img class="feed-container" src="http://images.cdn.yle.fi/image/upload//w_1198,h_674,f_auto,fl_lossy,q_auto/13-3-10139153.png">
+        </a>
         </p>
+        <a data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
         <h2 class="mc-text-center">Faizin kuukausipalkka kokkina oli 256 euroa: "Luulin, että Suomessa on normaalia työskennellä 16–17 tuntia" – Lue kolmen kielitaidottoman tarinat</h2>
         </a>
     </div>
     <div class="ui-content feed-container">
         <a data-ajax="false" href="http://www.aleksi.org/s/70e2cc6c831cfae77e29b66168db3b620e93fb045f45a0147bb2cce7">
             <img class="feed-container" src="http://hs.mediadelivery.fi/img/978/c2bb1f70b6d842fd9595e192c4319a62.jpg.webp">
+        </a>
+        <a data-ajax="false" href="http://www.aleksi.org/s/70e2cc6c831cfae77e29b66168db3b620e93fb045f45a0147bb2cce7">
         <h2 class="mc-text-center">
     Suomen kieli kulkee jyrkkää alamäkeä Ruotsissa – Opettaja kielsi yhdeksänvuotiasta Ursina Funkia puhumasta välitunnilla suomea
         </h2>

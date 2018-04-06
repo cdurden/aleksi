@@ -2,7 +2,7 @@
   <span metal:fill-slot="head-more">
   </span>
   <span metal:fill-slot="content">
-    <div class="ui-content" data-ajax="false">
+    <div class="ui-content">
         <h2 class="mc-text-center">About Aleksi</h2>
         <p>
             Aleksi on <b>a</b>uttaja <b>l</b>ukemasta <b>e</b>sineitä <b>k</b>ielellä <b>s</b>uomen <b>i</b>nternetissä.

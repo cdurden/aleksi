@@ -1,0 +1,13 @@
+<span metal:use-macro="main_macros['layout']">
+  <span metal:fill-slot="head-more">
+  </span>
+  <span metal:fill-slot="content">
+    <div class="ui-content">
+        <h2 class="mc-text-center">Yle Selkouutiset | Torstai 5.4.2018</h2>
+        <p>
+        <a href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc"><img src="https://img.yle.fi/uutiset/kuopio/article10042688.ece/ALTERNATES/w580h326/liikuntatunti%20jumppatunti%20koululiikunta%20jumppasali%20nuorten%20likkuminen%20motoriikka"></a>
+        </p>
+
+    </div>
+  </span>
+</span>

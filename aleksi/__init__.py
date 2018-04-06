@@ -207,7 +207,7 @@ def commit_veto(request, response):
 class Root(object):
     def __init__(self, request):
         settings = request.registry.settings
-        settings['SOCIAL_AUTH_LOGIN_URL'] = request.route_url('login')
+        settings['SOCIAL_AUTH_LOGIN_URL'] = request.route_url('start')
         settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = request.route_url('login_email')
         settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('browse_sessions')
         settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')

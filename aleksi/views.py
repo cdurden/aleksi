@@ -297,7 +297,7 @@ def browse_sessions(request):
         #raise exc.HTTPFound(request.route_url("social.auth", _query={'next':request.url}))
         request.session['next'] = request.url
         print(request.session)
-        raise exc.HTTPFound(request.route_url("login"))
+        raise exc.HTTPFound(request.route_url("start"))
         #raise exc.HTTPFound("{:s}?{:s}={:s}".format(request.route_url("social.auth", backend="quizlet"),"next",request.url))
         #raise exc.HTTPNotFound
     # get user's sessions
@@ -332,14 +332,14 @@ def load_session(request):
     user=get_user(request)
     if user is None:
         request.session['next'] = request.url
-        raise exc.HTTPFound(request.route_url("login"))
+        raise exc.HTTPFound(request.route_url("start"))
         #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
     # get requested session
     try:
         session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
     except NoResultFound:
         request.session['next'] = request.url
-        raise exc.HTTPFound(request.route_url("login"))
+        raise exc.HTTPFound(request.route_url("start"))
         #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
     # check session permissions for user
     # render session

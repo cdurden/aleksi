@@ -252,6 +252,7 @@ def main(global_config, **settings):
     config.add_route('browse_sessions', '/sessions')
     config.add_route('main','')
     config.add_route('about', '/about')
+    config.add_route('feed', '/feed')
     config.add_route('signup', '/signup_all')
     config.add_route('signup_email', '/signup')
     config.add_route('set_password', '/set_password')

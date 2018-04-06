@@ -263,6 +263,13 @@ def signup(request, *args, **kwargs):
     here = os.path.dirname(__file__)
     return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg, 'user': user}
 
+@view_config(route_name='feed', renderer='templates/feed.pt')
+def feed(request):
+    main_macros = get_renderer('templates/main_macros.pt').implementation()
+    here = os.path.dirname(__file__)
+    user=get_user(request)
+    return {'request': request, 'main_macros': main_macros, 'title': 'About Aleksi', 'user': user}
+
 @view_config(route_name='main', renderer='templates/about.pt')
 @view_config(route_name='about', renderer='templates/about.pt')
 def about(request):

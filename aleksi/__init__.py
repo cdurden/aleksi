@@ -258,6 +258,7 @@ def main(global_config, **settings):
     config.add_route('set_password', '/set_password')
     config.add_route('signup_email_successful', '/signup_email_successful')
     config.add_route('validate_email', '/validate_email')
+    config.add_route('start', '/start')
     config.add_route('login', '/login')
     config.add_route('login_email', '/login_email')
     config.add_route('auth_methods', '/auth_methods')

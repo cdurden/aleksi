@@ -1,5 +1,11 @@
 <span metal:use-macro="main_macros['layout']">
   <span metal:fill-slot="head-more">
+      <script>
+          var video = document.getElementById('video');
+          video.addEventListener('click',function(){
+                video.play();
+          },false);
+      </script>
   </span>
   <span metal:fill-slot="content">
     <div class="ui-content">

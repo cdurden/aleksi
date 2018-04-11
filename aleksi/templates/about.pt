@@ -45,12 +45,13 @@
     </div>
     <div class="ui-content">
         <h2 class="mc-text-center">Demo video</h2>
+        <!--
         <div class="videoWrapper">
            <iframe width="576" height="360" src="${request.static_path('aleksi:content/video/aleksi.mp4')}" frameborder="0" allowfullscreen></iframe>
         </div>
+        -->
         <video controls>
-           <source src="${request.static_path('aleksi:content/video/aleksi.mkv')}" type="video/mp4">
-           <source src="movie.ogg" type="video/ogg">
+           <source src="${request.static_path('aleksi:content/video/aleksi.mp4')}" type="video/mp4">
            Your browser does not support the video tag.
         </video>
     </div>

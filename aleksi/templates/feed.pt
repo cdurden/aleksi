@@ -3,12 +3,12 @@
   </span>
   <span metal:fill-slot="content">
     <div class="ui-content feed-container">
-        <a class="blacklink" data-ajax="false" href="https://img.yle.fi/uutiset/tampere/article10151686.ece/ALTERNATES/w580h326/Tamperelainen%20Elli-vauva%20kapalossa%209.4.2018%20MM.jpg">
+        <a class="blacklink" data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
         <h2 class="article-title mc-text-center">Yle Selkouutiset | Tiistai 10.4.2018</h2>
         </a>
         <p>
         <a  class="blacklink" data-ajax="false" href="http://www.aleksi.org/s/53b896d3337ee9ab64178c4a6a1781d6787b0d65998284fe34ed06cc">
-            <img class="feed-container" src="https://img.yle.fi/uutiset/kajaani/article10146136.ece/ALTERNATES/w580h326/Istuminen%20liikkuminen%20KAMK%20Kajaanin%20ammattikorkeakoulu%20liikunta%20opiskelijat">
+            <img class="feed-container" src="https://img.yle.fi/uutiset/tampere/article10151686.ece/ALTERNATES/w580h326/Tamperelainen%20Elli-vauva%20kapalossa%209.4.2018%20MM.jpg">
         </a>
         </p>
     <hr>

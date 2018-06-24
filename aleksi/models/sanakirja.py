@@ -101,10 +101,10 @@ class WiktionaryInterface(object):
             raise IOError
         self.enwikt_db_dir = enwikt_db_dir
 
-    def fetch_translations(self, word, add_to_db=True):
+    def fetch_translations(self, word, lang="fi", add_to_db=True):
 #        command_full = 'java -cp %s com.mycompany.app.App %s' % (os.path.join(self.classpath,'lookup_enwikt.jar'),word)
 #        args = map(lambda s: s.decode('UTF8'), shlex.split(command_full.encode('utf8')))
-        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s' % (os.path.join(self.classpath,'enwiktlookup.jar'),self.enwikt_db_dir,word))
+        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s' % (os.path.join(self.classpath,'enwiktlookup.jar'),self.enwikt_db_dir,word,lang))
         print(args)
         try:
             output = subprocess.check_output(args)

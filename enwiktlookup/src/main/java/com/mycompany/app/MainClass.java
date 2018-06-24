@@ -43,7 +43,8 @@ public class MainClass {
 		//TODO: Query the data you need.
        IWiktionaryPage page = wkt.getPageForWord(args[1]);
        for (IWiktionaryEntry entry : page.getEntries()) {
-           if (entry.getWordLanguage() == Language.get("fin") )
+//           if (entry.getWordLanguage() == Language.get("fin") )
+           if (entry.getWordLanguage() == Language.get(args[2]) )
                for (IWikiString gloss : entry.getGlosses())
                    out.println(gloss.getPlainText());
        }

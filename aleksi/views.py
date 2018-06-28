@@ -32,7 +32,7 @@ from aleksi.models.user import User
 
 from aleksi.models.session import SharedSession, Session, Pin
 from aleksi.models.website import Website
-from aleksi.models.sanakirja import Sanakirja,Word
+from aleksi.models.sanakirja import FinnishWordMorph, Sanakirja,Word
 
 from sqlalchemy import desc
 
@@ -626,14 +626,18 @@ def update_website(request):
 
 @view_config(route_name='analyze_word', renderer='json')
 def analyze_word(request):
-    sanakirja = Sanakirja(base_dir=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'], libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
     word = request.matchdict['word']
+    wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
+    wi = WiktionaryInterface(classpath=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'])
+    #sanakirja = Sanakirja(base_dir=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'], libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
     print(word)
     regex = re.compile(r"^[0-9]+$")
     if regex.match(word):
         raise exc.HTTPNotFound
     try:
-        results = sanakirja.analyze_word(word,fail_on_remote_call=asbool(request.registry.settings['fail_on_remote_call']))
+        wordmorph.translate(wi)
+        results = wordmorph.to_dict()
+        #results = sanakirja.analyze_word(word,fail_on_remote_call=asbool(request.registry.settings['fail_on_remote_call']))
     except NoWordDataFound:
         return exc.HTTPNotFound(headers=[('x-tm', 'commit')])
     except RemoteCall:

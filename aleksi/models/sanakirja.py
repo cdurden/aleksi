@@ -225,9 +225,9 @@ class WordMorph(object):
     def analyze(self):
         self.lemmatize()
         self.tag()
-    def translate(self):
+    def translate(self, wi):
         for lemma in self.lemmas:
-            lemma.translate()
+            lemma.translate(wi)
     def to_dict(self):
         lemmas = list()
         for lemma in self.lemmas:
@@ -299,6 +299,38 @@ class Sanakirja(object):
         self.base_dir = os.path.abspath(os.path.normpath(base_dir))
         self.enwikt_db_dir = enwikt_db_dir
 
+    def voikko_tags(self, word, taglang='en'):
+        from aleksi.libvoikko import Voikko, Token
+        LANGUAGE = u"fi"
+        ENCODING = u"UTF-8"
+        Voikko.setLibrarySearchPath(self.libvoikko_dir)
+        voikko = Voikko(LANGUAGE, self.voikkofi_dir)
+        tagdicts = voikko.analyze(word)
+        if taglang == 'en':
+            tagdicts_en = []
+            grammar_term_translations = {'laatusana': 'adjective', 'teonsana': 'verb', 'paikkannimi': 'place name', 'nimisana': 'noun', 'sidesana': 'conjunction', 'seikkasana': 'adverb',
+                    'nimisana_laatusana': 'noun+adjective',
+                    'asemosana': 'pronoun',
+                    'lukusana': 'numeral',
+                    'nimento': 'nominative', 'omanto': 'genitive', 'osanto': 'partitive',
+                    'sisaolento': 'inessive', 'sisaeronto': 'elative', 'sisatulento': 'illative',
+                    'ulkoolento': 'adessive', 'ulkoeronto': 'ablative', 'ulkotulento': 'allative',
+                    'tulento': 'translative', 'keinonto': 'instructive', 'vajanto': 'abessive', 'seuranto': 'comitative',
+                    'olento': 'essive',
+                    'kerrontosti': 'adverbial',
+                    'past_imperfective': 'past imperfective', 'present_simple': 'present simple', }
+            for tagdict in tagdicts:
+                tagdict_en = {}
+                for k,v in tagdict.items():
+                    if v in grammar_term_translations:
+                        tagdict_en[k] = grammar_term_translations[v]
+                    else:
+                        tagdict_en[k] = v
+                print(tagdict_en)
+                tagdicts_en.append(tagdict_en)
+            return(tagdicts_en)
+        else:
+            return(tagdicts)
     def fetch_translations(self, word, lang, remote=True, fail_on_remote_call=False, retry_lookup=True):
         missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=word, lang=lang).first()
         if missing_translation is not None and not retry_lookup:
@@ -327,15 +359,12 @@ class Sanakirja(object):
         return(missing_translation)
 
 
-    def analyze_word(self, word, lang, fail_on_remote_call=False):
+    def analyze_word(self, word, fail_on_remote_call=False):
         regex = re.compile(r"^[0-9]+-")
         word = regex.sub("",word)
         found = False
         word_parts = word.split("-")
-        if lang == 'fin':
-            morph_tagdicts = self.voikko_tags(word_parts[-1])
-        elif lang = 'spa':
-            spa_tags(word_parts[-1])
+        morph_tagdicts = self.voikko_tags(word_parts[-1])
 
         data = {'word': word, 'morph_tagdicts': morph_tagdicts}
         data['morpheme_translations'] = list()

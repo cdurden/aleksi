@@ -29,7 +29,10 @@ lang_dict = {'fi': 'fin', 'sp': 'spa'}
 
 # return the parts separated by hyphens
 def get_wordbases(basewords_str):
-    
+    pattern = "\(([-a-zA-Z\u00C0-\u02AF]+)\)"
+    word_bases = list(re.finditer(pattern, basewords_str))
+    for word_base in word_bases:
+        yield(word_base.group(1))
 
 class TranslationNotFound(Exception):
     pass
@@ -202,7 +205,7 @@ class Lemma(object):
     def translate(self, wi):
         missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=word, lang=lang).first()
         if missing_translation is not None and not retry_lookup:
-            raise(TranslationNotFound)
+            raise TranslationNotFound
         try:
             self.translation = wi.fetch_translations(word, lang)
         except TranslationNotFound:

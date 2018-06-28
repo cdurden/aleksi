@@ -13,7 +13,7 @@ from aleksi.models import DBSession, Base
 from aleksi import social_auth_settings
 from aleksi.models.user import User
 from aleksi.models.website import Website
-from aleksi.models.session import Session, Pin
+from aleksi.models.session import SharedSession, Session, Pin
 from aleksi.models.sanakirja import *
 
 

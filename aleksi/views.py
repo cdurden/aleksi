@@ -819,7 +819,7 @@ def aleksi_blank(request):
         session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
     except NoResultFound:
         raise exc.HTTPNotFound
-    return { 'analysis_results': {'word': None, 'morpheme_translations': [], 'morph_tagdicts': []}, 'request': request, 'session': session }
+    return { 'analysis_results': {'word': None, 'lemmas': [], 'tags': []}, 'request': request, 'session': session }
 
 @view_config(route_name='share_session', renderer='json')
 #@view_config(route_name='inject_js')
@@ -933,7 +933,7 @@ def dialog(request):
         except RemoteCall:
             return exc.HTTPNotFound()
     else:
-        analysis_results = {'word': None, 'morpheme_translations': [], 'morph_tagdicts': []}
+        analysis_results = {'word': None, 'lemmas': [], 'tags': []}
 #    # get user
 #    user=get_user(request)
 #    if user is None:

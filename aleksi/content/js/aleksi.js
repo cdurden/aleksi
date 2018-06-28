@@ -450,8 +450,7 @@ function analyze(word, e){
             $jquery_aleksi("#aleksi_translations_table tbody").remove();
             $jquery_aleksi("#aleksi_morph_tag_tables table").remove();
             $jquery_aleksi("#analysis_results").show();
-            response.morpheme_translations.forEach( function(translation) {
-//analysis_results.morpheme_translations.forEach( function(translation) {
+            response.lemmas.forEach( function(translation) {
                 for (var i=0; i<translation.en.length; i++) {
                     var row = $jquery_aleksi(document.createElement("tr"));
                     var pin_cell = $jquery_aleksi(document.createElement("td"));
@@ -462,11 +461,11 @@ function analyze(word, e){
                     var fi_cell = $jquery_aleksi(document.createElement("td"));
                     fi_cell.attr("class", "aleksi_table_heading");
                     if (i==0) {
-                        fi_cell.append(translation.fi);
+                        fi_cell.append(translation.lemma);
                     }
                     en_cell.append(translation.en[i]);
                     pin_link.append('<i class="icon-pushpin"></i>');
-                    pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(translation.fi)+'", "'+escape_double_quotes(translation.en[i])+'");');
+                    pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(translation.lemma)+'", "'+escape_double_quotes(translation.en[i])+'");');
                     pin_div.attr("class","links");
 //pin_icon_span.attr("class", "ui-icon ui-icon-pin-s");
 //                    pin_icon_span.attr("style", "display:inline-block; direction:rtl;");
@@ -480,8 +479,7 @@ function analyze(word, e){
                     $jquery_aleksi("#aleksi_translations_table").append(row);
                 }
             });
-            //analysis_results.morph_tagdicts.forEach( function(tag) {
-            response.morph_tagdicts.forEach( function(tagdict) {
+            response.tags.forEach( function(tagdict) {
                 var tag_table = $jquery_aleksi(document.createElement("table"));
                 tag_table.attr("class","aleksi_morph_tag_table");
                 tag_types.forEach( function(tag_type) {

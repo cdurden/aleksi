@@ -36,6 +36,7 @@ class TranslationNotFound(Exception):
 
 class Translation(Base):
     __tablename__ = 'translations'
+    __table_args__ = {'extend_existing': True}
     id = Column(Integer, primary_key=True)
     lang = Column(Text)
     lemma = Column(Text, unique=True)
@@ -53,8 +54,9 @@ class Translation(Base):
 
 class MissingTranslation(Base):
     __tablename__ = 'missing_translations'
+    __table_args__ = {'extend_existing': True}
     id = Column(Integer, primary_key=True)
-    fi = Column(Text, unique=True)
+    lemma = Column(Text, unique=True)
 
     def to_dict(self):
         return {'lemma': self.lemma, 'en': ['not found']}

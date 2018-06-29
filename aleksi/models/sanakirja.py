@@ -60,6 +60,7 @@ class MissingTranslation(Base):
     __table_args__ = {'extend_existing': True}
     id = Column(Integer, primary_key=True)
     lemma = Column(Text, unique=True)
+    lang = Column(Text)
 
     def to_dict(self):
         return {'lemma': self.lemma, 'en': ['not found']}

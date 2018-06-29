@@ -30,7 +30,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
-#    'aleksi.auth.create_social_user',
+    'aleksi.auth.create_social_user',
     'social_core.pipeline.user.get_username',
     'aleksi.auth.collect_email',
     'aleksi.auth.no_new_users',

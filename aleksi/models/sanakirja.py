@@ -329,12 +329,15 @@ class SpanishWordMorph(WordMorph):
             raise TranslationNotFound
         outstr = output.decode('utf-8')
         outstr = outstr[outstr.find("START_FOMA_OUTPUT\n"):]
+        print(outstr)
         tags = outstr.split("\n")
         self.tags = list()
         self.lemmas = list()
         s = aspell.Speller('lang', 'es')
         for tag_str in tags:
+            print(tag_str)
             tag_list = tag_str.split('+')
+            print(tag_list)
             lemma = tag_list[0]
             if not s.check(lemma):
                 continue

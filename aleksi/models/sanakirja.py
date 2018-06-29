@@ -287,11 +287,13 @@ class FinnishWordMorph(WordMorph):
             self.lemmas.append(Lemma(baseword, 'fi'))
         return(self.lemmas)
     def tag(self):
+        word = self.wordform.lower()
         regex = re.compile(r"^[0-9]+-")
         word = regex.sub("",word)
         found = False
         word_parts = word.split("-")
         self.tags = self.voikko_tags(word_parts[-1])
+        return(self.tags)
 
 
 class Sanakirja(object):

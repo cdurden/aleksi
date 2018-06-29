@@ -389,7 +389,7 @@ function escape_double_quotes(str) {
 
 
 function analyze(word, e){
-    var lang = 'sp';
+    var lang = $jquery_aleksi("input[name=lang]:checked").val();
     var url = window.analyze_url.replace("__word",word)
     $jquery_aleksi( "#aleksi_word" ).text(word);
     jQuery.ajax({

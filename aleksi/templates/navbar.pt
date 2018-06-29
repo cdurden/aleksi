@@ -63,6 +63,21 @@
           <a id="update_website_button" href="javascript:update_website()">Add Webpage to Session</a>
         </span>
         -->
+        <div style="display: block;">
+          <input name="lang" type="radio" id="fi_lang_option" value="fi" tal:attributes="checked python:session.lang=='fi">
+          <label style="padding-right: 5px;" for="fi_lang_option">
+                Finnish
+          </label>
+          <!--<option type="radio" id="disable_links_option" value="disable">-->
+        </div>
+        <div style="display: block;">
+          <input name="lang" type="radio" id="sp_lang_option" value="sp" tal:attributes="checked python:session.lang=='sp'">
+          <label style="padding-right: 5px;" for="sp_lang_option">
+                Spanish
+          </label>
+          <!--<option type="radio" id="follow_external_links_option" value="follow_external"/>-->
+        </div>
+      </div>
     </fieldset>
 
     <fieldset class="ui-widget ui-widget-content">

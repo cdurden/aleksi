@@ -627,7 +627,10 @@ def update_website(request):
 @view_config(route_name='analyze_word', renderer='json')
 def analyze_word(request):
     word = request.matchdict['word']
-    wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
+    if lang eq 'fi':
+        wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
+    elif lang eq 'sp':
+        wordmorph = SpanishWordMorph(wordform=word, spanish_foma_path=request.registry.settings['spanish_foma_path])
     wi = WiktionaryInterface(classpath=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'])
     #sanakirja = Sanakirja(base_dir=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'], libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
     print(word)

@@ -306,10 +306,9 @@ class FinnishWordMorph(WordMorph):
         return(self.tags)
 
 class SpanishWordMorph(WordMorph):
-    def __init__(self, wordform, libvoikko_dir=None, voikkofi_dir=None):
+    def __init__(self, wordform, spanish_foma_path=None):
         self.wordform = wordform
-        self.libvoikko_dir = libvoikko_dir
-        self.voikkofi_dir = voikkofi_dir
+        self.spanish_foma_path = spanish_foma_path
     def analyze(self):
         args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s') % (os.path.join(self.spanish_foma_path,'spanish.foma'), word))
         print(args)

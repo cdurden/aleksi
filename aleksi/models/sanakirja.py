@@ -206,6 +206,7 @@ class Lemma(object):
 
     def translate(self, wi):
         missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=self.word, lang=self.lang).first()
+        retry_lookup = False
         if missing_translation is not None and not retry_lookup:
             raise TranslationNotFound
         try:

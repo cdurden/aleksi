@@ -329,11 +329,11 @@ class SpanishWordMorph(WordMorph):
                 continue
             tag = dict()
             tag['BASEFORM'] = lemma
-            if tag_list[1] eq 'V':
+            if tag_list[1] == 'V':
                 tag['CLASS'] = 'verb'
-            if tag_list[1] eq 'A':
+            if tag_list[1] == 'A':
                 tag['CLASS'] = 'adjective'
-            if tag_list[1] eq 'N':
+            if tag_list[1] == 'N':
                 tag['CLASS'] = 'noun'
             self.tags.append(tag)
             self.lemmas.append(Lemma(lemma, 'sp'))

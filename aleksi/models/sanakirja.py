@@ -328,7 +328,7 @@ class SpanishWordMorph(WordMorph):
         except subprocess.CalledProcessError:
             raise TranslationNotFound
         outstr = output.decode('utf-8')
-        outstr = outstr[outstr.find("START_FOMA_OUTPUT\n"):]
+        outstr = outstr[(outstr.find("START_FOMA_OUTPUT\n")+18):]
         print(outstr)
         tags = outstr.split("\n")
         self.tags = list()

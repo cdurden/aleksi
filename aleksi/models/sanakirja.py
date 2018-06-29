@@ -333,6 +333,7 @@ class SpanishWordMorph(WordMorph):
         tags = outstr.split("\n")[:-1]
         self.tags = list()
         self.lemmas = list()
+        lemmas = list() # raw string representations of lemmas
         s = aspell.Speller('lang', 'es')
         for tag_str in tags:
             print(tag_str)
@@ -350,7 +351,9 @@ class SpanishWordMorph(WordMorph):
             if tag_list[1] == 'N':
                 tag['CLASS'] = 'noun'
             self.tags.append(tag)
-            self.lemmas.append(Lemma(lemma, 'sp'))
+            if lemma not in lemmas:
+                lemmas.append(lemma)
+                self.lemmas.append(Lemma(lemma, 'sp'))
         return(self.tags)
 
 class Sanakirja(object):

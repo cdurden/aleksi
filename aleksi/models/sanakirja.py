@@ -203,15 +203,15 @@ class Lemma(object):
         self.translation = None
 
     def translate(self, wi):
-        missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=self.word, lang=lang).first()
+        missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=self.word, lang=self.lang).first()
         if missing_translation is not None and not retry_lookup:
             raise TranslationNotFound
         try:
-            self.translation = wi.fetch_translations(self.word, lang)
+            self.translation = wi.fetch_translations(self.word, self.lang)
         except TranslationNotFound:
             pass
         if missing_translation is None:
-            missing_translation = MissingTranslation(lemma=self.word, lang=lang)
+            missing_translation = MissingTranslation(lemma=self.word, lang=self.lang)
         print("adding missing translation "+self.word)
         DBSession.add(missing_translation)
         DBSession.flush()

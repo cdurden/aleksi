@@ -275,7 +275,7 @@ class FinnishWordMorph(WordMorph):
         else:
             return(tagdicts)
     def lemmatize(self):
-        word = word.lower()
+        word = self.wordform.lower()
         tagslist = self.voikko_tags(word)
         base_matches = list()
         [base_matches.extend(get_wordbases(tags['WORDBASES'])) for tags in tagslist]

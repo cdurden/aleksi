@@ -219,9 +219,9 @@ class Lemma(object):
             pass
         if missing_translation is None:
             missing_translation = MissingTranslation(lemma=self.word, lang=self.lang)
-        print("adding missing translation "+self.word)
-        DBSession.add(missing_translation)
-        DBSession.flush()
+            print("adding missing translation "+self.word)
+            DBSession.add(missing_translation)
+            DBSession.flush()
 
     def to_dict(self):
         return(self.translation.to_dict())
@@ -238,7 +238,10 @@ class WordMorph(object):
         self.tag()
     def translate(self, wi):
         for lemma in self.lemmas:
-            lemma.translate(wi)
+            try:
+                lemma.translate(wi)
+            except TranslationNotFound:
+                pass
     def to_dict(self):
         lemmas = list()
         for lemma in self.lemmas:

@@ -635,6 +635,7 @@ def analyze_word(request):
     if regex.match(word):
         raise exc.HTTPNotFound
     try:
+        wordmorph.analyze()
         wordmorph.translate(wi)
         results = wordmorph.to_dict()
         #results = sanakirja.analyze_word(word,fail_on_remote_call=asbool(request.registry.settings['fail_on_remote_call']))

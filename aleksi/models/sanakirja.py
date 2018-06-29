@@ -110,7 +110,7 @@ class WiktionaryInterface(object):
     def fetch_translations(self, word, lang, add_to_db=True):
 #        command_full = 'java -cp %s com.mycompany.app.App %s' % (os.path.join(self.classpath,'lookup_enwikt.jar'),word)
 #        args = map(lambda s: s.decode('UTF8'), shlex.split(command_full.encode('utf8')))
-        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s' % (os.path.join(self.classpath,'enwiktlookup.jar'),self.enwikt_db_dir,word,lang))
+        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s %s' % (os.path.join(self.classpath,'enwiktlookup.jar'),self.enwikt_db_dir,word,lang))
         print(args)
         try:
             output = subprocess.check_output(args)
@@ -208,7 +208,11 @@ class Lemma(object):
         if missing_translation is not None and not retry_lookup:
             raise TranslationNotFound
         try:
-            self.translation = wi.fetch_translations(self.word, self.lang)
+            if self.lang == 'fi':
+                lang = 'fin'
+            if self.lang == 'sp':
+                lang = 'spa'
+            self.translation = wi.fetch_translations(self.word, lang)
         except TranslationNotFound:
             pass
         if missing_translation is None:

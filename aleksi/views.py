@@ -32,7 +32,7 @@ from aleksi.models.user import User
 
 from aleksi.models.session import SharedSession, Session, Pin
 from aleksi.models.website import Website
-from aleksi.models.sanakirja import FinnishWordMorph, WiktionaryInterface, Sanakirja, Word
+from aleksi.models.sanakirja import SpanishWordMorph, FinnishWordMorph, WiktionaryInterface, Sanakirja, Word
 
 from sqlalchemy import desc
 

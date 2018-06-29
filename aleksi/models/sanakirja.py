@@ -24,6 +24,7 @@ from urllib.parse import quote
 from bs4 import BeautifulSoup
 from pyparsing import Word,delimitedList,alphanums,alphas8bit,Dict,ZeroOrMore,Literal,Optional
 from pyparsing import Word as Word_
+import aspell
 
 lang_dict = {'fi': 'fin', 'sp': 'spa'}
 
@@ -304,6 +305,40 @@ class FinnishWordMorph(WordMorph):
         self.tags = self.voikko_tags(word_parts[-1])
         return(self.tags)
 
+class SpanishWordMorph(WordMorph):
+    def __init__(self, wordform, libvoikko_dir=None, voikkofi_dir=None):
+        self.wordform = wordform
+        self.libvoikko_dir = libvoikko_dir
+        self.voikkofi_dir = voikkofi_dir
+    def analyze(self):
+        args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s') % (os.path.join(self.spanish_foma_path,'spanish.foma'), word))
+        print(args)
+        try:
+            output = subprocess.check_output(args)
+        except subprocess.CalledProcessError:
+            raise TranslationNotFound
+        outstr = output.decode('utf-8')
+        outstr = outstr[outstr.find("START_FOMA_OUTPUT\n"):]
+        tags = outstr.split("\n")
+        self.tags = list()
+        self.lemmas = list()
+        s = aspell.Speller('lang', 'es')
+        for tag_str in tags:
+            tag_list = tag_str.split('+')
+            lemma = tag_list[0]
+            if not s.check(lemma):
+                continue
+            tag = dict()
+            tag['BASEFORM'] = lemma
+            if tag_list[1] eq 'V':
+                tag['CLASS'] = 'verb'
+            if tag_list[1] eq 'A':
+                tag['CLASS'] = 'adjective'
+            if tag_list[1] eq 'N':
+                tag['CLASS'] = 'noun'
+            self.tags.append(tag)
+            self.lemmas.append(Lemma(lemma, 'sp'))
+        return(self.tags)
 
 class Sanakirja(object):
     def __init__(self, base_dir, enwikt_db_dir=None, libvoikko_dir=None, voikkofi_dir=None):

@@ -197,22 +197,22 @@ class Diccionario(Dictionary):
     pass
 
 class Lemma(object):
-    def __init__(self, repr, lang):
-        self.repr = repr
+    def __init__(self, word, lang):
+        self.word = word
         self.lang = lang
         self.translation = None
 
     def translate(self, wi):
-        missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=word, lang=lang).first()
+        missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=self.word, lang=lang).first()
         if missing_translation is not None and not retry_lookup:
             raise TranslationNotFound
         try:
-            self.translation = wi.fetch_translations(word, lang)
+            self.translation = wi.fetch_translations(self.word, lang)
         except TranslationNotFound:
             pass
         if missing_translation is None:
-            missing_translation = MissingTranslation(lemma=word, lang=lang)
-        print("adding missing translation "+word)
+            missing_translation = MissingTranslation(lemma=self.word, lang=lang)
+        print("adding missing translation "+self.word)
         DBSession.add(missing_translation)
         DBSession.flush()
 
@@ -222,6 +222,10 @@ class Lemma(object):
 class WordMorph(object):
     def __init__(self, wordform):
         self.wordform = wordform
+    def lemmatize(self):
+        pass
+    def tag(self):
+        pass
     def analyze(self):
         self.lemmatize()
         self.tag()

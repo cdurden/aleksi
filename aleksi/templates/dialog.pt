@@ -1,11 +1,11 @@
 <span metal:use-macro="dialog_macros['layout']">
   <span metal:fill-slot="aleksi_translations_table">
     <table id="aleksi_translations_table">
-      <span tal:repeat="translation analysis_results.morpheme_translations" tal:omit-tag="">
+      <span tal:repeat="translation analysis_results.lemmas" tal:omit-tag="">
         <tr tal:repeat="en translation.en" >
-            <td class="label"><a tal:condition="repeat.en.start" tal:content="translation.fi"/></td>
+            <td class="label"><a tal:condition="repeat.en.start" tal:content="translation.lemma"/></td>
             <td><span tal:content="en"></span></td>
-            <td><a href="javascript:add_term('${translation.fi}','${en}')"><span style="display:inline-block; direction:rtl;" class="ui-icon ui-icon-pin-s"></span></a></td>
+            <td><a href="javascript:add_term('${translation.lemma}','${en}')"><span style="display:inline-block; direction:rtl;" class="ui-icon ui-icon-pin-s"></span></a></td>
         </tr>
         <tr>
           <td colspan=3>
@@ -18,7 +18,7 @@
 
   <span metal:fill-slot="aleksi_morph_tag_tables">
     <span id="aleksi_morph_tag_tables">
-      <table class="aleksi_morph_tag_table" tal:repeat="tag analysis_results.morph_tagdicts" tal:omit-tag="">
+      <table class="aleksi_morph_tag_table" tal:repeat="tag analysis_results.tags" tal:omit-tag="">
       <tr tal:condition="'CLASS' in tag"><td class="label">Class</td> <td tal:content="structure: tag['CLASS']" /></tr>
       <tr tal:condition="'SIJAMUOTO' in tag"><td class="label">Case</td> <td tal:content="structure: tag['SIJAMUOTO']" /></tr>
       <tr tal:condition="'NUMBER' in tag"><td class="label">Number</td> <td tal:content="structure: tag['NUMBER']" /></tr>

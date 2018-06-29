@@ -316,15 +316,15 @@ class FinnishWordMorph(WordMorph):
         return(self.tags)
 
 class SpanishWordMorph(WordMorph):
-    def __init__(self, wordform, spanish_foma_path=None):
+    def __init__(self, wordform, spanish_morphology_path=None):
         self.wordform = wordform
-        self.spanish_foma_path = spanish_foma_path
+        self.spanish_morphology_path = spanish_morphology_path
     def analyze(self):
         word = self.wordform.lower()
-        args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s' % (os.path.join(self.spanish_foma_path,'spanish.foma'), word))
+        args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s' % ('spanish.foma', word))
         print(args)
         try:
-            output = subprocess.check_output(args)
+            output = subprocess.check_output(args, cwd=self.spanish_morphology_path)
         except subprocess.CalledProcessError:
             raise TranslationNotFound
         outstr = output.decode('utf-8')

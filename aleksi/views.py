@@ -629,7 +629,7 @@ def analyze_word(request):
     word = request.matchdict['word']
     try:
         lang = request.matchdict['lang']
-    except AttributeError:
+    except KeyError:
         lang = 'fi'
     if lang == 'fi':
         wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])

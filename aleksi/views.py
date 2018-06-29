@@ -627,6 +627,10 @@ def update_website(request):
 @view_config(route_name='analyze_word', renderer='json')
 def analyze_word(request):
     word = request.matchdict['word']
+    try:
+        lang = request.matchdict['lang']
+    except AttributeError:
+        lang = 'fi'
     if lang eq 'fi':
         wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
     elif lang eq 'sp':

@@ -631,9 +631,9 @@ def analyze_word(request):
         lang = request.matchdict['lang']
     except AttributeError:
         lang = 'fi'
-    if lang eq 'fi':
+    if lang == 'fi':
         wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
-    elif lang eq 'sp':
+    elif lang == 'sp':
         wordmorph = SpanishWordMorph(wordform=word, spanish_foma_path=request.registry.settings['spanish_foma_path])
     wi = WiktionaryInterface(classpath=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'])
     #sanakirja = Sanakirja(base_dir=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'], libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])

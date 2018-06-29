@@ -628,7 +628,7 @@ def update_website(request):
 def analyze_word(request):
     word = request.matchdict['word']
     try:
-        lang = request.matchdict['lang']
+        lang = request.params['lang']
     except KeyError:
         lang = 'fi'
     if lang == 'fi':

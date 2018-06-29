@@ -310,7 +310,7 @@ class SpanishWordMorph(WordMorph):
         self.wordform = wordform
         self.spanish_foma_path = spanish_foma_path
     def analyze(self):
-        args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s') % (os.path.join(self.spanish_foma_path,'spanish.foma'), word))
+        args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s' % (os.path.join(self.spanish_foma_path,'spanish.foma'), word))
         print(args)
         try:
             output = subprocess.check_output(args)

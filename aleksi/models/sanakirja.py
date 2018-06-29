@@ -330,7 +330,7 @@ class SpanishWordMorph(WordMorph):
         outstr = output.decode('utf-8')
         outstr = outstr[(outstr.find("START_FOMA_OUTPUT\n")+18):]
         print(outstr)
-        tags = outstr.split("\n")
+        tags = outstr.split("\n")[:-1]
         self.tags = list()
         self.lemmas = list()
         s = aspell.Speller('lang', 'es')

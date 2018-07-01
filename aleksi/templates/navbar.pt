@@ -64,7 +64,7 @@
         </span>
         -->
         <div style="display: block;">
-          <input name="lang" type="radio" id="fi_lang_option" value="fi" tal:attributes="checked python:session.lang=='fi">
+          <input name="lang" type="radio" id="fi_lang_option" value="fi" tal:attributes="checked python:session.lang=='fi'">
           <label style="padding-right: 5px;" for="fi_lang_option">
                 Finnish
           </label>

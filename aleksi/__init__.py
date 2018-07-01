@@ -289,7 +289,7 @@ def main(global_config, **settings):
     config.add_request_method(get_user, 'user', reify=True)
     #config.add_request_method(quizlet_sets, 'quizlet_sets', reify=True)
 
-    #init_social(config, Base, DBSession)
+    init_social(config, Base, DBSession)
     config.scan()
     config.scan('social_pyramid')
 

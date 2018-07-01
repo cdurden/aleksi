@@ -32,6 +32,7 @@ class SharedSession(Base):
     session_id = Column(Integer, ForeignKey('sessions.id'))
     hash = Column(Text)
     session = relationship("Session", back_populates="shared_session")
+    lang = Column(Text)
 
     def save(self):
         DBSession.add(self)
@@ -54,6 +55,7 @@ class Session(Base):
     quizlet_user_id = Column(Text)
     quizlet_set_id = Column(Integer, ForeignKey('quizlet_sets.id'))
     link_behavior = Column(Text, default='disable', server_default='disable')
+    lang = Column(Text)
     website = relationship("Website")
     owner = relationship("User", back_populates="sessions")
     pins = relationship("Pin")

@@ -536,6 +536,7 @@ def save_session(request):
     session_id = request.session['aleksi_session_id']
     #session_id = data['session_id']
     session_title = data['session_title']
+    lang = data['lang']
     quizlet_set_id = data['quizlet_set_id']
     link_behavior = data['link_behavior']
     website_setter_value = data['website_setter_value']
@@ -547,6 +548,7 @@ def save_session(request):
     session.title = session_title
     session.quizlet_set_id = quizlet_set_id
     session.link_behavior = link_behavior
+    session.lang = lang
     session.save()
     return 'OK'
     #return exc.HTTPFound(request.route_url('quizlet_sets', session_id=session_id))

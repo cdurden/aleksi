@@ -389,7 +389,8 @@ function escape_double_quotes(str) {
 
 
 function analyze(word, e){
-    var lang = $jquery_aleksi("input[name=lang]:checked").val();
+    var lang = $jquery_aleksi("select[name=lang]").val();
+//    var lang = $jquery_aleksi("input[name=lang]:checked").val();
     var url = window.analyze_url.replace("__word",word)
     $jquery_aleksi( "#aleksi_word" ).text(word);
     jQuery.ajax({
@@ -1287,6 +1288,7 @@ function get_session(){
           get_quizlet_sets();
           build_quizlet_set_selector();
           build_website_selector();
+	  $jquery_aleksi("#lang_selector").val(session.lang); 
           if (session.shared_session) {
             $jquery_aleksi("#share_session_button").hide();
             var load_shared_session_url = window.load_shared_session_url.replace("__shared_session_hash",session.shared_session.hash);
@@ -1352,6 +1354,7 @@ function save_session(){
     var session_title = $jquery_aleksi("input[name=session_title]").val();
     var link_behavior = $jquery_aleksi("input[name=link_behavior]:checked").val();
     var website_setter_value = $jquery_aleksi("input[name=website_setter]:checked").val();
+    var lang = $jquery_aleksi("select[name=lang]").val();
     var website_url = $jquery_aleksi("input[name=website_url]").val();
     var new_website_id = $jquery_aleksi("input[name=new_website_id]").val() || session.website.id;
     //var session_url = $jquery_aleksi("input[name=session_url]").val();
@@ -1361,7 +1364,7 @@ function save_session(){
         url     : save_session_url,
 //        url     : 'lookup_json',
 //        data    : JSON.stringify({'session_title': session_title , 'session_id': session_id, 'quizlet_set_id': quizlet_set_id}), 
-        data    : JSON.stringify({'session_title': session_title , 'quizlet_set_id': quizlet_set_id, 'link_behavior': link_behavior, 'website_setter_value': website_setter_value, 'website_url': website_url, 'new_website_id': new_website_id, 'use_cache': false}), 
+        data    : JSON.stringify({'session_title': session_title , 'quizlet_set_id': quizlet_set_id, 'link_behavior': link_behavior, 'lang': lang, 'website_setter_value': website_setter_value, 'website_url': website_url, 'new_website_id': new_website_id, 'use_cache': false}), 
         type    : 'POST',
         //dataType: 'json',
         dataType: 'html',

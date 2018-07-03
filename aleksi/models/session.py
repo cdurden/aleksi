@@ -84,6 +84,7 @@ class Session(Base):
                 'shared_session': shared_session_dict,
                 'title': self.title,
                 'owner': {'id': self.owner.id, 'username': self.owner.username},
+                'lang': self.lang,
                 'quizlet_set_id': self.quizlet_set_id,
                 'quizlet_user_id': self.quizlet_user_id,
                 })

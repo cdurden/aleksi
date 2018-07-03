@@ -1288,7 +1288,6 @@ function get_session(){
           get_quizlet_sets();
           build_quizlet_set_selector();
           build_website_selector();
-		alert(session.lang);
 	  $jquery_aleksi("#lang_selector option[value='"+session.lang+"']").prop('selected', true);
 	  //$jquery_aleksi("#lang_selector").val(session.lang); 
           if (session.shared_session) {

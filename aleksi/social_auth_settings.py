@@ -9,8 +9,8 @@ SOCIAL_AUTH_LOGGEDIN_FUNCTION = 'aleksi.auth.login_required'
 SOCIAL_AUTH_EMAIL_FORM_HTML = ''
 SOCIAL_AUTH_EMAIL_VALIDATION_FUNCTION = 'aleksi.auth.send_validation_email'
 SOCIAL_AUTH_EMAIL_FORCE_EMAIL_VALIDATION = True
-#SESSION_SERIALIZER='pyramid.session.PickleSerializer'
-SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+SESSION_SERIALIZER='pyramid.session.PickleSerializer'
+#SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['local_password',]
 SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
@@ -31,7 +31,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.social_details',
     'social_core.pipeline.social_auth.social_uid',
     'social_core.pipeline.social_auth.auth_allowed',
-#    'social_core.pipeline.social_auth.social_user', #
+    'social_core.pipeline.social_auth.social_user', #
 ##    'aleksi.auth.create_social_user',
     'social_core.pipeline.user.get_username',
     'aleksi.auth.collect_email',

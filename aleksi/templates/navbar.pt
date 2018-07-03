@@ -73,6 +73,7 @@
 	    </option>
 	  </select>
           <label style="padding-right: 5px;" for="lang_selector">
+		  Language
           </label>
           <!--<option type="radio" id="disable_links_option" value="disable">-->
         </div>

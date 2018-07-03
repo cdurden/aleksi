@@ -371,6 +371,7 @@ class SpanishWordMorph(WordMorph):
         except subprocess.CalledProcessError:
             raise TranslationNotFound
         outstr = output.decode('utf-8')
+        print(outstr)
         for m in re.finditer(r"^\s*\+\s*(\w)\s*\n", outstr):
             lemmas.append(m.group(1))
         return(self.tags)

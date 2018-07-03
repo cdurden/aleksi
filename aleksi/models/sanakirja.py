@@ -360,10 +360,14 @@ class SpanishWordMorph(WordMorph):
                 lemmas.append(lemma)
                 self.lemmas.append(Lemma(lemma, 'sp'))
         # use aspell to get root words
-        args = shlex.split('echo "%s" | aspell -a -l %s munch | tail -n +2' % (word, 'es'))
+        #args0 = shlex.split('echo "%s" | aspell -a -l %s munch | tail -n +2' % (word, 'es'))
+        #args1= shlex.split('echo "%s" | aspell -a -l %s munch %' (word, 'es'))
+        args= shlex.split('aspell -a -l %s munch' % ('es'))
         print(args)
         try:
-            output = subprocess.check_output(args, cwd=self.spanish_morphology_path)
+            #output = subprocess.check_output(args, cwd=self.spanish_morphology_path, stdin=)
+            Popen = subprocess.Popen(args, cwd=self.spanish_morphology_path, stdin=subprocess.PIPE))
+            output = Popen.communicate(input=word)[0]
         except subprocess.CalledProcessError:
             raise TranslationNotFound
         outstr = output.decode('utf-8')

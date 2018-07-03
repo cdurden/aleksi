@@ -331,6 +331,11 @@ class SpanishWordMorph(WordMorph):
         outstr = outstr[(outstr.find("START_FOMA_OUTPUT\n")+18):]
         print(outstr)
         tags = outstr.split("\n")[:-1]
+
+        outstr = output.decode('utf-8')
+        outstr = outstr[(outstr.find("START_FOMA_OUTPUT\n")+18):]
+        print(outstr)
+        tags = outstr.split("\n")[:-1]
         self.tags = list()
         self.lemmas = list()
         lemmas = list() # raw string representations of lemmas
@@ -354,6 +359,15 @@ class SpanishWordMorph(WordMorph):
             if lemma not in lemmas:
                 lemmas.append(lemma)
                 self.lemmas.append(Lemma(lemma, 'sp'))
+        # use aspell to get root words
+        args = shlex.split('echo "%s" | aspell -a -l %s munch | tail -n +2' % (word, 'es'))
+        print(args)
+        try:
+            output = subprocess.check_output(args, cwd=self.spanish_morphology_path)
+        except subprocess.CalledProcessError:
+            raise TranslationNotFound
+        for m in re.finditer(r"^\s*\+\s*(\w)\s*\n", output):
+            lemmas.append(m.group(1))
         return(self.tags)
 
 class Sanakirja(object):

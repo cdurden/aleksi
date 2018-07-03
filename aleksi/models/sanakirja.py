@@ -372,7 +372,7 @@ class SpanishWordMorph(WordMorph):
             raise TranslationNotFound
         outstr = output.decode('utf-8')
         print(outstr)
-        for m in re.finditer(r"^\s*\+\s*(\w)\s*\n", outstr):
+        for m in re.finditer(r"^\s*\+\s*(\w)\s*\n", outstr, re.MULTILINE):
             lemma = m.group(1)
             print(lemma)
             lemmas.append(lemma)

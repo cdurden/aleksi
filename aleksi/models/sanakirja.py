@@ -377,6 +377,10 @@ class SpanishWordMorph(WordMorph):
             if lemma not in lemmas:
                 lemmas.append(lemma)
                 self.lemmas.append(Lemma(lemma, 'sp'))
+        for m in re.finditer(r"^\s*\*\s*\n", outstr, flags=re.MULTILINE):
+            if word not in lemmas:
+                lemmas.append(word)
+                self.lemmas.append(Lemma(word, 'sp'))
         return(self.tags)
 
 class Sanakirja(object):

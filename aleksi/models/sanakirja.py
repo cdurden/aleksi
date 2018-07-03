@@ -367,7 +367,7 @@ class SpanishWordMorph(WordMorph):
         try:
             #output = subprocess.check_output(args, cwd=self.spanish_morphology_path, stdin=)
             Popen = subprocess.Popen(args, cwd=self.spanish_morphology_path, stdin=subprocess.PIPE)
-            output = Popen.communicate(input=word)[0]
+            output = Popen.communicate(input=word.encode('utf-8')[0]
         except subprocess.CalledProcessError:
             raise TranslationNotFound
         outstr = output.decode('utf-8')

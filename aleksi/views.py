@@ -135,7 +135,7 @@ def signup_email(request, *args, **kwargs):
             msg = ''
         main_macros = get_renderer('templates/main_macros.pt').implementation()
         here = os.path.dirname(__file__)
-        return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg}
+        return {'request': request, 'main_macros': main_macros, 'title': 'Aleksi Sign-up', 'msg': msg, 'user': None}
 
 
 @view_config(context=AuthForbidden, renderer='templates/login.pt')

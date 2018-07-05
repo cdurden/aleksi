@@ -327,7 +327,7 @@ def get_user(request):
     if user_id:
         user = DBSession.query(User) \
                         .filter(User.id == user_id) \
-                        .first().to_dict()
+                        .first()
     else:
         user = None
     return user

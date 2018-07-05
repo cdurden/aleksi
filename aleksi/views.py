@@ -195,7 +195,7 @@ def set_password(request, *args, **kwargs):
 #    )
 #    return do_auth(request.backend, *args, **kwargs)
     main_macros = get_renderer('templates/main_macros.pt').implementation()
-    return {'request': request, 'main_macros': main_macros, 'title': 'Set password', 'msg': '', 'email': email}
+    return {'request': request, 'main_macros': main_macros, 'title': 'Set password', 'msg': '', 'email': email, 'user': request.user}
 
 
 @view_config(route_name='login_email', renderer='templates/login_email.pt')

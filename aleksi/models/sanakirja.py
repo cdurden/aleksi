@@ -302,9 +302,12 @@ class FinnishWordMorph(WordMorph):
         for tags in tagslist:
             if tags['BASEFORM'] not in base_matches:
                 base_matches.append(tags['BASEFORM'])
+        lemmas = list()
         self.lemmas = list()
         for baseword in base_matches:
-            self.lemmas.append(Lemma(baseword, 'fi'))
+            if basework not in lemmas:
+                lemmas.append(baseword)
+                self.lemmas.append(Lemma(baseword, 'fi'))
         return(self.lemmas)
     def tag(self):
         word = self.wordform.lower()

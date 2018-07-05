@@ -57,7 +57,7 @@
         </div>
         -->
         <video controls>
-           <source src="${request.static_path('aleksi:content/video/output.mkv')}">
+           <source src="${request.static_path('aleksi:content/video/output.mp4')}">
            Your browser does not support the video tag.
         </video>
     </div>

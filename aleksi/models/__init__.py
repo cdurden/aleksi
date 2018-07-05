@@ -9,7 +9,7 @@ from sqlalchemy.orm import (
 from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(
-    sessionmaker(extension=ZopeTransactionExtension()))
+    sessionmaker(extension=ZopeTransactionExtension(),autoflush=False))
 Base = declarative_base()
 
 class RemoteCall(Exception):

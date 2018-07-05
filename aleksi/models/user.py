@@ -38,3 +38,6 @@ class User(Base):
         else:
             return pbkdf2_sha256.verify(password, self.password)
         #return bcrypt.verify(password, self.password)
+
+    def to_dict(self):
+        return({'id': self.id, 'username': self.username, 'email': self.email, 'password': self.password, 'name': self.name, 'active': self.active})

@@ -212,6 +212,7 @@ class Root(object):
         settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('browse_sessions')
         settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')
         settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = request.route_url('email_validation_sent')
+        request.user = None
 
 def main(global_config, **settings):
 #    settings['tm.commit_veto'] = 'aleksi.commit_veto'

@@ -321,7 +321,6 @@ def validate_password(strategy, backend, user, is_new=False, *args, **kwargs):
         raise EmailAuthForbidden(backend, "Email or password not valid")
 
 def get_user(request):
-    return(None)
     print(request.session)
     user_id = request.session.get('user_id')
     print(user_id)

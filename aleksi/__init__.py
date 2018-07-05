@@ -286,7 +286,7 @@ def main(global_config, **settings):
     config.add_static_view(name='img', path='aleksi:content/img')
     config.add_static_view(name='static', path='aleksi:content')
 
-    config.add_request_method(get_user, 'user', reify=True)
+    #config.add_request_method(get_user, 'user', reify=True)
     #config.add_request_method(quizlet_sets, 'quizlet_sets', reify=True)
 
     init_social(config, Base, DBSession)

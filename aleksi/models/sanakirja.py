@@ -305,7 +305,7 @@ class FinnishWordMorph(WordMorph):
         lemmas = list()
         self.lemmas = list()
         for baseword in base_matches:
-            if basework not in lemmas:
+            if baseword not in lemmas:
                 lemmas.append(baseword)
                 self.lemmas.append(Lemma(baseword, 'fi'))
         return(self.lemmas)

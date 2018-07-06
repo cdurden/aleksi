@@ -384,6 +384,8 @@ class SpanishWordMorph(WordMorph):
             if word not in lemmas:
                 lemmas.append(word)
                 self.lemmas.append(Lemma(word, 'sp'))
+        if len(self.lemmas) == 0:
+            self.lemmas.append(Lemma(word, 'sp'))
         return(self.tags)
 
 class Sanakirja(object):

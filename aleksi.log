@@ -5762,3 +5762,701 @@ LOG: 2018-04-04 06:21:38,807 INFO  [pyramid_debugtoolbar][MainThread] Squashed p
 traceback url: http://localhost/aleksi/_debug_toolbar/313430353236333331313534373238/exception
 LOG: 2018-04-04 06:28:09,549 INFO  [pyramid_debugtoolbar][MainThread] Squashed pyramid.httpexceptions.HTTPFound at http://localhost/aleksi/browse_sessions
 traceback url: http://localhost/aleksi/_debug_toolbar/313430323331303837383337393238/exception
+LOG: 2019-05-16 23:01:23,578 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132333737363537323430/exception
+LOG: 2019-05-16 23:01:23,580 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132333738303834343634/exception
+LOG: 2019-05-16 23:01:36,120 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132333738303436313336/exception
+LOG: 2019-05-16 23:01:36,126 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132333737383138323234/exception
+LOG: 2019-05-16 23:01:54,023 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323735383439303332/exception
+LOG: 2019-05-16 23:01:54,033 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323734363731313736/exception
+LOG: 2019-05-16 23:02:12,088 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323733373337343536/exception
+LOG: 2019-05-16 23:02:12,238 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323733303239343732/exception
+LOG: 2019-05-16 23:02:12,243 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323732393037373132/exception
+LOG: 2019-05-16 23:02:24,001 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323732393036373630/exception
+LOG: 2019-05-16 23:02:24,070 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323730393539353834/exception
+LOG: 2019-05-16 23:02:24,075 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323731303234323830/exception
+LOG: 2019-05-16 23:02:45,326 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323731353431333238/exception
+LOG: 2019-05-16 23:02:45,397 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323639373437353630/exception
+LOG: 2019-05-16 23:02:45,404 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323639363539333034/exception
+LOG: 2019-05-16 23:05:53,525 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323639303133323030/exception
+LOG: 2019-05-16 23:05:53,588 WARNI [waitress.queue][MainThread] Task queue depth is 1
+LOG: 2019-05-16 23:05:53,599 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323638323338323136/exception
+LOG: 2019-05-16 23:05:53,600 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323638313430353834/exception
+LOG: 2019-05-16 23:06:17,209 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323638323337323634/exception
+LOG: 2019-05-16 23:06:17,269 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323636383537313336/exception
+LOG: 2019-05-16 23:06:17,273 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323637303534373532/exception
+LOG: 2019-05-16 23:07:27,260 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323636303936323332/exception
+LOG: 2019-05-16 23:07:27,262 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323635393938373132/exception
+LOG: 2019-05-16 23:07:29,873 WARNI [waitress.queue][MainThread] Task queue depth is 1
+LOG: 2019-05-16 23:07:29,892 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323635333930343838/exception
+LOG: 2019-05-16 23:07:29,894 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323635333932373238/exception
+LOG: 2019-05-16 23:07:53,064 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323634323037313336/exception
+LOG: 2019-05-16 23:07:53,068 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323634363239393736/exception
+LOG: 2019-05-16 23:08:14,167 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323633333537313834/exception
+LOG: 2019-05-16 23:08:14,220 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323633303038343038/exception
+LOG: 2019-05-16 23:08:14,227 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323633353538313132/exception
+LOG: 2019-05-16 23:08:22,895 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323632373836383838/exception
+LOG: 2019-05-16 23:08:22,939 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323632303230373132/exception
+LOG: 2019-05-16 23:08:22,940 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323632303935373834/exception
+LOG: 2019-05-16 23:08:36,175 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323631333234303030/exception
+LOG: 2019-05-16 23:08:36,225 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323630363233363430/exception
+LOG: 2019-05-16 23:08:36,232 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323630373136343430/exception
+LOG: 2019-05-16 23:08:43,815 INFO  [pyramid_debugtoolbar][waitress] Squashed aleksi.exceptions.EmailAuthForbidden at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323630333838373630/exception
+LOG: 2019-05-16 23:08:43,911 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323539363331373932/exception
+LOG: 2019-05-16 23:08:43,937 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323539323235323136/exception
+LOG: 2019-05-16 23:08:52,731 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/sessions
+traceback url: http://localhost:6543/_debug_toolbar/313430303132323538393039353434/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such column: sessions.lang
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 304, in browse_sessions
+    sessions = DBSession.query(Session).all()
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3161, in all
+    return list(self)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: sessions.lang
+[SQL: SELECT sessions.id AS sessions_id, sessions.title AS sessions_title, sessions.owner_id AS sessions_owner_id, sessions.permissions AS sessions_permissions, sessions.website_id AS sessions_website_id, sessions.last_active AS sessions_last_active, sessions.quizlet_user_id AS sessions_quizlet_user_id, sessions.quizlet_set_id AS sessions_quizlet_set_id, sessions.link_behavior AS sessions_link_behavior, sessions.lang AS sessions_lang 
+FROM sessions]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+LOG: 2019-05-16 23:08:52,794 WARNI [waitress.queue][MainThread] Task queue depth is 1
+LOG: 2019-05-16 23:08:52,801 WARNI [waitress.queue][MainThread] Task queue depth is 2
+LOG: 2019-05-16 23:10:18,357 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/sessions
+traceback url: http://localhost:6543/_debug_toolbar/313430303132333737393835363030/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: users
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 293, in browse_sessions
+    user=get_user(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/auth.py", line 329, in get_user
+    .filter(User.id == user_id) \
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3215, in first
+    ret = list(self[0:1])
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3007, in __getitem__
+    return list(res)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: users
+[SQL: SELECT users.id AS users_id, users.username AS users_username, users.email AS users_email, users.password AS users_password, users.name AS users_name, users.active AS users_active 
+FROM users 
+WHERE users.id = ?
+ LIMIT ? OFFSET ?]
+[parameters: (1, 1, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+LOG: 2019-05-16 23:10:18,394 WARNI [waitress.queue][MainThread] Task queue depth is 1
+LOG: 2019-05-16 23:10:18,397 WARNI [waitress.queue][MainThread] Task queue depth is 2
+LOG: 2019-05-16 23:11:03,229 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313339383939373639373633323634/exception
+LOG: 2019-05-16 23:11:03,229 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313339383939373639303432333132/exception
+LOG: 2019-05-16 23:11:11,646 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313339383939373738383836333434/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: social_auth_usersocialauth
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 217, in login_email
+    return do_complete(backend, login=login_user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/actions.py", line 43, in do_complete
+    user = backend.complete(user=user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 40, in complete
+    return self.auth_complete(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/legacy.py", line 25, in auth_complete
+    return self.strategy.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/strategy.py", line 160, in authenticate
+    return backend.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 80, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 83, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 113, in run_pipeline
+    result = func(*args, **out) or {}
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/pipeline/social_auth.py", line 19, in social_user
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_storage_sqlalchemy-1.1.0-py3.6.egg/social_sqlalchemy/storage.py", line 160, in get_social_auth
+    uid=uid)[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3012, in __getitem__
+    return list(self[item : item + 1])[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3007, in __getitem__
+    return list(res)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: social_auth_usersocialauth
+[SQL: SELECT social_auth_usersocialauth.id AS social_auth_usersocialauth_id, social_auth_usersocialauth.provider AS social_auth_usersocialauth_provider, social_auth_usersocialauth.uid AS social_auth_usersocialauth_uid, social_auth_usersocialauth.user_id AS social_auth_usersocialauth_user_id, social_auth_usersocialauth.extra_data AS social_auth_usersocialauth_extra_data 
+FROM social_auth_usersocialauth 
+WHERE social_auth_usersocialauth.provider = ? AND social_auth_usersocialauth.uid = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('email', 'cdurden@gmail.com', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+LOG: 2019-05-16 23:16:53,363 WARNI [waitress.queue][MainThread] Task queue depth is 1
+LOG: 2019-05-16 23:16:53,380 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313339373431363630353133363136/exception
+LOG: 2019-05-16 23:16:53,383 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313339373431363630323031303332/exception
+LOG: 2019-05-16 23:16:57,621 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPFound at http://localhost:6543/sessions
+traceback url: http://localhost:6543/_debug_toolbar/313339373431363630323831343332/exception
+LOG: 2019-05-16 23:17:06,703 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313339373431343533343432303136/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: social_auth_usersocialauth
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 217, in login_email
+    return do_complete(backend, login=login_user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/actions.py", line 43, in do_complete
+    user = backend.complete(user=user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 40, in complete
+    return self.auth_complete(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/legacy.py", line 25, in auth_complete
+    return self.strategy.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/strategy.py", line 160, in authenticate
+    return backend.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 80, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 83, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 113, in run_pipeline
+    result = func(*args, **out) or {}
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/pipeline/social_auth.py", line 19, in social_user
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_storage_sqlalchemy-1.1.0-py3.6.egg/social_sqlalchemy/storage.py", line 160, in get_social_auth
+    uid=uid)[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3012, in __getitem__
+    return list(self[item : item + 1])[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3007, in __getitem__
+    return list(res)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: social_auth_usersocialauth
+[SQL: SELECT social_auth_usersocialauth.id AS social_auth_usersocialauth_id, social_auth_usersocialauth.provider AS social_auth_usersocialauth_provider, social_auth_usersocialauth.uid AS social_auth_usersocialauth_uid, social_auth_usersocialauth.user_id AS social_auth_usersocialauth_user_id, social_auth_usersocialauth.extra_data AS social_auth_usersocialauth_extra_data 
+FROM social_auth_usersocialauth 
+WHERE social_auth_usersocialauth.provider = ? AND social_auth_usersocialauth.uid = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('email', 'cdurden@gmail.com', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+LOG: 2019-05-16 23:17:06,817 WARNI [waitress.queue][MainThread] Task queue depth is 1
+LOG: 2019-05-16 23:24:18,849 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303339333738323933393834/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: social_auth_usersocialauth
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 217, in login_email
+    return do_complete(backend, login=login_user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/actions.py", line 43, in do_complete
+    user = backend.complete(user=user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 40, in complete
+    return self.auth_complete(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/legacy.py", line 25, in auth_complete
+    return self.strategy.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/strategy.py", line 160, in authenticate
+    return backend.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 80, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 83, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 113, in run_pipeline
+    result = func(*args, **out) or {}
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/pipeline/social_auth.py", line 19, in social_user
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_storage_sqlalchemy-1.1.0-py3.6.egg/social_sqlalchemy/storage.py", line 160, in get_social_auth
+    uid=uid)[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3012, in __getitem__
+    return list(self[item : item + 1])[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3007, in __getitem__
+    return list(res)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: social_auth_usersocialauth
+[SQL: SELECT social_auth_usersocialauth.id AS social_auth_usersocialauth_id, social_auth_usersocialauth.provider AS social_auth_usersocialauth_provider, social_auth_usersocialauth.uid AS social_auth_usersocialauth_uid, social_auth_usersocialauth.user_id AS social_auth_usersocialauth_user_id, social_auth_usersocialauth.extra_data AS social_auth_usersocialauth_extra_data 
+FROM social_auth_usersocialauth 
+WHERE social_auth_usersocialauth.provider = ? AND social_auth_usersocialauth.uid = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('email', 'cdurden@gmail.com', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+LOG: 2019-05-16 23:24:22,374 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/luke-main.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303339323632313537333434/exception
+LOG: 2019-05-16 23:24:22,381 INFO  [pyramid_debugtoolbar][waitress] Squashed pyramid.httpexceptions.HTTPNotFound at http://localhost:6543/css/themes/jquery.mobile.icons.min.css
+traceback url: http://localhost:6543/_debug_toolbar/313430303339323632303336393336/exception
+LOG: 2019-05-16 23:24:24,283 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303339323631373032323430/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: social_auth_usersocialauth
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 217, in login_email
+    return do_complete(backend, login=login_user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/actions.py", line 43, in do_complete
+    user = backend.complete(user=user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 40, in complete
+    return self.auth_complete(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/legacy.py", line 25, in auth_complete
+    return self.strategy.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/strategy.py", line 160, in authenticate
+    return backend.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 80, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 83, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 113, in run_pipeline
+    result = func(*args, **out) or {}
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/pipeline/social_auth.py", line 19, in social_user
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_storage_sqlalchemy-1.1.0-py3.6.egg/social_sqlalchemy/storage.py", line 160, in get_social_auth
+    uid=uid)[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3012, in __getitem__
+    return list(self[item : item + 1])[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3007, in __getitem__
+    return list(res)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: social_auth_usersocialauth
+[SQL: SELECT social_auth_usersocialauth.id AS social_auth_usersocialauth_id, social_auth_usersocialauth.provider AS social_auth_usersocialauth_provider, social_auth_usersocialauth.uid AS social_auth_usersocialauth_uid, social_auth_usersocialauth.user_id AS social_auth_usersocialauth_user_id, social_auth_usersocialauth.extra_data AS social_auth_usersocialauth_extra_data 
+FROM social_auth_usersocialauth 
+WHERE social_auth_usersocialauth.provider = ? AND social_auth_usersocialauth.uid = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('email', 'cdurden@gmail.com', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)
+LOG: 2019-05-16 23:24:27,661 ERROR [pyramid_debugtoolbar][waitress] Uncaught sqlalchemy.exc.OperationalError at http://localhost:6543/login_email
+traceback url: http://localhost:6543/_debug_toolbar/313430303339323538373731373532/exception
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.OperationalError: no such table: social_auth_usersocialauth
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/toolbar.py", line 257, in toolbar_tween
+    response = _handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_debugtoolbar-4.5-py3.6.egg/pyramid_debugtoolbar/panels/performance.py", line 58, in resource_timer_handler
+    result = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 171, in tm_tween
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/compat.py", line 36, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid_tm-2.2.1-py3.6.egg/pyramid_tm/__init__.py", line 136, in tm_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 43, in excview_tween
+    response = _error_handler(request, exc)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 17, in _error_handler
+    reraise(*exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/compat.py", line 179, in reraise
+    raise value
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/tweens.py", line 41, in excview_tween
+    response = handler(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/router.py", line 148, in handle_request
+    registry, request, context, context_iface, view_name
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/view.py", line 667, in _call_view
+    response = view_callable(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 436, in rendered_view
+    result = view(context, request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/pyramid-1.10.4-py3.6.egg/pyramid/viewderivers.py", line 144, in _requestonly_view
+    response = view(request)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/aleksi-0.0.0-py3.6.egg/aleksi/views.py", line 217, in login_email
+    return do_complete(backend, login=login_user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/actions.py", line 43, in do_complete
+    user = backend.complete(user=user, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 40, in complete
+    return self.auth_complete(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/legacy.py", line 25, in auth_complete
+    return self.strategy.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/strategy.py", line 160, in authenticate
+    return backend.authenticate(*args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 80, in authenticate
+    return self.pipeline(pipeline, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 83, in pipeline
+    out = self.run_pipeline(pipeline, pipeline_index, *args, **kwargs)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/backends/base.py", line 113, in run_pipeline
+    result = func(*args, **out) or {}
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_core-3.1.0-py3.6.egg/social_core/pipeline/social_auth.py", line 19, in social_user
+    social = backend.strategy.storage.user.get_social_auth(provider, uid)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/social_auth_storage_sqlalchemy-1.1.0-py3.6.egg/social_sqlalchemy/storage.py", line 160, in get_social_auth
+    uid=uid)[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3012, in __getitem__
+    return list(self[item : item + 1])[0]
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3007, in __getitem__
+    return list(res)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3317, in __iter__
+    return self._execute_and_instances(context)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/orm/query.py", line 3342, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 988, in execute
+    return meth(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/sql/elements.py", line 287, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1107, in _execute_clauseelement
+    distilled_params,
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1248, in _execute_context
+    e, statement, parameters, cursor, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1466, in _handle_dbapi_exception
+    util.raise_from_cause(sqlalchemy_exception, exc_info)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 383, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb, cause=cause)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/util/compat.py", line 128, in reraise
+    raise value.with_traceback(tb)
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/base.py", line 1244, in _execute_context
+    cursor, statement, parameters, context
+  File "/home/cld/.local/virtualenv/lib/python3.6/site-packages/SQLAlchemy-1.3.3-py3.6-linux-x86_64.egg/sqlalchemy/engine/default.py", line 552, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: social_auth_usersocialauth
+[SQL: SELECT social_auth_usersocialauth.id AS social_auth_usersocialauth_id, social_auth_usersocialauth.provider AS social_auth_usersocialauth_provider, social_auth_usersocialauth.uid AS social_auth_usersocialauth_uid, social_auth_usersocialauth.user_id AS social_auth_usersocialauth_user_id, social_auth_usersocialauth.extra_data AS social_auth_usersocialauth_extra_data 
+FROM social_auth_usersocialauth 
+WHERE social_auth_usersocialauth.provider = ? AND social_auth_usersocialauth.uid = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('email', 'cdurden@gmail.com', 1, 0)]
+(Background on this error at: http://sqlalche.me/e/e3q8)

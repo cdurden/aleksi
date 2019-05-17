@@ -27,15 +27,32 @@ public class MainClass {
         PrintStream out = new PrintStream(System.out, true, "UTF-8");
 
 //
-		String PATH_TO_DUMP_FILE = "/opt/enwikt/enwiktionary-20180320-pages-articles.xml.bz2";
-		String TARGET_DIRECTORY = args[0];
 		boolean OVERWRITE_EXISTING_FILES = false;
-//		
-//		File dumpFile = new File(PATH_TO_DUMP_FILE);
-		File outputDirectory = new File(TARGET_DIRECTORY);
 		boolean overwriteExisting = OVERWRITE_EXISTING_FILES;
+		String TARGET_DIRECTORY;
+        out.println(args.length);
+		if (args.length == 1) {
+				//String PATH_TO_DUMP_FILE = "/opt/enwikt/enwiktionary-20180320-pages-articles.xml.bz2";
+				TARGET_DIRECTORY = args[0];
+		} else {
+                if (args.length == 3) {
+						TARGET_DIRECTORY = args[2];
+                        out.println(args[0]);
+						if (args[0].equals("-d")) {
+                                out.println("parsing Wiktionary dump");
+								//String PATH_TO_DUMP_FILE = "/opt/enwikt/enwiktionary-20180320-pages-articles.xml.bz2";
+								String PATH_TO_DUMP_FILE = args[1];
+								TARGET_DIRECTORY = args[2];
+								File dumpFile = new File(PATH_TO_DUMP_FILE);
+						        File outputDirectory = new File(TARGET_DIRECTORY);
+				        		JWKTL.parseWiktionaryDump(dumpFile, outputDirectory, overwriteExisting);
+						}
+                } else {
+                    return;
+                }
+		}
+//		
 //		    
-//		JWKTL.parseWiktionaryDump(dumpFile, outputDirectory, overwriteExisting);
 		// Connect to the Wiktionary database.
 		File wiktionaryDirectory = new File(TARGET_DIRECTORY);
 		IWiktionaryEdition wkt = JWKTL.openEdition(wiktionaryDirectory);

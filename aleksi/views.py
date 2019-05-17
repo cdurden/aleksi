@@ -305,8 +305,8 @@ def browse_sessions(request):
     print(user.sessions)
     # render sessions page
     main_macros = get_renderer('templates/main_macros.pt').implementation()
-    here = os.path.dirname(__file__)
-    snapshot_relpath = os.path.relpath(request.registry.settings['website_snapshot_dir'], here)
+    root_dir = request.registry.settings['root_dir']
+    snapshot_relpath = os.path.relpath(request.registry.settings['website_snapshot_dir'], root_dir)
     return {'request': request, 'main_macros': main_macros, 'title': user.username + "'s sessions", 'user': user, 'sessions': sessions, 'snapshot_relpath': snapshot_relpath}
 
 @view_config(route_name='delete_session')

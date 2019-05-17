@@ -19,3 +19,7 @@ var/
 
 aleksi_aws.log
 aleksi_aws.sqlite
+aleksi.sqlite.bak-20190516
+aleksi/content/websites/html/*
+aleksi/content/websites/snapshots/*
+enwiktlookup/target/enwiktlookup-1.0-SNAPSHOT-jar-with-dependencies.jar

@@ -22,4 +22,6 @@ aleksi_aws.sqlite
 aleksi.sqlite.bak-20190516
 aleksi/content/websites/html/*
 aleksi/content/websites/snapshots/*
+aleksi/__pycache__
+aleksi/models/__pycache__
 enwiktlookup/target/enwiktlookup-1.0-SNAPSHOT-jar-with-dependencies.jar

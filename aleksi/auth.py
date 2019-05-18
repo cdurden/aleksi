@@ -105,6 +105,7 @@ def register_user(strategy, backend, request, details, *args, **kwargs):
 @partial
 def create_user(strategy, backend, request, details, email_is_validated=False, *args, **kwargs):
     print("create_user")
+    email_is_validated = backend.strategy.session_pop('email_is_validated')
     print(email_is_validated)
     if backend.name != 'email' and backend.name != 'google-oauth2':
         return
@@ -365,16 +366,17 @@ def mail_validation(strategy, backend, details, is_new=False, email_is_validated
             backend.strategy.session_set('email', email)
             print("email is validated")
             print(email_is_validated)
+            backend.strategy.session_set('email_is_validated', email_is_validated)
             return {'email_is_validated': email_is_validated}
         else:
             current_partial = kwargs.get('current_partial')
             #print(backend.strategy.storage.code)
             code = {'email': email,
                     'code': uuid.uuid4().hex}
-            #try:
-            send_validation_email(backend.strategy, backend, code, current_partial.token)
-            #except Exception as e:
-            #    raise EmailValidationFailure("The recipient address was refused when trying to send a validation email to "+email)
+            try:
+                send_validation_email(backend.strategy, backend, code, current_partial.token)
+            except Exception as e:
+                raise EmailValidationFailure("The recipient address was refused when trying to send a validation email to "+email)
             #backend.strategy.storage.code.make_code(email)
             #backend.strategy.send_email_validation(backend,
             #                                       details['email'],

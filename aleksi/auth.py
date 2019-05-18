@@ -49,7 +49,7 @@ def send_validation_email(strategy, backend, code, partial_token):
     signature = signed_serialize({'email': code['email'], 'code': code['code']}, session_secret)
     #hostname = strategy.request.registry.settings['hostname']
     uri_root = strategy.request.route_url('main')
-    url = uri_root+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
+    url = uri_root+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature+"&signup=1"
     import smtplib
     
     # Import the email modules we'll need
@@ -342,7 +342,6 @@ def mail_validation(strategy, backend, details, is_new=False, email_is_validated
     print("mail_validation")
     if backend.name != 'email':
         return
-    print(**kwargs)
     try:
         is_signup = kwargs['signup']
     except:

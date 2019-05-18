@@ -48,7 +48,8 @@ def send_validation_email(strategy, backend, code, partial_token):
     print("sending email validation")
     signature = signed_serialize({'email': code['email'], 'code': code['code']}, session_secret)
     hostname = strategy.request.registry.settings['hostname']
-    url = 'http://'+hostname+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
+    uri_root = strategy.request.path_info
+    url = uri_root+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
     import smtplib
     
     # Import the email modules we'll need

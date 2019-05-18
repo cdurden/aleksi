@@ -47,7 +47,7 @@ def send_validation_email(strategy, backend, code, partial_token):
 #def send_validation_email(strategy, backend, partial_token):
     print("sending email validation")
     signature = signed_serialize({'email': code['email'], 'code': code['code']}, session_secret)
-    hostname = strategy.request.registry.settings['hostname']
+    #hostname = strategy.request.registry.settings['hostname']
     uri_root = strategy.request.route_url('main')
     url = uri_root+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
     import smtplib
@@ -279,10 +279,9 @@ def collect_password(strategy, backend, request, details, *args, **kwargs):
         is_new = False
     except NoResultFound:
         is_new = True
-
-#        user = User(email=email, username=email)
-#        DBSession.add(user)
-#        DBSession.flush()
+        user = User(email=email, username=email)
+        DBSession.add(user)
+        DBSession.flush()
     # continue the pipeline
     return {'is_new': is_new}
 

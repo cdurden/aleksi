@@ -43,11 +43,11 @@ def validate_email(email, verification_code, signature):
     else:
         raise EmailValidationFailure("Email validation failed")
 
-def send_validation_email(strategy, backend, request, code, partial_token):
+def send_validation_email(strategy, backend, code, partial_token):
 #def send_validation_email(strategy, backend, partial_token):
     print("sending email validation")
     signature = signed_serialize({'email': code['email'], 'code': code['code']}, session_secret)
-    hostname = request.registry.settings['hostname']
+    hostname = strategy.request.registry.settings['hostname']
     url = 'http://'+hostname+url_for('social:complete', backend=backend.name)+'?email='+code['email']+'&verification_code='+code['code']+"&signature="+signature
     import smtplib
     
@@ -338,7 +338,7 @@ def get_user(request):
 #    request = event['request']
 #    event['social'] = backends(request, request.user)
 @partial
-def mail_validation(strategy, backend, request, details, is_new=False, email_is_validated=False, *args, **kwargs):
+def mail_validation(strategy, backend, details, is_new=False, email_is_validated=False, *args, **kwargs):
     print("mail_validation")
     if backend.name != 'email':
         return
@@ -371,7 +371,7 @@ def mail_validation(strategy, backend, request, details, is_new=False, email_is_
             code = {'email': email,
                     'code': uuid.uuid4().hex}
             #try:
-            send_validation_email(backend.strategy, backend, request, code, current_partial.token)
+            send_validation_email(backend.strategy, backend, code, current_partial.token)
             #except Exception as e:
             #    raise EmailValidationFailure("The recipient address was refused when trying to send a validation email to "+email)
             #backend.strategy.storage.code.make_code(email)

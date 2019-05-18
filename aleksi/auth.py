@@ -370,10 +370,10 @@ def mail_validation(strategy, backend, request, details, is_new=False, email_is_
             #print(backend.strategy.storage.code)
             code = {'email': email,
                     'code': uuid.uuid4().hex}
-            try:
-                send_validation_email(backend.strategy, backend, request, code, current_partial.token)
-            except Exception as e:
-                raise EmailValidationFailure("The recipient address was refused when trying to send a validation email to "+email)
+            #try:
+            send_validation_email(backend.strategy, backend, request, code, current_partial.token)
+            #except Exception as e:
+            #    raise EmailValidationFailure("The recipient address was refused when trying to send a validation email to "+email)
             #backend.strategy.storage.code.make_code(email)
             #backend.strategy.send_email_validation(backend,
             #                                       details['email'],

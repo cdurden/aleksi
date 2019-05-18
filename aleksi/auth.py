@@ -279,9 +279,9 @@ def collect_password(strategy, backend, request, details, *args, **kwargs):
         is_new = False
     except NoResultFound:
         is_new = True
-        user = User(email=email, username=email)
-        DBSession.add(user)
-        DBSession.flush()
+    #    user = User(email=email, username=email)
+    #    DBSession.add(user)
+    #    DBSession.flush()
     # continue the pipeline
     return {'is_new': is_new}
 
@@ -342,10 +342,12 @@ def mail_validation(strategy, backend, details, is_new=False, email_is_validated
     print("mail_validation")
     if backend.name != 'email':
         return
+    print(**kwargs)
     try:
         is_signup = kwargs['signup']
     except:
         is_signup = False
+    print(is_signup)
     requires_validation = is_signup and (backend.REQUIRES_EMAIL_VALIDATION or \
                           backend.setting('FORCE_EMAIL_VALIDATION', False))
     print(backend.setting)

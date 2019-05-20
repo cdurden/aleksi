@@ -1,5 +1,5 @@
 {
-    "name": "Finnish word analyser",
+    "name": "Aleksi Browser Plugin",
     "description": "Fetches and displays analytical information about Finnish words on a webpage",
     "version": "1.0",
     "permissions": [

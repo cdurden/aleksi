@@ -8,7 +8,6 @@
     <!--<meta charset="UTF-8" name=viewport content='width=300'>-->
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link rel="stylesheet" href="${request.static_path('aleksi:content/css/main.css')}"/>
-    <link rel="stylesheet" href="${request.static_path('aleksi:content/css/themes/luke-main.min.css')}"/>
     <link rel="stylesheet" href="${request.static_path('aleksi:content/css/themes/jquery.mobile.icons.min.css')}" />
     <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
     <link href="https://www.hs.fi/assets/css/fonts-main-hs.a90caa2de849f1e7.css" rel="stylesheet"/>

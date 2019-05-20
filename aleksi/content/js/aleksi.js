@@ -217,7 +217,8 @@ function configure_dialog() {
     reset_ui();
 
 }
-$jquery_aleksi( function() {
+function initialize_aleksi() {
+    alert("initializing aleksi");
     configure_dialog();
     window.onscroll = function() {set_menu_placement()};
 //    $jquery_aleksi("#link_behavior_selector").buttonset();
@@ -382,6 +383,9 @@ $jquery_aleksi( function() {
       });
       */
     }
+}
+$jquery_aleksi( function() {
+    initialize_aleksi();
 } );
 function escape_double_quotes(str) {
     return(str.replace(/\\([\s\S])|(")/g, "\\$1$2"))

@@ -932,7 +932,7 @@ def navbar(request):
 #        raise exc.HTTPNotFound
 #    #dialog_macros = get_renderer('templates/dialog_macros.pt').implementation()
 #    #return { 'dialog_macros': dialog_macros, 'request': request, 'session': session}
-    return { 'request': request, 'session': request.context.session}
+    return { 'request': request, 'session': request.session}
 
 @view_config(name='dialog_blank', renderer="templates/dialog.pt")
 @view_config(route_name='dialog',renderer="templates/dialog.pt")

@@ -213,19 +213,6 @@ class Root(object):
         settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')
         settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = request.route_url('email_validation_sent')
         request.user = None
-        session_id = request.matchdict['session_id']
-        # get user
-        user=get_user(request)
-        if user is None:
-            request.session['next'] = request.url
-            raise exc.HTTPFound(request.route_url("start"))
-            #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
-        # get requested session
-        try:
-            self.session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
-        except NoResultFound:
-            request.session['next'] = request.url
-            raise exc.HTTPFound(request.route_url("start"))
 
 def main(global_config, **settings):
 #    settings['tm.commit_veto'] = 'aleksi.commit_veto'

@@ -17,9 +17,8 @@ var/
 *.egg
 *.bak
 
-aleksi_aws.log
-aleksi_aws.sqlite
-aleksi.sqlite.bak-20190516
+aleksi.log
+aleksi.sqlite
 aleksi/content/websites/html/*
 aleksi/content/websites/snapshots/*
 aleksi/__pycache__

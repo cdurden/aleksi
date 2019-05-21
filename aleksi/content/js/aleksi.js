@@ -1,3 +1,7 @@
+$jquery_aleksi(document).ready( function() {
+    alert("running aleksi.js");
+  } );
+
 var hasScrollbar = function() {
   // The Modern solution
   if (typeof window.innerWidth === 'number')
@@ -1553,6 +1557,7 @@ var QuizletDisconnect = (function() {
 
 
 $jquery_aleksi(document).ready( function() {
+    alert("running aleksi.js");
     reset_ui();
 });
   $jquery_aleksi( function() {

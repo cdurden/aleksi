@@ -298,7 +298,10 @@ class FinnishWordMorph(WordMorph):
         word = self.wordform.lower()
         tagslist = self.voikko_tags(word)
         base_matches = list()
-        [base_matches.extend(get_wordbases(tags['WORDBASES'])) for tags in tagslist]
+        try:
+            [base_matches.extend(get_wordbases(tags['WORDBASES'])) for tags in tagslist]
+        except:
+            pass
         for tags in tagslist:
             if tags['BASEFORM'] not in base_matches:
                 base_matches.append(tags['BASEFORM'])

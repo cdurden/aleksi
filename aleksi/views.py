@@ -348,7 +348,7 @@ def load_session(request):
     website = session.website
     website.html_path = request.registry.settings['cached_website_dir']
     request.session['aleksi_session_id'] = session_id
-    request.context.session = session
+    request.aleksi_session = session
     dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
     navbar_html = render_view_to_response(request.context, request, name='navbar').body
     return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
@@ -932,7 +932,7 @@ def navbar(request):
 #        raise exc.HTTPNotFound
 #    #dialog_macros = get_renderer('templates/dialog_macros.pt').implementation()
 #    #return { 'dialog_macros': dialog_macros, 'request': request, 'session': session}
-    return { 'request': request, 'session': request.session}
+    return { 'request': request, 'session': request.aleksi_session}
 
 @view_config(name='dialog_blank', renderer="templates/dialog.pt")
 @view_config(route_name='dialog',renderer="templates/dialog.pt")

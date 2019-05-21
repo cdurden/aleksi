@@ -222,7 +222,7 @@ class Root(object):
             #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
         # get requested session
         try:
-            session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
+            self.session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
         except NoResultFound:
             request.session['next'] = request.url
             raise exc.HTTPFound(request.route_url("start"))

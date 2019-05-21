@@ -280,6 +280,7 @@ def main(global_config, **settings):
     config.add_route('logout', '/logout')
     config.add_route('dialog', '/dialog')
     config.add_route('navbar', '/navbar')
+    config.add_route('navbar_noauth', '/navbar_noauth')
     config.add_route('social.logout', '/logout/{backend}')
     config.add_route('get_quizlet_sets', '/get_quizlet_sets')
     config.add_route('quizlet_save_terms', '/quizlet_save_terms')

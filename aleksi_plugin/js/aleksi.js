@@ -43,9 +43,20 @@ function clickHandler(e) {
       analyze(word, e);
     }
 }
+function ocrHandler(e) {
+    var text = $jquery_aleksi(".ocrext-ocr-message").val();
+    var word = text.split(" ")[0];
+    word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
+    if (word != "") {
+      analyze(word, e);
+    }
+}
 function bindHandlers() {
     $jquery_aleksi(document).bind("click.doc",clickHandler);
-    //$jquery_aleksi("a").bind("click.link",linkHandler);
+    $jquery_aleksi("a").bind("click.link",linkHandler);
+    // Listen for the event.
+
+    $jquery_aleksi(document).on("ocr",ocrHandler);
 }
 function unbindHandlers() {
     $jquery_aleksi("a").unbind("click.link");
@@ -93,8 +104,14 @@ function getFullWord(event) {
   alert($jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode));
   alert($jquery_aleksi("#session_dialog").dialog('isOpen'));
   */
-  if (!textNode || textNode.nodeType !== Node.TEXT_NODE || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode) || $jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode) || $jquery_aleksi("#session_dialog").dialog('isOpen')) {
-    return "";
+  if (mode == 'app') {
+    if (!textNode || textNode.nodeType !== Node.TEXT_NODE || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode) || $jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode) || $jquery_aleksi("#session_dialog").dialog('isOpen')) {
+      return "";
+    }
+  } else {
+    if (!textNode || textNode.nodeType !== Node.TEXT_NODE || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode)) {
+      return "";
+    }
   }
 
   var data = textNode.textContent;
@@ -297,6 +314,13 @@ function configure_dialog() {
             click: function () {
               $jquery_aleksi(this).dialog("close");
             }
+          },
+          {
+            id: 'recapture',
+            text: 'Capture',
+            click: function () {
+              window.postMessage({ type: "FROM_PAGE", text: "ocrRecapture" }, "*");
+            }
           }],
         });
       $jquery_aleksi('#ui-tab-dialog-close').append($jquery_aleksi('#closer'));
@@ -331,6 +355,13 @@ function configure_dialog() {
             text: 'Close',
             click: function () {
               $jquery_aleksi(this).dialog("close");
+            }
+          },
+          {
+            id: 'recapture',
+            text: 'Capture',
+            click: function () {
+              window.postMessage({ type: "FROM_PAGE", text: "ocrRecapture" }, "*");
             }
           }],
             /*
@@ -369,9 +400,11 @@ function configure_dialog() {
 
 }
 function initialize_aleksi() {
-    alert("initializing aleksi");
+    //alert("initializing aleksi");
     configure_dialog();
-    window.onscroll = function() {set_menu_placement()};
+    if (mode == 'app') {
+      window.onscroll = function() {set_menu_placement()};
+    }
 
           $jquery_aleksi("#config_dialog").dialog({
               dialogClass: 'fixed-dialog',
@@ -847,7 +880,9 @@ function clear_pins ()
     pins = [];
 }
 $jquery_aleksi(document).ready(function() {
-  set_menu_placement();
+  if (mode == 'app') {
+    set_menu_placement();
+  }
   get_pins();
   $jquery_aleksi("#quizlet").hide();
   get_quizlet_sets();

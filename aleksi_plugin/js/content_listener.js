@@ -5,6 +5,22 @@ var url;
 var initialized = false;
 var enabled = false;
 
+var port = chrome.runtime.connect();
+
+window.addEventListener("message", function(event) {
+  // We only accept messages from ourselves
+  if (event.source != window)
+    return;
+
+  if (event.data.type && (event.data.type == "FROM_PAGE")) {
+      console.log("received ocr event");
+      if (event.data.text == 'ocrEvent') {
+          ocrHandler(event.data.event);
+      }
+
+  }
+}, false);
+
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.action=='getStatus')

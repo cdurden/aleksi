@@ -54,7 +54,8 @@ class Translation(Base):
             return(self.source)
 
     def to_dict(self):
-        return {'lemma': self.lemma, 'en': self.en.split(","), 'source': self.source, 'source_url': self.source_url()}
+        #return {'lemma': self.lemma, 'en': self.en.split(","), 'source': self.source, 'source_url': self.source_url()}
+        return {'lemma': self.lemma, 'en': self.translations, 'source': self.source, 'source_url': self.source_url()}
 
 class MissingTranslation(Base):
     __tablename__ = 'missing_translations'
@@ -122,13 +123,16 @@ class WiktionaryInterface(object):
         translations = [regex.sub("to", translation.strip(".")) for translation in translations if bool(translation.strip())]
         print(translations)
         if len(translations)>0:
-            translation = Translation(lemma=word, lang=lang, en=",".join(translations), source="en.wiktionary.org")
+            #translation = Translation(lemma=word, lang=lang, en=",".join(translations), source="en.wiktionary.org")
+            for translation in translations:
+                translation = Translation(lemma=word, lang=lang, en=translation, source="en.wiktionary.org")
+                if add_to_db:
+                    DBSession.add(translation)
         else:
 #            missing_word = MissingTranslation(lemma=word)
             raise TranslationNotFound
-        if add_to_db:
-            DBSession.add(translation)
-        return(translation)
+        #return(translation)
+        return(translations)
 
 class FiBabInterface(object):
     def __init__(self):
@@ -202,24 +206,30 @@ class Lemma(object):
     def __init__(self, word, lang):
         self.word = word
         self.lang = lang
-        self.translation = None
+        self.translations = None
 
     def translate(self, wi):
         if self.lang == 'fi':
             lang = 'fin'
         if self.lang == 'sp':
             lang = 'spa'
-        translation = DBSession.query(Translation).filter_by(lemma=self.word, lang=lang).first()
-        if translation is not None:
-            self.translation = translation
-            return(self.translation)
+        #translation = DBSession.query(Translation).filter_by(lemma=self.word, lang=lang).first()
+        #if translation is not None:
+        #    self.translation = translation
+        #    return(self.translation)
+        translations = DBSession.query(Translation).filter_by(lemma=self.word, lang=lang)
+        if len(translations)>0:
+            self.translations = translations
+            return(self.translations)
         missing_translation = DBSession.query(MissingTranslation).filter_by(lemma=self.word, lang=lang).first()
         retry_lookup = False
         if missing_translation is not None and not retry_lookup:
             raise TranslationNotFound
         try:
-            self.translation = wi.fetch_translations(self.word, lang)
-            return(self.translation)
+            #self.translation = wi.fetch_translations(self.word, lang)
+            #return(self.translation)
+            self.translations = wi.fetch_translations(self.word, lang)
+            return(self.translations)
         except TranslationNotFound:
             pass
         if missing_translation is None:
@@ -230,7 +240,8 @@ class Lemma(object):
             return(None)
 
     def to_dict(self):
-        return(self.translation.to_dict())
+        return {'lemma': self.word, 'lang': self.lang, 'translations': self.translations.to_dict()}
+        #return(self.translation.to_dict())
 
 class WordMorph(object):
     def __init__(self, wordform):

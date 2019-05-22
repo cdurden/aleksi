@@ -120,12 +120,14 @@ class WiktionaryInterface(object):
             raise TranslationNotFound
         translations = output.decode('utf-8').split("\n")
         regex = re.compile(r"^To")
-        translations = [regex.sub("to", translation.strip(".")) for translation in translations if bool(translation.strip())]
+        text_translations = [regex.sub("to", translation.strip(".")) for translation in translations if bool(translation.strip())]
+        translations = []
         print(translations)
         if len(translations)>0:
             #translation = Translation(lemma=word, lang=lang, en=",".join(translations), source="en.wiktionary.org")
-            for translation in translations:
+            for translation in text_translations:
                 translation = Translation(lemma=word, lang=lang, en=translation, source="en.wiktionary.org")
+                translations.append(translation)
                 if add_to_db:
                     DBSession.add(translation)
         else:

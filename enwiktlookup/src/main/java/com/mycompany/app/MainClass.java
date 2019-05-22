@@ -64,9 +64,25 @@ public class MainClass {
 //                   out.println(translation.getTranslation());
                for (IWikiString gloss : entry.getGlosses()) {
                    str = gloss.getText();
-                   str = str.replaceAll("\\{\\{l\\|en\\|([^\\}\\{]*)\\}\\}", "$1");
-                   str = str.replaceAll("\\{\\{[^\\{\\}]*\\}\\}", "");
-                   out.println(str);
+                   //out.println(str);
+                   str = str.replaceAll("\\{\\{n-g\\|([^\\}\\{\\|]*)\\}\\}", "$1");
+                   str = str.replaceAll("\\{\\{l\\|en\\|([^\\}\\{\\|]*)\\}\\}", "$1");
+                   str = str.replaceAll("\\{\\{m\\|fi\\|([^\\}\\{\\|]*)\\}\\}", "$1");
+                   str = str.replaceAll("\\{\\{l\\|fi\\|([^\\}\\{\\|]*)\\|([^\\}\\{\\|]*)\\}\\}", "$1"=="" ? "$1":"$2");
+                   str = str.replaceAll("\\{\\{m\\|fi\\|([^\\}\\{\\|]*)\\|([^\\}\\{\\|]*)\\}\\}", "$1"=="" ? "$1":"$2");
+                   str = str.replaceAll("\\{\\{l\\|fi\\|([^\\}\\{\\|]*)\\|([^\\}\\{\\|]*)\\|[^\\{\\}]*\\}\\}", "$1"=="" ? "$1":"$2");
+                   str = str.replaceAll("\\{\\{m\\|fi\\|([^\\}\\{\\|]*)\\|([^\\}\\{\\|]*)\\|[^\\{\\}]*\\}\\}", "$1"=="" ? "$1":"$2");
+                   str = str.replaceAll("\\{\\{m\\|fi\\|([^\\}\\{\\|]*)\\|[^\\{\\}]*\\}\\}", "$1");
+                   str = str.replaceAll("\\{\\{(?!n-g|q)[^\\{\\}]*\\}\\}", "");
+                   str = str.replaceAll("\\{\\{n-g\\|([^\\}\\{\\|]*)\\}\\}", "$1");
+                   str = str.replaceAll("\\{\\{q\\|([^\\}\\{\\|]*)\\}\\}", "[$1]");
+                   str = str.replaceAll("\\[\\[([^\\[\\]]*)\\]\\]", "$1");
+                   //str = str.replaceAll("\\{\\{[^\\{\\}]*\\}\\}", "");
+                   str = str.replaceAll("''([^']*)''", "$1");
+                   str = str.trim();
+                   if(str != "") {
+                     out.println(str);
+                   }
                }
        }
 		// Close the database connection.

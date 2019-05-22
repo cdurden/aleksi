@@ -206,7 +206,7 @@ class Lemma(object):
     def __init__(self, word, lang):
         self.word = word
         self.lang = lang
-        self.translations = None
+        self.translations = []
 
     def translate(self, wi):
         if self.lang == 'fi':
@@ -262,7 +262,7 @@ class WordMorph(object):
     def to_dict(self):
         lemmas = list()
         for lemma in self.lemmas:
-            if lemma.translation is not None:
+            if len(lemma.translations) > 0:
                 lemmas.append(lemma.to_dict())
         return({'wordform': self.wordform,
                 'tags': self.tags,

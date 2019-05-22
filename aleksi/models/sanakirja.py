@@ -324,6 +324,7 @@ class FinnishWordMorph(WordMorph):
             if baseword not in lemmas:
                 lemmas.append(baseword)
                 self.lemmas.append(Lemma(baseword, 'fi'))
+        print(lemmas)
         return(self.lemmas)
     def tag(self):
         word = self.wordform.lower()

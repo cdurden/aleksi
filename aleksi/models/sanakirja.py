@@ -102,16 +102,16 @@ class DictionaryFileInterface(object):
         return(translation)
 
 class WiktionaryInterface(object):
-    def __init__(self, classpath, enwikt_db_dir=None):
-        self.classpath = classpath
+    def __init__(self, jarfile, enwikt_db_dir=None):
+        self.jarfile = jarfile
         if enwikt_db_dir is None:
             raise IOError
         self.enwikt_db_dir = enwikt_db_dir
 
     def fetch_translations(self, word, lang, add_to_db=True):
-#        command_full = 'java -cp %s com.mycompany.app.App %s' % (os.path.join(self.classpath,'lookup_enwikt.jar'),word)
+#        command_full = 'java -cp %s com.mycompany.app.App %s' % (os.path.join(self.jarfile,'lookup_enwikt.jar'),word)
 #        args = map(lambda s: s.decode('UTF8'), shlex.split(command_full.encode('utf8')))
-        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s %s' % (os.path.join(self.classpath,'enwiktlookup.jar'),self.enwikt_db_dir,word,lang))
+        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s %s' % (self.jarfile,self.enwikt_db_dir,word,lang))
         print(args)
         try:
             output = subprocess.check_output(args)

@@ -637,7 +637,7 @@ def analyze_word(request):
         wordmorph = FinnishWordMorph(wordform=word, libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
     elif lang == 'sp':
         wordmorph = SpanishWordMorph(wordform=word, spanish_morphology_path=request.registry.settings['spanish_morphology_path'])
-    wi = WiktionaryInterface(classpath=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'])
+    wi = WiktionaryInterface(jarfile=request.registry.settings['enwiktlookup_jarfile'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'])
     #sanakirja = Sanakirja(base_dir=request.registry.settings['base_dir'], enwikt_db_dir=request.registry.settings['enwikt_db_dir'], libvoikko_dir=request.registry.settings['libvoikko_dir'], voikkofi_dir=request.registry.settings['voikkofi_dir'])
     print(word)
     regex = re.compile(r"^[0-9]+$")

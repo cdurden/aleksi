@@ -30,27 +30,23 @@ public class MainClass {
 		boolean OVERWRITE_EXISTING_FILES = false;
 		boolean overwriteExisting = OVERWRITE_EXISTING_FILES;
 		String TARGET_DIRECTORY;
-        out.println(args.length);
-		if (args.length == 1) {
+        String str;
+        //out.println(args.length);
+		if (args.length == 3 & args[0].equals("-d")) {
+			TARGET_DIRECTORY = args[2];
+            out.println(args[0]);
+			if (args[0].equals("-d")) {
+                out.println("parsing Wiktionary dump");
 				//String PATH_TO_DUMP_FILE = "/opt/enwikt/enwiktionary-20180320-pages-articles.xml.bz2";
-				TARGET_DIRECTORY = args[0];
+				String PATH_TO_DUMP_FILE = args[1];
+				TARGET_DIRECTORY = args[2];
+				File dumpFile = new File(PATH_TO_DUMP_FILE);
+		        File outputDirectory = new File(TARGET_DIRECTORY);
+	       		JWKTL.parseWiktionaryDump(dumpFile, outputDirectory, overwriteExisting);
+			}
 		} else {
-                if (args.length == 3) {
-						TARGET_DIRECTORY = args[2];
-                        out.println(args[0]);
-						if (args[0].equals("-d")) {
-                                out.println("parsing Wiktionary dump");
-								//String PATH_TO_DUMP_FILE = "/opt/enwikt/enwiktionary-20180320-pages-articles.xml.bz2";
-								String PATH_TO_DUMP_FILE = args[1];
-								TARGET_DIRECTORY = args[2];
-								File dumpFile = new File(PATH_TO_DUMP_FILE);
-						        File outputDirectory = new File(TARGET_DIRECTORY);
-				        		JWKTL.parseWiktionaryDump(dumpFile, outputDirectory, overwriteExisting);
-						}
-                } else {
-                    return;
-                }
-		}
+			TARGET_DIRECTORY = args[0];
+        }
 //		
 //		    
 		// Connect to the Wiktionary database.
@@ -61,9 +57,17 @@ public class MainClass {
        IWiktionaryPage page = wkt.getPageForWord(args[1]);
        for (IWiktionaryEntry entry : page.getEntries()) {
 //           if (entry.getWordLanguage() == Language.get("fin") )
+//           for (IWiktionaryTranslation translation : entry.getTranslations(page.getEntryLanguage()))
+//               out.println(translation.getTranslation());
            if (entry.getWordLanguage() == Language.get(args[2]) )
-               for (IWikiString gloss : entry.getGlosses())
-                   out.println(gloss.getPlainText());
+//               for (IWiktionaryTranslation translation : entry.getTranslations(page.getEntryLanguage()))
+//                   out.println(translation.getTranslation());
+               for (IWikiString gloss : entry.getGlosses()) {
+                   str = gloss.getText();
+                   str = str.replaceAll("\\{\\{l\\|en\\|([^\\}\\{]*)\\}\\}", "$1");
+                   str = str.replaceAll("\\{\\{[^\\{\\}]*\\}\\}", "");
+                   out.println(str);
+               }
        }
 		// Close the database connection.
 		wkt.close();

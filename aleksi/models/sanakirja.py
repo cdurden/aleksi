@@ -266,8 +266,8 @@ class WordMorph(object):
     def to_dict(self):
         lemmas = list()
         for lemma in self.lemmas:
-            if len(lemma.translations) > 0:
-                lemmas.append(lemma.to_dict())
+            #if len(lemma.translations) > 0:
+            lemmas.append(lemma.to_dict())
         return({'wordform': self.wordform,
                 'tags': self.tags,
                 'lemmas': lemmas})

@@ -495,14 +495,14 @@ function initialize_aleksi() {
 
 
   // Return the word the cursor is over
-  if (mode == 'web') {
+  if (mode == 'app') {
     $jquery_aleksi(document).bind("click.doc",clickHandler);
     $jquery_aleksi("a").bind("click.link",linkHandler);
   }
   //$jquery_aleksi(document).click(clickHandler);
 }
 $jquery_aleksi( function() {
-  if (mode == 'web') {
+  if (mode == 'app') {
     initialize_aleksi();
   }
 } );

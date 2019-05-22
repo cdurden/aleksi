@@ -1059,9 +1059,9 @@ function analyze(word, e){
             dataType: 'json',
             //dataType: 'text',
             //contentType: 'application/json',
-            complete : analysisCompleteCallback
-            //success : analysisSuccessCallback,
-            //error: analysisErrorCallback
+            //complete : analysisCompleteCallback
+            success : analysisSuccessCallback,
+            error: analysisErrorCallback
         });
     }
 }

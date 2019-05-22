@@ -176,8 +176,8 @@ class Website(Base):
             mobile_width_meta = soup.new_tag("meta", id="mobile_width_meta")
             mobile_width_meta['content'] = "width=device-width,initial-scale=1"
             mobile_width_meta['name'] = "viewport"
-            url_settings_script = soup.new_tag("script", id="url_settings_script")
-            url_settings = { 'analyze_url': request.route_path("analyze_word",word="__word"),
+            settings_script = soup.new_tag("script", id="settings_script")
+            settings = { 'analyze_url': request.route_path("analyze_word",word="__word"),
                              'share_session_url': request.route_path("share_session"),
                              'quizlet_auth_url': request.route_path('social.auth',backend='quizlet',_query={'next': request.static_path('aleksi:content/html/done.html')}),
                              'check_quizlet_auth_url': request.route_path('is_authed',provider='quizlet'),
@@ -196,17 +196,19 @@ class Website(Base):
                              'set_quizlet_set_url': request.route_path("set_quizlet_set"),
                              'update_website_url': request.route_path("update_website"),
                            }
-            #urls_format_str = "var analyze_url = '{:s}';\n \
-            #                   var pin_url = '{:s}';\n \
-            #                   var get_pins_url = '{:s}';"
-            #url_settings_script.string = reduce(lambda s, url_setting: s+"var {:s} = {:s}".format(url_setting[0],url_setting[1]), url_settings.items(), "");
-            url_settings_script.string = ""
-            for url_setting in url_settings.items():
-                url_settings_script.string += "var {:s} = '{:s}';\n".format(url_setting[0],url_setting[1])
+            
+            #url_settings_script.string = ""
+            #for url_setting in url_settings.items():
+            #    url_settings_script.string += "var {:s} = '{:s}';\n".format(url_setting[0],url_setting[1])
+            settings_script.string = ""
+            for setting in settings.items():
+                settings_script.string += "settings['{:s}'] = '{:s}';\n".format(url_setting[0],url_setting[1])
+            settings_script.string += "var mode = 'app';\n"
+
             vhost_path_link = soup.new_tag("link", id="vhost_path")
             vhost_path_link['href'] = request.route_path('main')
 
-            jquery_noconflict_script = soup.new_tag("script", id="url_settings_script")
+            jquery_noconflict_script = soup.new_tag("script", id="jquery_noconflict_script")
             jquery_noconflict_script.string = "var $jquery_aleksi = jQuery.noConflict();"
             md5_external_js = soup.new_tag("script")
             md5_external_js['src'] = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js'
@@ -241,7 +243,7 @@ class Website(Base):
             head.insert(1,jquery_noconflict_script)
             head.insert(1,jquery_external_js)
             head.insert(1,vhost_path_link)
-            head.insert(1,url_settings_script)
+            //head.insert(1,url_settings_script)
             head.insert(1,mobile_width_meta)
 
             script_tail_regex = re.compile('.*\/script.tail.min.js.*')
@@ -264,6 +266,7 @@ class Website(Base):
             aleksi_js = soup.new_tag("script")
             aleksi_js['src'] =  request.static_path('aleksi:content/js/aleksi.js')
             head.append(aleksi_js)
+            head.append(settings_script)
 
 #            lookup_js = soup.new_tag("script")
 #            lookup_js['src'] =  request.static_path('aleksi:content/js/lookup.js')

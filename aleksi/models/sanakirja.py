@@ -258,11 +258,11 @@ class WordMorph(object):
         self.tag()
     def translate(self, wi):
         for lemma in self.lemmas:
-            print(lemma.to_dict())
             try:
                 lemma.translate(wi)
             except TranslationNotFound:
                 pass
+            print(lemma.to_dict())
     def to_dict(self):
         lemmas = list()
         for lemma in self.lemmas:

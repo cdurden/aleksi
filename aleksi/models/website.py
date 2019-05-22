@@ -202,7 +202,7 @@ class Website(Base):
             #    url_settings_script.string += "var {:s} = '{:s}';\n".format(url_setting[0],url_setting[1])
             settings_script.string = ""
             for setting in settings.items():
-                settings_script.string += "settings['{:s}'] = '{:s}';\n".format(url_setting[0],url_setting[1])
+                settings_script.string += "settings['{:s}'] = '{:s}';\n".format(setting[0],setting[1])
             settings_script.string += "var mode = 'app';\n"
 
             vhost_path_link = soup.new_tag("link", id="vhost_path")

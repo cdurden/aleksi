@@ -55,7 +55,7 @@ class Translation(Base):
 
     def to_dict(self):
         #return {'lemma': self.lemma, 'en': self.en.split(","), 'source': self.source, 'source_url': self.source_url()}
-        return {'lemma': self.lemma, 'en': self.translations, 'source': self.source, 'source_url': self.source_url()}
+        return {'lemma': self.lemma, 'en': self.en, 'source': self.source, 'source_url': self.source_url()}
 
 class MissingTranslation(Base):
     __tablename__ = 'missing_translations'

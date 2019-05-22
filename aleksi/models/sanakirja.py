@@ -217,7 +217,7 @@ class Lemma(object):
         #if translation is not None:
         #    self.translation = translation
         #    return(self.translation)
-        translations = DBSession.query(Translation).filter_by(lemma=self.word, lang=lang)
+        translations = DBSession.query(Translation).filter_by(lemma=self.word, lang=lang).fetchall()
         if len(translations)>0:
             self.translations = translations
             return(self.translations)

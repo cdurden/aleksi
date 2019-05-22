@@ -1,4 +1,4 @@
-
+# coding=utf-8
 from pyramid.config import Configurator
 
 from social_pyramid.strategy import PyramidStrategy

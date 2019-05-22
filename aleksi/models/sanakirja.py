@@ -240,7 +240,7 @@ class Lemma(object):
             return(None)
 
     def to_dict(self):
-        return {'lemma': self.word, 'lang': self.lang, 'translations': self.translations.to_dict()}
+        return {'lemma': self.word, 'lang': self.lang, 'translations': [translation.to_dict for translation in self.translations]}
         #return(self.translation.to_dict())
 
 class WordMorph(object):
@@ -485,10 +485,10 @@ class Sanakirja(object):
             #remote=False
             for baseword in self.get_base_matches(word, lang):
                 translations = self.fetch_translations(baseword, lang, remote, fail_on_remote_call)
-                data['morpheme_translations'].append(translations.to_dict())
+                data['morpheme_translations'].append([translation.to_dict for translation in translations])
         if not data['morpheme_translations']:
             translations = self.fetch_translations(word, lang, remote, fail_on_remote_call)
-            data['morpheme_translations'].append(translations.to_dict())
+            data['morpheme_translations'].append([translation.to_dict for translation in translations])
         return(data)
     
 

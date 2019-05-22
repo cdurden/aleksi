@@ -122,8 +122,8 @@ class WiktionaryInterface(object):
         regex = re.compile(r"^To")
         text_translations = [regex.sub("to", translation.strip(".")) for translation in translations if bool(translation.strip())]
         translations = []
-        print(translations)
-        if len(translations)>0:
+        print(text_translations)
+        if len(text_translations)>0:
             #translation = Translation(lemma=word, lang=lang, en=",".join(translations), source="en.wiktionary.org")
             for translation in text_translations:
                 translation = Translation(lemma=word, lang=lang, en=translation, source="en.wiktionary.org")
@@ -450,7 +450,7 @@ class Sanakirja(object):
             print("translation missing")
             return(missing_translation)
         try:
-            return(DBSession.query(Translation).filter_by(lemma=word, lang=lang).one())
+            return(DBSession.query(Translation).filter_by(lemma=word, lang=lang).all())
         except NoResultFound:
             pass
         try:

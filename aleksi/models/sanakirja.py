@@ -43,7 +43,7 @@ class Translation(Base):
     __table_args__ = {'extend_existing': True}
     id = Column(Integer, primary_key=True)
     lang = Column(Text)
-    lemma = Column(Text, unique=True)
+    lemma = Column(Text)
     en = Column(Text)
     source = Column(Text)
 

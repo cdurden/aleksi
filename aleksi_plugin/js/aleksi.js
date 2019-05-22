@@ -1296,53 +1296,7 @@ function get_quizlet_sets(){
       'dataType': 'json', 
       'success': function(_quizlet_sets)
       {
-        set_quizlet_sets(_quizlet_sets);
-        build_quizlet_set_selector();
-        update_quizlet_set_title();
-        $jquery_aleksi("#quizlet").show();
-        $jquery_aleksi("#quizlet-connect-button").hide();
-      },
-    });
-}
-function sync_to_quizlet(){
-    var prune_quizlet_on_sync = $jquery_aleksi("input[name=prune_quizlet_on_sync]").prop("checked");
-    var prune_pins_on_sync = $jquery_aleksi("input[name=prune_pins_on_sync]").prop("checked");
-    $jquery_aleksi.ajax({
-      'url': settings['sync_to_quizlet_url'],
-      'type': 'POST',
-      'tryCount': 0,
-      'retryLimit': 3,
-      'dataType': 'json', 
-      'data'    : JSON.stringify({'prune_pins_on_sync': prune_pins_on_sync, 'prune_quizlet_on_sync': prune_quizlet_on_sync}), 
-      'success': function(pins)
-      {
-        set_pins(pins);
-        build_pins_table();
-        update_create_quizlet_set_state();
-      },
-      'error': function(xhr, textStatus, errorThrown) {
-        if (xhr.status == 401) {
-        // handle error
-          var ajax_retry_callback = (function (params) {
-              return function () { $jquery_aleksi.ajax(params) }
-          })(this);
-          var quizlet_connect = new QuizletConnect(settings['quizlet_auth_url'], ajax_retry_callback);
-          if (this.tryCount <= this.retryLimit) {
-            this.tryCount++;
-            quizlet_connect.exec();
-          } 
-        }
-      }
-    });
-}
-function get_quizlet_sets(){
-    $jquery_aleksi.ajax({
-      'url': settings['get_quizlet_sets_url'],
-      'type': 'POST',
-      'dataType': 'json', 
-      'success': function(_quizlet_sets)
-      {
-        set_quizlet_sets(_quizlet_sets);
+        //set_quizlet_sets(_quizlet_sets);
         build_quizlet_set_selector();
         update_quizlet_set_title();
         $jquery_aleksi("#quizlet").show();

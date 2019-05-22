@@ -248,6 +248,7 @@ class Lemma(object):
 class WordMorph(object):
     def __init__(self, wordform):
         self.wordform = wordform
+        self.lemmas = list()
     def lemmatize(self):
         pass
     def tag(self):
@@ -257,6 +258,7 @@ class WordMorph(object):
         self.tag()
     def translate(self, wi):
         for lemma in self.lemmas:
+            print(lemma.to_dict())
             try:
                 lemma.translate(wi)
             except TranslationNotFound:

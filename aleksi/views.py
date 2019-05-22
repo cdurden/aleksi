@@ -629,6 +629,7 @@ def update_website(request):
 @view_config(route_name='analyze_word', renderer='json')
 def analyze_word(request):
     word = request.matchdict['word']
+    print(word)
     try:
         lang = request.params['lang']
     except KeyError:

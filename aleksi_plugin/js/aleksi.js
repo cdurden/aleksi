@@ -972,8 +972,8 @@ function analysisSuccessCallback(response) {
     $jquery_aleksi("#aleksi_translations_table tbody").remove();
     $jquery_aleksi("#aleksi_morph_tag_tables table").remove();
     $jquery_aleksi("#analysis_results").show();
-    response.lemmas.forEach( function(translation) {
-        for (var i=0; i<translation.en.length; i++) {
+    response.lemmas.forEach( function(lemma) {
+        for (var i=0; i<lemma.translations.length; i++) {
             var row = $jquery_aleksi(document.createElement("tr"));
             var pin_cell = $jquery_aleksi(document.createElement("td"));
             var pin_icon_span = $jquery_aleksi(document.createElement("span"));
@@ -983,11 +983,11 @@ function analysisSuccessCallback(response) {
             var fi_cell = $jquery_aleksi(document.createElement("td"));
             fi_cell.attr("class", "aleksi_table_heading");
             if (i==0) {
-                fi_cell.append(translation.lemma);
+                fi_cell.append(lemma.lemma);
             }
-            en_cell.append(translation.en[i]);
+            en_cell.append(lemma.translations[i].en);
             pin_link.append('<i class="icon-pushpin"></i>');
-            pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(translation.lemma)+'", "'+escape_double_quotes(translation.en[i])+'");');
+            pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(lemma.lemma)+'", "'+escape_double_quotes(lemma.translations[i].en)+'");');
             pin_div.attr("class","links");
             pin_link.append(pin_icon_span);
             pin_div.append(pin_link);

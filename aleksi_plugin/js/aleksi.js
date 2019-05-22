@@ -369,7 +369,7 @@ function configure_dialog() {
 
 }
 function initialize_aleksi() {
-    //alert("initializing aleksi");
+    alert("initializing aleksi");
     configure_dialog();
     window.onscroll = function() {set_menu_placement()};
 

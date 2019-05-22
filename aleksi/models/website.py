@@ -243,7 +243,7 @@ class Website(Base):
             head.insert(1,jquery_noconflict_script)
             head.insert(1,jquery_external_js)
             head.insert(1,vhost_path_link)
-            //head.insert(1,url_settings_script)
+            #head.insert(1,url_settings_script)
             head.insert(1,mobile_width_meta)
 
             script_tail_regex = re.compile('.*\/script.tail.min.js.*')

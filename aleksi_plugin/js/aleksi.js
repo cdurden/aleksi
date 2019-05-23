@@ -709,7 +709,7 @@ function build_pins_table ()
         } else {
           site_link.attr("href", "javascript:void(0);");
         }
-        site_link.append('<i class="icon icon-external-link"></i>');
+        site_link.append('<i class="icon icon-step-backward"></i>');
         links_div.append(site_link);
       }
       var source_link = $jquery_aleksi(document.createElement("a"));

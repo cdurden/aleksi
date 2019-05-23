@@ -104,7 +104,7 @@ class Pin(Base):
 
     def to_dict(self):
         if self.website is None:
-            return({'id': self.id, 'lemma': self.lemma, 'text': self.text, 'website': None})
+            return({'id': self.id, 'lemma': self.lemma, 'text': self.text, 'to': self.to, 'from': self._from, 'source_url': self.source_url, 'website': None})
         else:
-            return({'id': self.id, 'lemma': self.lemma, 'text': self.text, 'website': self.website.to_dict()})
+            return({'id': self.id, 'lemma': self.lemma, 'text': self.text, 'to': self.to, 'from': self._from, 'source_url': self.source_url, 'website': self.website.to_dict()})
 

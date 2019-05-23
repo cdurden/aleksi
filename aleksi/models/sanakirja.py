@@ -74,9 +74,11 @@ class MissingTranslation(Base):
     id = Column(Integer, primary_key=True)
     lemma = Column(Text, unique=True)
     lang = Column(Text)
+    _from = Column(Text)
+    to = Column(Text)
 
     def to_dict(self):
-        return {'lemma': self.lemma, 'en': ['not found']}
+        return {'lemma': self.lemma, 'from': self._from, 'to': self.to, 'en': ['not found']}
 
 class DictionaryFileInterface(object):
     def __init__(self, dictionary_path):
@@ -115,16 +117,17 @@ class DictionaryFileInterface(object):
         return(translation)
 
 class WiktionaryInterface(object):
-    def __init__(self, jarfile, enwikt_db_dir=None):
+    def __init__(self, jarfile, wiktionary_db_dir=None, to_lang='en'):
         self.jarfile = jarfile
-        if enwikt_db_dir is None:
+        if wiktionary_db_dir is None:
             raise IOError
-        self.enwikt_db_dir = enwikt_db_dir
+        self.wiktionary_db_dir = wiktionary_db_dir
+        self.to_lang = to_lang
 
     def fetch_translations(self, word, lang, add_to_db=True):
-#        command_full = 'java -cp %s com.mycompany.app.App %s' % (os.path.join(self.jarfile,'lookup_enwikt.jar'),word)
+#        command_full = 'java -cp %s com.mycompany.app.App %s' % (os.path.join(self.jarfile,'lookup_wiktionary.jar'),word)
 #        args = map(lambda s: s.decode('UTF8'), shlex.split(command_full.encode('utf8')))
-        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s %s' % (self.jarfile,self.enwikt_db_dir,word,lang))
+        args = shlex.split('java -cp %s com.mycompany.app.MainClass %s %s %s' % (self.jarfile,self.wiktionary_db_dir,word,lang))
         print(args)
         try:
             output = subprocess.check_output(args)
@@ -138,7 +141,7 @@ class WiktionaryInterface(object):
         if len(text_translations)>0:
             for text in text_translations:
                 #translation = Translation(lemma=word, lang=lang, en=translation, source="Wiktionary")
-                translation = Translation(lemma=word, lang=lang, _from=lang, text=text, source="Wiktionary")
+                translation = Translation(lemma=word, lang=lang, _from=lang, to=self.to_lang, text=text, source="Wiktionary")
                 translations.append(translation)
                 if add_to_db:
                     DBSession.add(translation)
@@ -420,9 +423,9 @@ class SpanishWordMorph(WordMorph):
         return(self.tags)
 
 class Sanakirja(object):
-    def __init__(self, base_dir, enwikt_db_dir=None, libvoikko_dir=None, voikkofi_dir=None):
+    def __init__(self, base_dir, wiktionary_db_dir=None, libvoikko_dir=None, voikkofi_dir=None):
         self.base_dir = os.path.abspath(os.path.normpath(base_dir))
-        self.enwikt_db_dir = enwikt_db_dir
+        self.wiktionary_db_dir = wiktionary_db_dir
 
     def voikko_tags(self, word, taglang='en'):
         from aleksi.libvoikko import Voikko, Token
@@ -466,7 +469,7 @@ class Sanakirja(object):
         except NoResultFound:
             pass
         try:
-            return(WiktionaryInterface(self.base_dir, self.enwikt_db_dir).fetch_translations(word, lang))
+            return(WiktionaryInterface(self.base_dir, self.wiktionary_db_dir).fetch_translations(word, lang))
         except TranslationNotFound:
             pass
         if remote:

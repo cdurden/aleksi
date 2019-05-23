@@ -713,8 +713,8 @@ function build_pins_table ()
         links_div.append(site_link);
       }
       var source_link = $jquery_aleksi(document.createElement("a"));
-      source_link.attr("href", get_source_link(pin));
-      //source_link.attr("href", pin.source_url);
+      //source_link.attr("href", get_source_link(pin));
+      source_link.attr("href", pin.source_url);
       source_link.append('<i class="icon icon-external-link"></i>');
       links_div.append(source_link);
       var icon_span = $jquery_aleksi(document.createElement("span"));
@@ -1040,6 +1040,7 @@ function set_pin_link(pin_link, _pin) {
 function set_unpin_link(unpin_link, pin_id) { 
     unpin_link.on("click",function() { unpin(pin_id); });
 }
+/*
 function get_source_link(translation) {
     var anchor = '';
     if (translation.lang == 'fi' & translation.source == 'en.wiktionary.org') {
@@ -1047,6 +1048,7 @@ function get_source_link(translation) {
     }
     return(translation.source_url+anchor);
 }
+*/
 function analysisSuccessCallback(response) {
     $jquery_aleksi("#requesting_analysis").hide();
     $jquery_aleksi("#aleksi_translations_table tbody").remove();
@@ -1075,7 +1077,8 @@ function analysisSuccessCallback(response) {
             pin_div.attr("class","links");
             pin_link.append(pin_icon_span);
             var source_link = $jquery_aleksi(document.createElement("a"));
-            source_link.attr("href", get_source_link(lemma.translations[i]));
+            //source_link.attr("href", get_source_link(lemma.translations[i]));
+            source_link.attr("href", lemma.translations[i].source_url);
             source_link.append('<i class="icon icon-external-link"></i>');
             pin_div.append(source_link);
             pin_div.append(pin_link);

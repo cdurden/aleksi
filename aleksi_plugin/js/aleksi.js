@@ -714,7 +714,7 @@ function build_pins_table ()
       }
       var source_link = $jquery_aleksi(document.createElement("a"));
       source_link.attr("href", get_source_link(pin));
-      source_link.attr("href", pin.source_url);
+      //source_link.attr("href", pin.source_url);
       source_link.append('<i class="icon icon-external-link"></i>');
       links_div.append(source_link);
       var icon_span = $jquery_aleksi(document.createElement("span"));

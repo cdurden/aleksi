@@ -110,7 +110,7 @@ function confirm_delete_session(session_title, callback) {
                         -->
                       <div style="float: right;">
                         <div class="links">
-                            <a href="#" class="iconlink" title="${python: '\n'.join([pin.fi for pin in session.pins])}">
+                            <a href="#" class="iconlink" title="${python: '\n'.join([pin.lemma for pin in session.pins])}">
                                 ${python: len(session.pins)} <i class="icon-pushpin"></i>
                             </a>
                             <!--<a class="iconlink deletelink" href="javascript:confirm_delete_session ${session.id})" data-session_id="${session.id}" data-ajax="false">-->

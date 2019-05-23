@@ -96,6 +96,9 @@ class Pin(Base):
     website_id = Column(Integer, ForeignKey('websites.id'))
     lemma = Column(Text)
     text = Column(Text)
+    _from = Column(Text)
+    to = Column(Text)
+    source_url = Column(Text)
     session = relationship("Session", back_populates="pins")
     website = relationship("Website", back_populates="pins")
 

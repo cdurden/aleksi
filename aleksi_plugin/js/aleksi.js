@@ -1068,7 +1068,7 @@ function analysisSuccessCallback(response) {
             if (i==0) {
                 fi_cell.append(lemma.lemma);
             }
-            en_cell.append(lemma.translations[i].en);
+            en_cell.append(lemma.translations[i].text);
             pin_link.append('<i class="icon-pushpin"></i>');
             //pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(lemma.lemma)+'", "'+escape_double_quotes(lemma.translations[i].en)+'");');
             pin['lemma'] = lemma.lemma;

@@ -730,7 +730,7 @@ function build_pins_table ()
       var fi = $jquery_aleksi(document.createElement("div"));
       var en = $jquery_aleksi(document.createElement("div"));
       fi.text(pin.lemma);
-      en.text(pin.en);
+      en.text(pin.text);
       fi.attr('contenteditable','true');
       en.attr('contenteditable','true');
       function edit_link_click_closure(en) {

@@ -94,14 +94,14 @@ class Pin(Base):
     id = Column(Integer, primary_key=True)
     session_id = Column(Integer, ForeignKey('sessions.id'))
     website_id = Column(Integer, ForeignKey('websites.id'))
-    fi = Column(Text)
-    en = Column(Text)
+    lemma = Column(Text)
+    text = Column(Text)
     session = relationship("Session", back_populates="pins")
     website = relationship("Website", back_populates="pins")
 
     def to_dict(self):
         if self.website is None:
-            return({'id': self.id, 'fi': self.fi, 'en': self.en, 'website': None})
+            return({'id': self.id, 'lemma': self.lemma, 'text': self.text, 'website': None})
         else:
-            return({'id': self.id, 'fi': self.fi, 'en': self.en, 'website': self.website.to_dict()})
+            return({'id': self.id, 'lemma': self.lemma, 'text': self.text, 'website': self.website.to_dict()})
 

@@ -672,7 +672,7 @@ def pin(request):
     session_id = request.session['aleksi_session_id']
     session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
     for pin_data in data['pins']:
-        pin = Pin(fi=pin_data['fi'], en=pin_data['en'], session=session, website=session.website)
+        pin = Pin(lemma=pin_data['lemma'], text=pin_data['text'], session=session, website=session.website)
         DBSession.add(pin)
     DBSession.flush()
     return exc.HTTPFound(request.route_url("get_pins"))

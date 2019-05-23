@@ -56,7 +56,7 @@ class Translation(Base):
             anchor = '';
             if append_anchor:
                 anchor = "#{:s}".format(lookup_anchor[self._from])
-            return("http://en.wiktionary.org/wiki/{:s}{:s}".format(self.lemma, anchor)
+            return("http://en.wiktionary.org/wiki/{:s}{:s}".format(self.lemma, anchor))
         else:
             return(self.source)
 

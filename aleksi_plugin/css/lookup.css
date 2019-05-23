@@ -94,6 +94,7 @@ div#session_dialog {
     .overflow {
               height: 200px;
                   }
+
 div.links {
     margin-right: 2px;
     width: max-content;
@@ -114,6 +115,9 @@ i.icon {
 }
 #aleksi_translations_table td {
     word-break: normal;
+}
+#aleksi_translations_table div.links {
+    padding: 1px;
 }
 .aleksi_morph_tag_table td {
     word-break: break-all;
@@ -219,7 +223,7 @@ a.reference:link {
 }
 #aleksi_dialog p {
     margin: 0;
-    padding: 0;
+    padding: 1px;
 }
 #aleksi_dialog td {
     margin: 0;
@@ -227,6 +231,9 @@ a.reference:link {
 }
 #aleksi_dialog tbody tr:nth-child(even) td, tbody tr.even td {
     background: #ddd;
+}
+#aleksi_dialog_options_pane {
+    float: left;
 }
 #aleksi_session {
     padding: 5px;

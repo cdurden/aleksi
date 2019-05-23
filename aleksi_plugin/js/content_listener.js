@@ -7,20 +7,6 @@ var enabled = false;
 
 var port = chrome.runtime.connect();
 
-window.addEventListener("message", function(event) {
-  // We only accept messages from ourselves
-  if (event.source != window)
-    return;
-
-  if (event.data.type && (event.data.type == "FROM_PAGE")) {
-      console.log("received ocr event");
-      if (event.data.text == 'ocrEvent') {
-          ocrHandler(event.data.event);
-      }
-
-  }
-}, false);
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.action=='getStatus')
@@ -29,6 +15,7 @@ chrome.runtime.onMessage.addListener(
             url = request.url;
             facebookRegExp = /https?:\/\/www.facebook.com\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
             isFacebook = facebookRegExp.test(url);
+            inject_html();
             initialize_aleksi();
             initialized = true;
             sendResponse({enabled: enabled, initialized: initialized});

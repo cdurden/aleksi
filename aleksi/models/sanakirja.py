@@ -38,24 +38,32 @@ def get_wordbases(basewords_str):
 class TranslationNotFound(Exception):
     pass
 
+lookup_anchor = {'fi': 'Finnish'}
 class Translation(Base):
     __tablename__ = 'translations'
     __table_args__ = {'extend_existing': True}
     id = Column(Integer, primary_key=True)
     lang = Column(Text)
+    _from = Column(Text)
+    to = Column(Text)
     lemma = Column(Text)
-    en = Column(Text)
+    #en = Column(Text)
+    text = Column(Text)
     source = Column(Text)
 
-    def source_url(self):
-        if self.source == "en.wiktionary.org":
-            return("http://en.wiktionary.org/wiki/"+self.lemma)
+    def source_url(self, append_anchor=True):
+        if self.source == "Wiktionary":
+            anchor = '';
+            if append_anchor:
+                anchor = "#{:s}".format(lookup_anchor[self._from])
+            return("http://en.wiktionary.org/wiki/{:s}{:s}".format(self.lemma, anchor)
         else:
             return(self.source)
 
     def to_dict(self):
         #return {'lemma': self.lemma, 'en': self.en.split(","), 'source': self.source, 'source_url': self.source_url()}
-        return {'lemma': self.lemma, 'en': self.en, 'source': self.source, 'source_url': self.source_url()}
+        #return {'lemma': self.lemma, 'en': self.en, 'source': self.source, 'source_url': self.source_url()}
+        return {'lemma': self.lemma, 'text': self.text, 'from': self._from, 'to': self.to, 'source': self.source, 'source_url': self.source_url()}
 
 class MissingTranslation(Base):
     __tablename__ = 'missing_translations'
@@ -90,7 +98,8 @@ class DictionaryFileInterface(object):
         dictionary = self.parse_dictionary()
         dict_entry = next((item for item in dictionary if item["entry_key"] == word), None)
         if dict_entry:
-            translation = Translation(lemma=dict_entry['entry_key'], en=",".join(dict_entry['translations']), lang=lang)
+            #translation = Translation(lemma=dict_entry['entry_key'], en=",".join(dict_entry['translations']), lang=lang)
+            translation = Translation(lemma=dict_entry['entry_key'], text=",".join(dict_entry['translations']), lang=lang)
         else:
             raise TranslationNotFound
         if add_to_db:
@@ -124,9 +133,9 @@ class WiktionaryInterface(object):
         translations = []
         print(text_translations)
         if len(text_translations)>0:
-            #translation = Translation(lemma=word, lang=lang, en=",".join(translations), source="en.wiktionary.org")
-            for translation in text_translations:
-                translation = Translation(lemma=word, lang=lang, en=translation, source="en.wiktionary.org")
+            for text in text_translations:
+                #translation = Translation(lemma=word, lang=lang, en=translation, source="Wiktionary")
+                translation = Translation(lemma=word, lang=lang, _from=lang, text=text, source="Wiktionary")
                 translations.append(translation)
                 if add_to_db:
                     DBSession.add(translation)

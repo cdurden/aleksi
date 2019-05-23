@@ -19,9 +19,18 @@ var settings = { 'analyze_url':'http://localhost/aleksi/analyze_word/__word.html
   'lang': 'fi'
 };
 function linkHandler(e) {
-      alert($jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target));
-      if ( $jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target) || $jquery_aleksi.contains(document.getElementById("navbar"),e.target) || $jquery_aleksi.contains(document.getElementById("session_dialog"),e.target) ) {
-          return(true);
+      //alert($jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target));
+      if (mode == 'app') {
+          if ( $jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target) || $jquery_aleksi.contains(document.getElementById("navbar"),e.target) || $jquery_aleksi.contains(document.getElementById("session_dialog"),e.target) ) {
+              return(true);
+          }
+      } else {
+          if ( $jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target) ) {
+              return(true);
+          }
+      }
+      if ($jquery_aleksi("#disable_links_checkbox").prop("checked")) {
+        e.preventDefault();
       }
       var link_behavior = $jquery_aleksi("input[name=link_behavior]:checked").val();
       if (link_behavior=="disable") {
@@ -53,7 +62,8 @@ function ocrHandler(e) {
 }
 function bindHandlers() {
     $jquery_aleksi(document).bind("click.doc",clickHandler);
-    $jquery_aleksi("a").bind("click.link",linkHandler);
+    //$jquery_aleksi("a").bind("click.link",linkHandler);
+    $jquery_aleksi("a").on("click",linkHandler);
     // Listen for the event.
 
     $jquery_aleksi(document).on("ocr",ocrHandler);
@@ -61,6 +71,7 @@ function bindHandlers() {
 function unbindHandlers() {
     $jquery_aleksi("a").unbind("click.link");
     $jquery_aleksi(document).unbind("click.doc");
+    $jquery_aleksi(document).off("ocr");
 }
 // Get the full word the cursor is over regardless of span breaks
 function getFullWord(event) {
@@ -252,7 +263,6 @@ function set_menu_placement() {
         }
     }
 }
-window.addEventListener("resize", set_menu_placement);
  
 var tag_types =[ { 'key': 'CLASS', 'label': 'Class' },
                  { 'key': 'SIJAMUOTO', 'label': 'Case' },
@@ -276,9 +286,9 @@ var session = {};
 function configure_dialog() {
     $jquery_aleksi('#aleksi').tabs();
     $jquery_aleksi('#aleksi_tabs').tabs();
-    $jquery_aleksi('a[href="#aleksi_main"]').on('click', function(e) {
-      e.stopPropagation();
-    });
+    //$jquery_aleksi('a[href="#aleksi_main"]').on('click', function(e) {
+    //  e.stopPropagation();
+    //});
     function config_dialog_clickoutside_handler(e) {
             if (e.target.id!="open_config_dialog_button") {
                 $jquery_aleksi("#config_dialog").dialog('close');
@@ -314,13 +324,6 @@ function configure_dialog() {
             click: function () {
               $jquery_aleksi(this).dialog("close");
             }
-          },
-          {
-            id: 'recapture',
-            text: 'Capture',
-            click: function () {
-              window.postMessage({ type: "FROM_PAGE", text: "ocrRecapture" }, "*");
-            }
           }],
         });
       $jquery_aleksi('#ui-tab-dialog-close').append($jquery_aleksi('#closer'));
@@ -350,18 +353,17 @@ function configure_dialog() {
         position: { my: "right top", at: "right top", of: window },
         maxHeight: $jquery_aleksi(window).height()*.95,
         draggable: true,
+        create: function(e, ui) {
+          var pane = $jquery_aleksi(this).dialog("widget").find(".ui-dialog-buttonpane");
+          var options_pane = $jquery_aleksi("<div id='aleksi_dialog_options_pane'></div>").prependTo(pane);
+          $jquery_aleksi("<div><label class='checkbox_label' ><input id='disable_links_checkbox' type='checkbox'/> Disable hyperlinks <i class='icon icon-question-sign' title='Prevent your browser tab from following hyperlinks when you click on them. This will allow Aleksi to analyze the link text instead of following the link.'></i></label></div>").prependTo(options_pane);
+          $jquery_aleksi("<div><label class='checkbox_label' ><input id='capture_ocr_checkbox' type='checkbox'/> OCR Capture <i class='icon icon-question-sign' title='Enable screen capture and optical character recognition. If enabled, a crosshair cursor will appear above the document, allowing the user to select a region to analyse by clicking and dragging. Note: This option requires the Copyfish-aleksi Chrome extension.'></i></label></div>").prependTo(options_pane);
+        },
         buttons: [{
             id: 'closer',
             text: 'Close',
             click: function () {
               $jquery_aleksi(this).dialog("close");
-            }
-          },
-          {
-            id: 'recapture',
-            text: 'Capture',
-            click: function () {
-              window.postMessage({ type: "FROM_PAGE", text: "ocrRecapture" }, "*");
             }
           }],
             /*
@@ -371,6 +373,15 @@ function configure_dialog() {
           },
         },
         */
+      });
+      $jquery_aleksi("#capture_ocr_checkbox").click(function (e) {
+          if ($jquery_aleksi(this).prop('checked')) {
+            window.postMessage({ type: "FROM_PAGE", text: "ocrEnableCapture"}, "*");
+          } else {
+            window.postMessage({ type: "FROM_PAGE", text: "ocrDisableCapture"}, "*");
+          }
+          e.preventDefault();
+          e.stopPropagation();
       });
       $jquery_aleksi("#session_dialog").dialog({
           dialogClass: 'notitle',
@@ -384,6 +395,7 @@ function configure_dialog() {
       });
     }
     $jquery_aleksi( "#aleksi_dialog" ).dialog("moveToTop");
+    //$jquery_aleksi( "#aleksi_dialog" ).css({zIndex: 2147483646});
     $jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]').addClass('yui3-cssreset');
     $jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]').addClass('ui-tabs')
                    .prepend($jquery_aleksi('#aleksi_tabs'))
@@ -402,8 +414,10 @@ function configure_dialog() {
 function initialize_aleksi() {
     //alert("initializing aleksi");
     configure_dialog();
+    $jquery_aleksi( document ).tooltip();
     if (mode == 'app') {
       window.onscroll = function() {set_menu_placement()};
+      window.addEventListener("resize", set_menu_placement);
     }
 
           $jquery_aleksi("#config_dialog").dialog({
@@ -524,7 +538,7 @@ function initialize_aleksi() {
       });
     }
   // Get the HTML in #hoverText - just a wrapper for convenience
-  var $hoverText = $jquery_aleksi("#hoverText");
+  //var $hoverText = $jquery_aleksi("#hoverText");
 
 
   // Return the word the cursor is over
@@ -533,6 +547,26 @@ function initialize_aleksi() {
     $jquery_aleksi("a").bind("click.link",linkHandler);
   }
   //$jquery_aleksi(document).click(clickHandler);
+  window.addEventListener("message", function(event) {
+    // We only accept messages from ourselves
+    if (event.source != window)
+      return;
+  
+    if (event.data.type && (event.data.type == "FROM_PAGE")) {
+        console.log("received ocr event");
+        if (event.data.text == 'ocrEvent') {
+            ocrHandler(event.data.event);
+        }
+        if (event.data.text == 'ocrEnabled') {
+            $jquery_aleksi("#capture_ocr_checkbox").prop("checked",true);
+        }
+        if (event.data.text == 'ocrDisabled') {
+            $jquery_aleksi("#capture_ocr_checkbox").prop("checked",false);
+        }
+  
+    }
+  }, false);
+  window.postMessage({ type: "FROM_PAGE", text: "ocrRequestStatus"}, "*");
 }
 $jquery_aleksi( function() {
   if (mode == 'app') {
@@ -669,25 +703,33 @@ function build_pins_table ()
       var site_link = $jquery_aleksi(document.createElement("a"));
       var edit_link = $jquery_aleksi(document.createElement("a"));
       var pin = pins[i];
-      if (pin.website) {
-        site_link.attr("href", "javascript:set_website("+pin.website.id+");");
-      } else {
-        site_link.attr("href", "javascript:void(0);");
+      if (mode == 'app') {
+        if (pin.website) {
+          site_link.attr("href", "javascript:set_website("+pin.website.id+");");
+        } else {
+          site_link.attr("href", "javascript:void(0);");
+        }
+        site_link.append('<i class="icon icon-external-link"></i>');
+        links_div.append(site_link);
       }
+      var source_link = $jquery_aleksi(document.createElement("a"));
+      source_link.attr("href", get_source_link(pin));
+      source_link.attr("href", pin.source_url);
+      source_link.append('<i class="icon icon-external-link"></i>');
+      links_div.append(source_link);
       var icon_span = $jquery_aleksi(document.createElement("span"));
-      unpin_link.attr("href", "javascript:unpin("+pin.id.toString()+");");
+      //unpin_link.attr("href", "javascript:unpin("+pin.id.toString()+");");
+      set_unpin_link(unpin_link, pin.id);
       unpin_link.append('<i class="icon icon-trash"></i>');
-      site_link.append('<i class="icon icon-external-link"></i>');
       unpin_link.append(icon_span);
       edit_link.append('<i class="icon icon-pencil"></i>');
       edit_link.attr("href", "javascript:void(0);");
-      links_div.append(site_link);
       links_div.append(edit_link);
       links_div.append(unpin_link);
       links_cell.append(links_div);
       var fi = $jquery_aleksi(document.createElement("div"));
       var en = $jquery_aleksi(document.createElement("div"));
-      fi.text(pin.fi);
+      fi.text(pin.lemma);
       en.text(pin.en);
       fi.attr('contenteditable','true');
       en.attr('contenteditable','true');
@@ -859,11 +901,33 @@ function edit_pin_fi (i, fi)
 function set_session(session) {
     this.session = session;
 }
-function set_pins(pins) {
-        clear_pins();
+function generate_pin_ids() {
+    min_id = 0;
+    for (i=0; i<this.pins.length; i++) {
+        try {
+            if(!Number.isInteger(this.pins[i].id)) throw "not an integer";
+        } catch(err) {
+            this.pins[i].id=min_id;
+        } finally {
+            current_id = this.pins[i].id;
+            if(current_id < min_id) throw "not increasing";
+            min_id = Math.max(min_id,current_id+1)
+        }
+    }
+}
+function add_pins(pins) {
         pins.forEach( function(pin) {
             this.pins.push(pin);
         });
+}
+function rm_pin(pin_id) {
+    for (i=0; i<this.pins.length; i++) {
+        if(this.pins[i].id == pin_id) this.pins.splice(i,1)
+    }
+}
+function set_pins(pins) {
+        clear_pins();
+        add_pins(pins);
 }
 function set_quizlet_sets(_quizlet_sets) {
         clear_quizlet_sets();
@@ -962,11 +1026,27 @@ function clear_quizlet_sets(url){
 }
 
 
-$jquery_aleksi(document).ready( function() {
-    reset_ui();
-});
-  $jquery_aleksi( function() {
-  } );
+//$jquery_aleksi(document).ready( function() {
+//    reset_ui();
+//});
+//  $jquery_aleksi( function() {
+//  } );
+//function set_pin_link(pin_link, lemma, i) { 
+//    pin_link.on("click",function() { pin(lemma.lemma,lemma.translations[i].en); });
+//}
+function set_pin_link(pin_link, _pin) { 
+    pin_link.on("click",function() { pin(_pin); });
+}
+function set_unpin_link(unpin_link, pin_id) { 
+    unpin_link.on("click",function() { unpin(pin_id); });
+}
+function get_source_link(translation) {
+    var anchor = '';
+    if (translation.lang == 'fi' & translation.source == 'en.wiktionary.org') {
+        anchor = '#Finnish';
+    }
+    return(translation.source_url+anchor);
+}
 function analysisSuccessCallback(response) {
     $jquery_aleksi("#requesting_analysis").hide();
     $jquery_aleksi("#aleksi_translations_table tbody").remove();
@@ -974,6 +1054,7 @@ function analysisSuccessCallback(response) {
     $jquery_aleksi("#analysis_results").show();
     response.lemmas.forEach( function(lemma) {
         for (var i=0; i<lemma.translations.length; i++) {
+            var pin = lemma.translations[i];
             var row = $jquery_aleksi(document.createElement("tr"));
             var pin_cell = $jquery_aleksi(document.createElement("td"));
             var pin_icon_span = $jquery_aleksi(document.createElement("span"));
@@ -987,9 +1068,16 @@ function analysisSuccessCallback(response) {
             }
             en_cell.append(lemma.translations[i].en);
             pin_link.append('<i class="icon-pushpin"></i>');
-            pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(lemma.lemma)+'", "'+escape_double_quotes(lemma.translations[i].en)+'");');
+            //pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(lemma.lemma)+'", "'+escape_double_quotes(lemma.translations[i].en)+'");');
+            pin['lemma'] = lemma.lemma;
+            //set_pin_link(pin_link, lemma, i);
+            set_pin_link(pin_link, pin);
             pin_div.attr("class","links");
             pin_link.append(pin_icon_span);
+            var source_link = $jquery_aleksi(document.createElement("a"));
+            source_link.attr("href", get_source_link(lemma.translations[i]));
+            source_link.append('<i class="icon icon-external-link"></i>');
+            pin_div.append(source_link);
             pin_div.append(pin_link);
             pin_cell.append(pin_div);
             row.append(fi_cell);
@@ -1144,34 +1232,71 @@ function save_pin (pin)
 }
 function unpin (pin_id)
 {
-    $jquery_aleksi.ajax({
-      'url': settings['unpin_url'],
-      'type': 'POST',
-      'dataType': 'json', 
-      'data': JSON.stringify({'pin_id': pin_id}),
-      'success': function(pins)
-      {
-        set_pins(pins);
-        build_pins_table();
-        update_create_quizlet_set_state();
-      }
-    });
+    if (mode == 'app') {
+        $jquery_aleksi.ajax({
+          'url': settings['unpin_url'],
+          'type': 'POST',
+          'dataType': 'json', 
+          'data': JSON.stringify({'pin_id': pin_id}),
+          'success': function(pins)
+          {
+            set_pins(pins);
+            build_pins_table();
+            update_create_quizlet_set_state();
+          }
+        });
+    } else {
+      rm_pin(pin_id);
+      build_pins_table();
+      update_create_quizlet_set_state();
+    }
 }
+/*
 function pin (fi, en)
 {
-    var pins = [{fi: fi, en: en}];
-    $jquery_aleksi.ajax({
-      'url': settings['pin_url'],
-      'type': 'POST',
-      'dataType': 'json', 
-      'data': JSON.stringify({'pins': pins}),
-      'success': function(pins)
-      {
-        set_pins(pins);
-        build_pins_table();
-        update_create_quizlet_set_state();
-      }
-    });
+    var new_pins = [{fi: fi, en: en}];
+    if (mode == 'app') {
+      $jquery_aleksi.ajax({
+        'url': settings['pin_url'],
+        'type': 'POST',
+        'dataType': 'json', 
+        'data': JSON.stringify({'pins': new_pins}),
+        'success': function(pins)
+        {
+          set_pins(pins);
+          build_pins_table();
+          update_create_quizlet_set_state();
+        }
+      });
+    } else {
+      add_pins(new_pins);
+      generate_pin_ids();
+      build_pins_table();
+      update_create_quizlet_set_state();
+    }
+}
+*/
+function pin (_pin)
+{
+    if (mode == 'app') {
+      $jquery_aleksi.ajax({
+        'url': settings['pin_url'],
+        'type': 'POST',
+        'dataType': 'json', 
+        'data': JSON.stringify({'pins': [_pin]}),
+        'success': function(pins)
+        {
+          set_pins(pins);
+          build_pins_table();
+          update_create_quizlet_set_state();
+        }
+      });
+    } else {
+      add_pins([_pin]);
+      generate_pin_ids();
+      build_pins_table();
+      update_create_quizlet_set_state();
+    }
 }
 function get_pins ()
 {
@@ -1426,3 +1551,4 @@ var QuizletDisconnect = (function() {
 
   return QuizletDisconnect;
 })();
+//# sourceURL=aleksi.js

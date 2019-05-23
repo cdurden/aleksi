@@ -26,7 +26,7 @@ from pyparsing import Word,delimitedList,alphanums,alphas8bit,Dict,ZeroOrMore,Li
 from pyparsing import Word as Word_
 import aspell
 
-lang_dict = {'fi': 'fin', 'sp': 'spa'}
+#lang_dict = {'fi': 'fin', 'sp': 'spa'}
 
 # return the parts separated by hyphens
 def get_wordbases(basewords_str):
@@ -38,7 +38,7 @@ def get_wordbases(basewords_str):
 class TranslationNotFound(Exception):
     pass
 
-lookup_anchor = {'fi': 'Finnish'}
+lookup_anchor = {'fin': 'Finnish'}
 class Translation(Base):
     __tablename__ = 'translations'
     __table_args__ = {'extend_existing': True}
@@ -55,7 +55,10 @@ class Translation(Base):
         if self.source == "Wiktionary":
             anchor = '';
             if append_anchor:
-                anchor = "#{:s}".format(lookup_anchor[self._from])
+                try:
+                    anchor = "#{:s}".format(lookup_anchor[self._from])
+                except:
+                    pass
             return("http://en.wiktionary.org/wiki/{:s}{:s}".format(self.lemma, anchor))
         else:
             return(self.source)

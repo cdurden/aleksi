@@ -39,7 +39,7 @@
     <!--div tal:condition="'user_id' in request.session" style="float: right; text-align: right;"><span tal:condition="'user_id' in request.session"><div tal:define="username user.username"></div></span><div><a href="${request.route_url('logout')}"><b>Sign out</b></a></div></div>
   <div tal:condition="'user_id' not in request.session" style="float: right;"><a href="${request.route_url('start')}"><b>Sign in</b></a></div-->
     <div tal:condition="python: user is not None" style="float: right; text-align: right;"><span tal:condition="python: user is not None"><div tal:define="username user.username">${user.username}</div></span><div><a href="${request.route_url('logout')}"><b>Sign out</b></a></div></div>
-  <div tal:condition="python: user is None" style="float: right;"><a href="${request.route_url('start')}"><b>Sign in</b></a></div>
+  <div tal:condition="python: user is None" style="float: right; text-align: right;"><a href="${request.route_url('start')}"><b>Sign in</b></a></div>
 </div>
 </tal:block>
     <!--

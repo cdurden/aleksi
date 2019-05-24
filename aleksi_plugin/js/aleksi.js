@@ -20,7 +20,6 @@ var settings = { 'analyse_url':'http://localhost/aleksi/analyse/__word.html' ,
   'lang': 'fi'
 };
 */
-var settings;
 function get_setting(setting) {
     if (typeof settings != 'undefined' && setting in settings) {
         return(settings[setting]);

@@ -200,7 +200,7 @@ class Website(Base):
             #url_settings_script.string = ""
             #for url_setting in url_settings.items():
             #    url_settings_script.string += "var {:s} = '{:s}';\n".format(url_setting[0],url_setting[1])
-            settings_script.string = ""
+            settings_script.string = "settings = {};\n"
             for setting in settings.items():
                 settings_script.string += "settings['{:s}'] = '{:s}';\n".format(setting[0],setting[1])
             settings_script.string += "var mode = 'app';\n"

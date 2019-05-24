@@ -268,7 +268,7 @@ class WordMorph(object):
         pass
     def tag(self):
         pass
-    def analyze(self):
+    def analyse(self):
         self.lemmatize()
         self.tag()
     def translate(self, wi):
@@ -356,7 +356,7 @@ class SpanishWordMorph(WordMorph):
     def __init__(self, wordform, spanish_morphology_path=None):
         self.wordform = wordform
         self.spanish_morphology_path = spanish_morphology_path
-    def analyze(self):
+    def analyse(self):
         word = self.wordform.lower()
         args = shlex.split('foma -l %s -e "echo START_FOMA_OUTPUT" -e "up %s" -q -s' % ('spanish.foma', word))
         print(args)
@@ -487,7 +487,7 @@ class Sanakirja(object):
         return(missing_translation)
 
 
-    def analyze_word(self, word, fail_on_remote_call=False):
+    def analyse(self, word, fail_on_remote_call=False):
         regex = re.compile(r"^[0-9]+-")
         word = regex.sub("",word)
         found = False

@@ -51,7 +51,7 @@ def js_link_words_in_elmt(elmt,soup,request):
         for word in words:
             link = soup.new_tag("a")
             link['class'] = "lookup"
-            link['href'] = request.route_path('analyze_word',word=strip_punctuation(word))
+            link['href'] = request.route_path('analyse',word=strip_punctuation(word))
             link['onClick'] = 'lookup_word("'+strip_punctuation(word)+'");return false;'
             link.string = word 
         #    print(link)
@@ -177,7 +177,7 @@ class Website(Base):
             mobile_width_meta['content'] = "width=device-width,initial-scale=1"
             mobile_width_meta['name'] = "viewport"
             settings_script = soup.new_tag("script", id="settings_script")
-            settings = { 'analyze_url': request.route_path("analyze_word",word="__word"),
+            settings = { 'analyse_url': request.route_path("analyse",word="__word"),
                              'share_session_url': request.route_path("share_session"),
                              'quizlet_auth_url': request.route_path('social.auth',backend='quizlet',_query={'next': request.static_path('aleksi:content/html/done.html')}),
                              'check_quizlet_auth_url': request.route_path('is_authed',provider='quizlet'),

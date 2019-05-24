@@ -1,13 +1,24 @@
+var settings = {'analyse_url': "http://www.aleksi.org/analyse/__word.json",
+                        'disable_links': false};
+//var settings = {};
+
 chrome.browserAction.setBadgeText({text: "off"});
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         var resp = sendResponse;
+        //if (request.action == "reload_options") {
+        //    sendResponse({settings: settings});
+        //    //chrome.tabs.sendMessage(request.tab.id,{action: 'reload_options'});
+        //}
+        if (request.action == "get_settings") {
+            sendResponse(settings);
+        }
         if (request.action == "reload") {
             updateStatus(sender.tab.id);
             sendResponse();
         }
-        if (request.action == "analyze_word") {
+        if (request.action == "analyse") {
             url = request.url;
             lang = request.lang;
             jQuery.ajax({
@@ -32,6 +43,10 @@ chrome.tabs.onActivated.addListener(function(activeInfo) {
 });
 
 function updateStatus(tabId) {
+    chrome.tabs.sendMessage(tabId,{action: 'getStatus'}, updateIconState );
+}
+/*
+function updateStatus(tabId) {
     chrome.tabs.sendMessage(tabId,{action: 'getStatus'}, function(response) {
         if (!response.initialized) {
             chrome.browserAction.setBadgeText({text: "off"});
@@ -44,6 +59,7 @@ function updateStatus(tabId) {
         }
     });
 }
+*/
 // Called when the user clicks on the browser action.
 chrome.browserAction.onClicked.addListener(toggle);
 /*

@@ -244,7 +244,7 @@ def main(global_config, **settings):
 
     config.add_route('create_session', '/create_session')
     config.add_route('dialog', '/dialog/{word}.html')
-    config.add_route('analyze_word', '/analyze_word/{word}.html')
+    config.add_route('analyse', '/analyse/{word}.json')
     config.add_route('load_session', '/session/{session_id}')
     config.add_route('share_session', '/share_session')
     config.add_route('load_shared_session', '/s/{shared_session_hash}')

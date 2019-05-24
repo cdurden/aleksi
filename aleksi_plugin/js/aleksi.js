@@ -1,4 +1,5 @@
-var settings = { 'analyze_url':'http://localhost/aleksi/analyze_word/__word.html' ,
+/*
+var settings = { 'analyse_url':'http://localhost/aleksi/analyse/__word.html' ,
   'share_session_url':'' ,
   'quizlet_auth_url':'' ,
   'check_quizlet_auth_url':'' ,
@@ -18,6 +19,13 @@ var settings = { 'analyze_url':'http://localhost/aleksi/analyze_word/__word.html
   'update_website_url': '',
   'lang': 'fi'
 };
+*/
+var settings;
+function get_setting(setting) {
+    if (typeof settings != 'undefined' && setting in settings) {
+        return(settings[setting]);
+    }
+}
 function linkHandler(e) {
       //alert($jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target));
       if (mode == 'app') {
@@ -49,7 +57,7 @@ function clickHandler(e) {
     //alert(word);
     word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
     if (word != "") {
-      analyze(word, e);
+      analyse(word, e);
     }
 }
 function ocrHandler(e) {
@@ -57,7 +65,7 @@ function ocrHandler(e) {
     var word = text.split(" ")[0];
     word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
     if (word != "") {
-      analyze(word, e);
+      analyse(word, e);
     }
 }
 function bindHandlers() {
@@ -356,7 +364,7 @@ function configure_dialog() {
         create: function(e, ui) {
           var pane = $jquery_aleksi(this).dialog("widget").find(".ui-dialog-buttonpane");
           var options_pane = $jquery_aleksi("<div id='aleksi_dialog_options_pane'></div>").prependTo(pane);
-          $jquery_aleksi("<div><label class='checkbox_label' ><input id='disable_links_checkbox' type='checkbox'/> Disable hyperlinks <i class='icon icon-question-sign' title='Prevent your browser tab from following hyperlinks when you click on them. This will allow Aleksi to analyze the link text instead of following the link.'></i></label></div>").prependTo(options_pane);
+          $jquery_aleksi("<div><label class='checkbox_label' ><input id='disable_links_checkbox' type='checkbox'/> Disable hyperlinks <i class='icon icon-question-sign' title='Prevent your browser tab from following hyperlinks when you click on them. This will allow Aleksi to analyse the link text instead of following the link.'></i></label></div>").prependTo(options_pane);
           $jquery_aleksi("<div><label class='checkbox_label' ><input id='capture_ocr_checkbox' type='checkbox'/> OCR Capture <i class='icon icon-question-sign' title='Enable screen capture and optical character recognition. If enabled, a crosshair cursor will appear above the document, allowing the user to select a region to analyse by clicking and dragging. Note: This option requires the Copyfish-aleksi Chrome extension.'></i></label></div>").prependTo(options_pane);
         },
         buttons: [{
@@ -966,7 +974,7 @@ $jquery_aleksi(document).ready(function() {
                 $jquery_aleksi("#website_selector").removeClass("ui-state-disabled");
             }
   });
-  var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+settings['loading_spinner_url']+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
+  var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
   page_overlay.appendTo(document.body);
   $jquery_aleksi("#aleksi_overlay").hide();
 });
@@ -1000,7 +1008,7 @@ function reset_ui ()
 
   var quizlet_connect_btn = $jquery_aleksi('#quizlet-connect-button');
   
-  var quizlet_connect = new QuizletConnect(settings['quizlet_auth_url'], get_quizlet_sets);
+  var quizlet_connect = new QuizletConnect(get_setting('quizlet_auth_url'), get_quizlet_sets);
   
   quizlet_connect_btn.on('click', function(e) {
     e.preventDefault();
@@ -1127,10 +1135,11 @@ function analysisCompleteCallback(response) {
     }
 }
 // AJAX-calling functions
-function analyze(word, e){
+function analyse(word, e){
     //var lang = $jquery_aleksi("select[name=lang]").val();
-    var lang = settings['lang'];
-    var url = settings['analyze_url'].replace("__word",word)
+    var lang = get_setting('lang');
+    var url = get_setting('analyse_url').replace("__word",word)
+    alert(url);
     //set interface elements to report initiation of analysis
     $jquery_aleksi( "#aleksi_word" ).text(word);
     if (!isMobile){
@@ -1173,7 +1182,7 @@ function analyze(word, e){
     });
     if (mode == 'plugin') {
         chrome.runtime.sendMessage(
-            {   action: 'analyze_word',
+            {   action: 'analyse',
                 url: url,
                 lang: lang},
             analysisCompleteCallback );
@@ -1194,7 +1203,7 @@ function analyze(word, e){
 function set_website(new_website_id){
     if (session.website.id!=new_website_id) {
         jQuery.ajax({
-            url     : settings['set_website_url'],
+            url     : get_setting('set_website_url'),
             data    : JSON.stringify({'new_website_id': new_website_id}), 
             type    : 'POST',
             dataType: 'html',
@@ -1207,7 +1216,7 @@ function set_website(new_website_id){
 function set_quizlet_set(new_quizlet_set_id){
     if (session.quizlet_set_id!=new_quizlet_set_id) {
         jQuery.ajax({
-            url     : settings['set_quizlet_set_url'],
+            url     : get_setting('set_quizlet_set_url'),
             data    : JSON.stringify({'new_quizlet_set_id': new_quizlet_set_id}), 
             type    : 'POST',
             dataType: 'html',
@@ -1221,7 +1230,7 @@ function set_quizlet_set(new_quizlet_set_id){
 function save_pin (pin)
 {
     $jquery_aleksi.ajax({
-      'url': settings['save_pin_url'],
+      'url': get_setting('save_pin_url'),
       'type': 'POST',
       'dataType': 'json', 
       'data': JSON.stringify({'pin': pin}),
@@ -1237,7 +1246,7 @@ function unpin (pin_id)
 {
     if (mode == 'app') {
         $jquery_aleksi.ajax({
-          'url': settings['unpin_url'],
+          'url': get_setting('unpin_url'),
           'type': 'POST',
           'dataType': 'json', 
           'data': JSON.stringify({'pin_id': pin_id}),
@@ -1260,7 +1269,7 @@ function pin (fi, en)
     var new_pins = [{fi: fi, en: en}];
     if (mode == 'app') {
       $jquery_aleksi.ajax({
-        'url': settings['pin_url'],
+        'url': get_setting('pin_url'),
         'type': 'POST',
         'dataType': 'json', 
         'data': JSON.stringify({'pins': new_pins}),
@@ -1283,7 +1292,7 @@ function pin (_pin)
 {
     if (mode == 'app') {
       $jquery_aleksi.ajax({
-        'url': settings['pin_url'],
+        'url': get_setting('pin_url'),
         'type': 'POST',
         'dataType': 'json', 
         'data': JSON.stringify({'pins': [_pin]}),
@@ -1304,7 +1313,7 @@ function pin (_pin)
 function get_pins ()
 {
     $jquery_aleksi.ajax({
-      'url': settings['get_pins_url'],
+      'url': get_setting('get_pins_url'),
       'type': 'POST',
       'dataType': 'json', 
       'success': function(pins)
@@ -1324,7 +1333,7 @@ function get_session() {
         return;
     }
     jQuery.ajax({
-        url     : settings['get_session_url'],
+        url     : get_setting('get_session_url'),
         type    : 'GET',
         success : function(session){
           set_session(session);
@@ -1334,7 +1343,7 @@ function get_session() {
 	  $jquery_aleksi("#lang_selector option[value='"+session.lang+"']").prop('selected', true);
           if (session.shared_session) {
             $jquery_aleksi("#share_session_button").hide();
-            var load_shared_session_url = window.settings['load_shared_session_url'].replace("__shared_session_hash",session.shared_session.hash);
+            var load_shared_session_url = get_setting('load_shared_session_url').replace("__shared_session_hash",session.shared_session.hash);
             $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
           } else {
             $jquery_aleksi("#shared_session").hide();
@@ -1346,7 +1355,7 @@ function update_current_website(){
     var website_url = session.website.url;
     showOverlay();
     jQuery.ajax({
-        url     : settings['update_website_url'],
+        url     : get_setting('update_website_url'),
         data    : JSON.stringify({'website_url': website_url, 'use_cache': false}), 
         type    : 'POST',
         dataType: 'html',
@@ -1359,7 +1368,7 @@ function update_website(){
     var website_url = $jquery_aleksi("input[name=website_url]").val();
     showOverlay();
     jQuery.ajax({
-        url     : settings['update_website_url'],
+        url     : get_setting('update_website_url'),
         data    : JSON.stringify({'website_url': website_url, 'use_cache': true}), 
         type    : 'POST',
         dataType: 'html',
@@ -1372,12 +1381,12 @@ function share_session(){
     var session_id = $jquery_aleksi("input[name=session_id]").val();
     showOverlay();
     jQuery.ajax({
-        url     : settings['share_session_url'],
+        url     : get_setting('share_session_url'),
         data    : JSON.stringify({'session_id': session_id}), 
         type    : 'POST',
         dataType: 'json',
         success : function(shared_session){
-          var load_shared_session_url = window.settings['load_shared_session_url'].replace("__shared_session_hash",shared_session.hash);
+          var load_shared_session_url = get_setting('load_shared_session_url').replace("__shared_session_hash",shared_session.hash);
           $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
           $jquery_aleksi("#share_session_button").hide();
           $jquery_aleksi("#shared_session").show();
@@ -1395,7 +1404,7 @@ function save_session(){
     var new_website_id = $jquery_aleksi("input[name=new_website_id]").val() || session.website.id;
     showOverlay();
     jQuery.ajax({
-        url     : settings['save_session_url'],
+        url     : get_setting('save_session_url'),
         data    : JSON.stringify({'session_title': session_title , 'quizlet_set_id': quizlet_set_id, 'link_behavior': link_behavior, 'lang': lang, 'website_setter_value': website_setter_value, 'website_url': website_url, 'new_website_id': new_website_id, 'use_cache': false}), 
         type    : 'POST',
         dataType: 'html',
@@ -1410,7 +1419,7 @@ function save_session(){
 function create_quizlet_set(){
     var new_quizlet_set_title = $jquery_aleksi("input[name=new_quizlet_set_title]").val();
     jQuery.ajax({
-        url     : settings['create_quizlet_set_url'],
+        url     : get_setting('create_quizlet_set_url'),
         data    : JSON.stringify({'new_quizlet_set_title': new_quizlet_set_title, 'pins': pins}), 
         type    : 'POST',
         dataType: 'json',
@@ -1427,7 +1436,7 @@ function sync_to_quizlet(){
     var prune_quizlet_on_sync = $jquery_aleksi("input[name=prune_quizlet_on_sync]").prop("checked");
     var prune_pins_on_sync = $jquery_aleksi("input[name=prune_pins_on_sync]").prop("checked");
     $jquery_aleksi.ajax({
-      'url': settings['sync_to_quizlet_url'],
+      'url': get_setting('sync_to_quizlet_url'),
       'type': 'POST',
       'tryCount': 0,
       'retryLimit': 3,
@@ -1445,7 +1454,7 @@ function sync_to_quizlet(){
           var ajax_retry_callback = (function (params) {
               return function () { $jquery_aleksi.ajax(params) }
           })(this);
-          var quizlet_connect = new QuizletConnect(settings['quizlet_auth_url'], ajax_retry_callback);
+          var quizlet_connect = new QuizletConnect(get_setting('quizlet_auth_url'), ajax_retry_callback);
           if (this.tryCount <= this.retryLimit) {
             this.tryCount++;
             quizlet_connect.exec();
@@ -1456,7 +1465,7 @@ function sync_to_quizlet(){
 }
 function get_quizlet_sets(){
     $jquery_aleksi.ajax({
-      'url': settings['get_quizlet_sets_url'],
+      'url': get_setting('get_quizlet_sets_url'),
       'type': 'POST',
       'dataType': 'json', 
       'success': function(_quizlet_sets)
@@ -1500,7 +1509,7 @@ var QuizletConnect = (function() {
     var self = this;
     $jquery_aleksi.ajax({
       type: 'get',
-      url: settings['check_quizlet_auth_url'],
+      url: get_setting('check_quizlet_auth_url'),
       dataType: 'json',
       complete: function() {
         $jquery_aleksi("#quizlet_connecting").hide();

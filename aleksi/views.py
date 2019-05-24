@@ -627,8 +627,8 @@ def update_website(request):
 #def quizlet_data(request):
 #    session_id = request.matchdict['session_id']
 
-@view_config(route_name='analyze_word', renderer='json')
-def analyze_word(request):
+@view_config(route_name='analyse', renderer='json')
+def analyse(request):
     word = request.matchdict['word']
     print(word)
     try:
@@ -646,10 +646,10 @@ def analyze_word(request):
     if regex.match(word):
         raise exc.HTTPNotFound
     try:
-        wordmorph.analyze()
+        wordmorph.analyse()
         wordmorph.translate(wi)
         results = wordmorph.to_dict()
-        #results = sanakirja.analyze_word(word,fail_on_remote_call=asbool(request.registry.settings['fail_on_remote_call']))
+        #results = sanakirja.analyse(word,fail_on_remote_call=asbool(request.registry.settings['fail_on_remote_call']))
     except NoWordDataFound:
         return exc.HTTPNotFound(headers=[('x-tm', 'commit')])
     except RemoteCall:
@@ -942,7 +942,7 @@ def dialog(request):
 #    session_id = request.session['aleksi_session_id']
     if request.matched_route.name == 'dialog':
         try:
-            analysis_results = analyze(request)
+            analysis_results = analyse(request)
         # FIXME: do these exceptions function properly?
         except NoWordDataFound:
             return exc.HTTPNotFound(headers=[('x-tm', 'commit')])

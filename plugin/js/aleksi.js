@@ -11,7 +11,7 @@ var settings = { 'analyse_url':'http://localhost/aleksi/analyse/__word.html' ,
   'get_session_url':'' ,
   'loading_spinner_url':'' ,
   'save_session_url':'' ,
-  'save_pin_url':'' ,
+  'update_pin_url':'' ,
   'create_quizlet_set_url':'' ,
   'sync_to_quizlet_url':'' ,
   'set_website_url':'' ,
@@ -30,7 +30,6 @@ function get_setting(setting) {
     }
 }
 function linkHandler(e) {
-      //alert($jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target));
       if (mode == 'app') {
           if ( $jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target) || $jquery_aleksi.contains(document.getElementById("navbar"),e.target) || $jquery_aleksi.contains(document.getElementById("session_dialog"),e.target) ) {
               return(true);
@@ -425,6 +424,12 @@ function configure_dialog() {
 function initialize_aleksi() {
     //alert("initializing aleksi");
     configure_dialog();
+    get_quizlet_sets();
+    get_session();
+    reset_ui();
+    get_pins(update_pins_interfaces);
+    set_anki_connect_get_decks_link();
+    activate_anki_connect_add_pins_button(pins);
     $jquery_aleksi( document ).tooltip();
     if (mode == 'app') {
       window.onscroll = function() {set_menu_placement()};
@@ -579,11 +584,6 @@ function initialize_aleksi() {
   update_settings();
   window.postMessage({ type: "FROM_PAGE", text: "ocrRequestStatus"}, "*");
 }
-$jquery_aleksi( function() {
-  if (mode == 'app') {
-    initialize_aleksi();
-  }
-} );
 function escape_double_quotes(str) {
     return(str.replace(/\\([\s\S])|(")/g, "\\$1$2"))
 }
@@ -699,7 +699,7 @@ function showBridge(word, nextText, prevText) {
   }
 }
 
-function build_pins_table ()
+function update_pins_table(pins)
 {
     $jquery_aleksi("#aleksi_pins_table tbody").remove();
     for (var i = pins.length-1; i >= 0; i--) {
@@ -819,7 +819,96 @@ function build_website_selector ()
     website_selector.append(select);
     $jquery_aleksi(select).selectmenu().selectmenu("option","width",false).selectmenu( "menuWidget" ).addClass( "overflow" );
 }
-function build_quizlet_set_selector ()
+
+function update_anki_connect_deck_selector(anki_connect_decks)
+{
+    var anki_connect_deck_selector = $jquery_aleksi(document.createElement("div"));
+    anki_connect_deck_selector.attr("id","anki_connect_deck_selector");
+    $jquery_aleksi("#anki_connect_deck_selector").replaceWith(anki_connect_deck_selector);
+    var use_dropdown_list = true;
+    if (use_dropdown_list) {
+        var select = $jquery_aleksi(document.createElement("select"));
+        $jquery_aleksi(select).on('selectmenuchange', function() {
+            //var new_anki_connect_deck_id = $jquery_aleksi("select[name=anki_connect_deck_id]").val() || session.anki_connect_deck_id;
+            var new_anki_connect_deck_name = $jquery_aleksi("select[name=anki_connect_deck_name]").val();
+            //set_anki_connect_deck(new_anki_connect_deck_id); 
+            get_pins(function(pins) {
+                update_pins_table(pins);
+                activate_anki_connect_add_pins_button(pins);
+            });
+        });
+        select.attr("id", "anki_connect_deck_selectmenu");
+        select.attr("name", "anki_connect_deck_name");
+        var option = $jquery_aleksi(document.createElement("option"));
+        var input_id = "anki_connect_deck_radio_0";
+        option.attr("id", input_id);
+        option.attr("value", 0);
+        option.append(" -- select an AnkiConnect deck -- ");
+        select.append(option);
+        for (var i = 0; i < anki_connect_decks.length; i++) {
+            var option = $jquery_aleksi(document.createElement("option"));
+            //var input_id = "anki_connect_deck_radio_"+anki_connect_decks[i].id;
+            var input_id = "anki_connect_deck_radio_"+i;
+            option.attr("id", input_id);
+            //option.attr("value", anki_connect_decks[i].id);
+            option.attr("value", anki_connect_decks[i]);
+            option.append(anki_connect_decks[i]);
+            //if (session.anki_connect_deck_id==anki_connect_decks[i].id) {
+            //  option.attr("selected", "true");
+            //}
+            select.append(option);
+        }
+        anki_connect_deck_selector.append(select);
+        $jquery_aleksi(select).selectmenu().selectmenu("option","width",false).selectmenu( "menuWidget" ).addClass( "overflow" );
+    } else {
+      var table = $jquery_aleksi(document.createElement("table"));
+      for (var i = 0; i < anki_connect_decks.length; i++) {
+        var row = $jquery_aleksi(document.createElement("tr"));
+        var input_cell = $jquery_aleksi(document.createElement("td"));
+        input_cell.attr("style", "'vertical-align:top'");
+        var label_cell = $jquery_aleksi(document.createElement("td"));
+        var input = $jquery_aleksi(document.createElement("input"));
+        input.attr("type", "radio");
+        //input.attr("name", "anki_connect_deck_id");
+        input.attr("name", "anki_connect_deck_name");
+        //var input_id = "anki_connect_deck_radio_"+anki_connect_decks[i].id;
+        var input_id = "anki_connect_deck_radio_"+i;
+        input.attr("id", input_id);
+        //input.attr("value", anki_connect_decks[i].id);
+        input.attr("value", anki_connect_decks[i]);
+        var label = $jquery_aleksi(document.createElement("label"));
+        //if (session.anki_connect_deck_id==anki_connect_decks[i].id) {
+        //  input.attr("checked", "true");
+        //  $jquery_aleksi("#associated_anki_connect_deck").append(anki_connect_decks[i].title);
+        //}
+        label.attr("class", "radio_input_label");
+        label.attr("for", input_id);
+        //label.append(anki_connect_decks[i].title);
+        label.append(anki_connect_decks[i]);
+        label_cell.append(label)
+        input_cell.append(input)
+        row.append(input_cell);
+        row.append(label_cell);
+        table.append(row)
+      }
+      anki_connect_deck_selector.append(table)
+    }
+    if (anki_connect_decks.length > 0) {
+      $jquery_aleksi("#anki_connect").show();
+    }
+}
+function activate_anki_connect_add_pins_button(pins) {
+    var anki_connect_deck_id = $jquery_aleksi("select[name=anki_connect_deck_name]").val();
+    if (anki_connect_deck_id != '0' & pins.length > 0) {
+      var anki_connect_add_pins_button = '<a id="anki_connect_add_pins_button">Add pins to AnkiConnect</a>';
+      $jquery_aleksi("#aleksi_anki_connect_add_pins").html(anki_connect_add_pins_button);
+      $jquery_aleksi("#anki_connect_add_pins_button").button();
+    } else {
+      $jquery_aleksi("#aleksi_anki_connect_add_pins").html('');
+    }
+    set_anki_connect_add_pins_link();
+}
+function update_quizlet_set_selector ()
 {
     var quizlet_set_selector = $jquery_aleksi(document.createElement("div"));
     quizlet_set_selector.attr("id","quizlet_set_selector");
@@ -900,13 +989,13 @@ function update_quizlet_set_title() {
 function edit_pin_en (i, en)
 {
     pins[i]['en'] = en;
-    save_pin(pins[i]);
+    update_pin(pins[i]);
     reset_ui();
 }
 function edit_pin_fi (i, fi)
 {
     pins[i]['fi'] = fi;
-    save_pin(pins[i]);
+    update_pin(pins[i]);
     reset_ui();
 }
 function set_session(session) {
@@ -926,6 +1015,7 @@ function generate_pin_ids() {
         }
     }
 }
+/*
 function add_pins(pins) {
         pins.forEach( function(pin) {
             this.pins.push(pin);
@@ -940,6 +1030,7 @@ function set_pins(pins) {
         clear_pins();
         add_pins(pins);
 }
+*/
 function set_quizlet_sets(_quizlet_sets) {
         clear_quizlet_sets();
         var that = this;
@@ -950,47 +1041,49 @@ function set_quizlet_sets(_quizlet_sets) {
           }
         });
 }
+/*
 function clear_pins ()
 {
     pins = [];
 }
+*/
 $jquery_aleksi(document).ready(function() {
   if (mode == 'app') {
     set_menu_placement();
   }
-  get_pins();
+  var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
+  page_overlay.appendTo(document.body);
+  $jquery_aleksi("#aleksi_overlay").hide();
   $jquery_aleksi("#quizlet").hide();
-  get_quizlet_sets();
-  get_session();
-  reset_ui();
   $jquery_aleksi(".controlgroup").controlgroup({
     "direction": "horizontal"
   });
   $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
   $jquery_aleksi('input[type=radio][name="website_setter"]').change(function () {
-            if (this.value == 'set_url') {
-                $jquery_aleksi("#set_website_url").removeClass("ui-state-disabled");
-                $jquery_aleksi("#website_selector").addClass("ui-state-disabled");
-            }
-            if (this.value == 'select_active') {
-                $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
-                $jquery_aleksi("#website_selector").removeClass("ui-state-disabled");
-            }
+    if (this.value == 'set_url') {
+      $jquery_aleksi("#set_website_url").removeClass("ui-state-disabled");
+      $jquery_aleksi("#website_selector").addClass("ui-state-disabled");
+    }
+    if (this.value == 'select_active') {
+      $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
+      $jquery_aleksi("#website_selector").removeClass("ui-state-disabled");
+    }
   });
-  var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
-  page_overlay.appendTo(document.body);
-  $jquery_aleksi("#aleksi_overlay").hide();
+  if (mode == 'app') {
+    initialize_aleksi();
+  }
 });
 
-function showOverlay(){
+function show_overlay(){
     $jquery_aleksi("#aleksi_overlay").show();
 }
-function hideOverlay(){
+function hide_overlay(){
     $jquery_aleksi("#aleksi_overlay").hide();
 }
 // modified from http://clarkdave.net/2012/10/2012-10-30-twitter-oauth-authorisation-in-a-popup/
 
-function update_create_quizlet_set_state () {
+function update_pins_interfaces(pins) {
+    update_pins_table(pins)
     if (pins.length>=2) {
         $jquery_aleksi("#create_quizlet_set_button").prop("disabled", false);
         $jquery_aleksi("#create_quizlet_set_button").button("enable");
@@ -1002,12 +1095,12 @@ function update_create_quizlet_set_state () {
 
 function reset_ui ()
 {
-    $jquery_aleksi("#share_session_button").button();
-    $jquery_aleksi("#save_session_button").button();
-    $jquery_aleksi("#sync_to_quizlet_button").button();
-    $jquery_aleksi("#create_quizlet_set_button").button();
-    $jquery_aleksi("#get_quizlet_sets_button").button();
-    update_create_quizlet_set_state();
+  $jquery_aleksi("#share_session_button").button();
+  $jquery_aleksi("#save_session_button").button();
+  $jquery_aleksi("#sync_to_quizlet_button").button();
+  $jquery_aleksi("#create_quizlet_set_button").button();
+  $jquery_aleksi("#get_quizlet_sets_button").button();
+  //update_create_quizlet_set_state();
 
   var quizlet_connect_btn = $jquery_aleksi('#quizlet-connect-button');
   
@@ -1045,11 +1138,66 @@ function clear_quizlet_sets(url){
 //function set_pin_link(pin_link, lemma, i) { 
 //    pin_link.on("click",function() { pin(lemma.lemma,lemma.translations[i].en); });
 //}
+function set_anki_connect_get_decks_link() { 
+    $jquery_aleksi("#anki_connect_get_decks_button").on("click",function() { anki_connect_get_decks(update_anki_connect_deck_selector) });
+}
+function anki_connect_store_pin_media(pin_id, on_success) {
+    media_data = $jquery_aleksi("#aleksi_media_data").data(pin_id.toString());
+    if (typeof media_data != 'undefined') {
+        anki_connect_store_media_file(media_data, on_success);
+    } else {
+        on_success()
+    }
+}
+function set_anki_connect_add_pins_link() { 
+    $jquery_aleksi("#anki_connect_add_pins_button").on("click",function() {
+        var anki_connect_deck_name = $jquery_aleksi("select[name=anki_connect_deck_name]").val();
+        if (anki_connect_deck_name != "0") { //FIXME: allow a deck with name 0
+        //if ($jquery_aleksi("#anki_connect_deck_0").prop("selected")==false) {
+            get_pins(function (pins) {
+                for (i=0; i<pins.length; i++) {
+                    (function(i) {
+                        anki_connect_store_pin_media(pins[i].id, function(filename) {
+                            pins[i].media_filename = filename;
+                            anki_connect_add_pins([pins[i]], anki_connect_deck_name, function() {
+                                unpin(pins[i].id,update_pins_interfaces);
+                            });
+                        });
+                    //var unpin_callback = (function(pin) { return function() { unpin(pin.id,update_pins_interfaces); } })(pins[i]);
+                    //var add_pin_callback = (function(pin) { return function() { anki_connect_add_pins([pin], anki_connect_deck_name, unpin_callback ); } })(pins[i]);
+                    })(i);
+                }
+                //anki_connect_add_pins(pins, anki_connect_deck_name, function() { clear_pins(update_pins_interfaces); });
+            });
+        }
+    });
+}
+function store_pin_data(pin_id) {
+    var $canOrig = $jquery_aleksi('#ocrext-canOrig');
+    if ($canOrig.length > 0) {
+        var dataURI = $canOrig.get(0).toDataURL();
+    }
+    var imgData;
+    if (typeof dataURI != 'undefined') {
+        if (dataURI.split(',')[0].indexOf('base64') >= 0) {
+            imgData = dataURI.split(',')[1];
+        } else {
+            imgData = unescape(dataURI.split(',')[1]);
+        }
+    }
+    var aleksi_media_data = $jquery_aleksi("#aleksi_media_data");
+    if (aleksi_media_data.length === 0) {
+        aleksi_media_data = $jquery_aleksi('<div/>', {
+            id: 'aleksi_media_data'
+        }).appendTo('body').hide();
+    }
+    aleksi_media_data.data(pin_id.toString(), imgData);
+}
 function set_pin_link(pin_link, _pin) { 
-    pin_link.on("click",function() { pin(_pin); });
+    pin_link.on("click",function() { pin(_pin, function(pins, new_pin_id) { store_pin_data(new_pin_id); update_pins_interfaces(pins); }); });
 }
 function set_unpin_link(unpin_link, pin_id) { 
-    unpin_link.on("click",function() { unpin(pin_id); });
+    unpin_link.on("click",function() { unpin(pin_id, update_pins_interfaces); });
 }
 /*
 function get_source_link(translation) {
@@ -1123,14 +1271,13 @@ function analysisSuccessCallback(result) {
         });
         $jquery_aleksi("#aleksi_morph_tag_tables").append(tag_table);
     });
-    //track_analysis_success(result);
 }
 function analysisErrorCallback(errorText) { 
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").hide();
     $jquery_aleksi("#analysis_failed").show();
-    //track_analysis_error(errorText);
 }    
+/*
 // AJAX-calling functions
 function analyse(word, e){
     //var lang = $jquery_aleksi("select[name=lang]").val();
@@ -1231,17 +1378,17 @@ function set_quizlet_set(new_quizlet_set_id){
         });
     }
 }
-function save_pin (pin)
+function update_pin(pin)
 {
     $jquery_aleksi.ajax({
-      'url': get_setting('save_pin_url'),
+      'url': get_setting('update_pin_url'),
       'type': 'POST',
       'dataType': 'json', 
       'data': JSON.stringify({'pin': pin}),
       'success': function(pins)
       {
         set_pins(pins);
-        build_pins_table();
+        update_pins_table(pins);
         update_create_quizlet_set_state();
       }
     });
@@ -1257,41 +1404,16 @@ function unpin (pin_id)
           'success': function(pins)
           {
             set_pins(pins);
-            build_pins_table();
+            update_pins_table(pins);
             update_create_quizlet_set_state();
           }
         });
     } else {
       rm_pin(pin_id);
-      build_pins_table();
+      update_pins_table(pins);
       update_create_quizlet_set_state();
     }
 }
-/*
-function pin (fi, en)
-{
-    var new_pins = [{fi: fi, en: en}];
-    if (mode == 'app') {
-      $jquery_aleksi.ajax({
-        'url': get_setting('pin_url'),
-        'type': 'POST',
-        'dataType': 'json', 
-        'data': JSON.stringify({'pins': new_pins}),
-        'success': function(pins)
-        {
-          set_pins(pins);
-          build_pins_table();
-          update_create_quizlet_set_state();
-        }
-      });
-    } else {
-      add_pins(new_pins);
-      generate_pin_ids();
-      build_pins_table();
-      update_create_quizlet_set_state();
-    }
-}
-*/
 function pin (_pin)
 {
     if (mode == 'app') {
@@ -1303,14 +1425,14 @@ function pin (_pin)
         'success': function(pins)
         {
           set_pins(pins);
-          build_pins_table();
+          update_pins_table(pins);
           update_create_quizlet_set_state();
         }
       });
     } else {
       add_pins([_pin]);
       generate_pin_ids();
-      build_pins_table();
+      update_pins_table(pins);
       update_create_quizlet_set_state();
     }
 }
@@ -1323,7 +1445,7 @@ function get_pins ()
       'success': function(pins)
       {
         set_pins(pins);
-        build_pins_table();
+        update_pins_table(pins);
         update_create_quizlet_set_state();
       },
       'error': function(data)
@@ -1342,7 +1464,7 @@ function get_session() {
         success : function(session){
           set_session(session);
           get_quizlet_sets();
-          build_quizlet_set_selector();
+          update_quizlet_set_selector();
           build_website_selector();
 	  $jquery_aleksi("#lang_selector option[value='"+session.lang+"']").prop('selected', true);
           if (session.shared_session) {
@@ -1357,7 +1479,7 @@ function get_session() {
 }
 function update_current_website(){
     var website_url = session.website.url;
-    showOverlay();
+    show_overlay();
     jQuery.ajax({
         url     : get_setting('update_website_url'),
         data    : JSON.stringify({'website_url': website_url, 'use_cache': false}), 
@@ -1370,7 +1492,7 @@ function update_current_website(){
 }
 function update_website(){
     var website_url = $jquery_aleksi("input[name=website_url]").val();
-    showOverlay();
+    show_overlay();
     jQuery.ajax({
         url     : get_setting('update_website_url'),
         data    : JSON.stringify({'website_url': website_url, 'use_cache': true}), 
@@ -1383,7 +1505,7 @@ function update_website(){
 }
 function share_session(){
     var session_id = $jquery_aleksi("input[name=session_id]").val();
-    showOverlay();
+    show_overlay();
     jQuery.ajax({
         url     : get_setting('share_session_url'),
         data    : JSON.stringify({'session_id': session_id}), 
@@ -1394,7 +1516,7 @@ function share_session(){
           $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
           $jquery_aleksi("#share_session_button").hide();
           $jquery_aleksi("#shared_session").show();
-          hideOverlay();
+          hide_overlay();
         },
     });
 }
@@ -1406,7 +1528,7 @@ function save_session(){
     var lang = $jquery_aleksi("select[name=lang]").val();
     var website_url = $jquery_aleksi("input[name=website_url]").val();
     var new_website_id = $jquery_aleksi("input[name=new_website_id]").val() || session.website.id;
-    showOverlay();
+    show_overlay();
     jQuery.ajax({
         url     : get_setting('save_session_url'),
         data    : JSON.stringify({'session_title': session_title , 'quizlet_set_id': quizlet_set_id, 'link_behavior': link_behavior, 'lang': lang, 'website_setter_value': website_setter_value, 'website_url': website_url, 'new_website_id': new_website_id, 'use_cache': false}), 
@@ -1431,7 +1553,7 @@ function create_quizlet_set(){
             $jquery_aleksi("input[name=new_quizlet_set_title]").val('');
             //get_session();
             set_quizlet_sets(_quizlet_sets);
-            build_quizlet_set_selector();
+            update_quizlet_set_selector();
             update_quizlet_set_title();
         }    
     });
@@ -1449,7 +1571,7 @@ function sync_to_quizlet(){
       'success': function(pins)
       {
         set_pins(pins);
-        build_pins_table();
+        update_pins_table(pins);
         update_create_quizlet_set_state();
       },
       'error': function(xhr, textStatus, errorThrown) {
@@ -1475,7 +1597,7 @@ function get_quizlet_sets(){
       'success': function(_quizlet_sets)
       {
         //set_quizlet_sets(_quizlet_sets);
-        build_quizlet_set_selector();
+        update_quizlet_set_selector();
         update_quizlet_set_title();
         $jquery_aleksi("#quizlet").show();
         $jquery_aleksi("#quizlet-connect-button").hide();
@@ -1518,10 +1640,6 @@ var QuizletConnect = (function() {
       complete: function() {
         $jquery_aleksi("#quizlet_connecting").hide();
       },
-      /*
-      beforeSend: function() {
-      },
-      */
       success: function(response) {
         if (response) {
           self.callback();
@@ -1542,15 +1660,6 @@ var QuizletDisconnect = (function() {
   }
 
   QuizletDisconnect.prototype.exec = function() {
-      /*
-    this.disconnected = false;
-    this.interval = this.setInterval((function() {
-      if (self.disconnected) {
-        self.clearInterval(self.interval);
-        self.finish()
-      }
-    }), 1000);
-    */
 
     $jquery_aleksi.ajax({
       type: 'get',
@@ -1567,4 +1676,5 @@ var QuizletDisconnect = (function() {
 
   return QuizletDisconnect;
 })();
+*/
 //# sourceURL=aleksi.js

@@ -88,8 +88,8 @@ div#session_dialog {
 #quizlet_set_selectmenu-button { width: 100% !important; }
 #website_selectmenu { width: 100%; }
 #website_selectmenu-button { width: 100% !important; }
-.ui-front{z-index:1005 !important; } 
-.ui-selectmenu-open {z-index:9999 !important;}
+.ui-front{z-index:100005 !important; } 
+.ui-selectmenu-open {z-index:100005 !important;}
 .ui-selectmenu-text {width: 200px;}
     .overflow {
               height: 200px;

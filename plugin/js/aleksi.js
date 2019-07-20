@@ -1415,6 +1415,7 @@ function reset_ui ()
   $jquery_aleksi("#get_quizlet_sets_button").button();
   //update_create_quizlet_set_state();
 
+    /*
   var quizlet_connect_btn = $jquery_aleksi('#quizlet-connect-button');
   
   var quizlet_connect = new QuizletConnect(get_setting('quizlet_auth_url'), get_quizlet_sets);
@@ -1436,10 +1437,7 @@ function reset_ui ()
   quizlet_connect_btn.button();
   quizlet_disconnect_btn.button();
   $jquery_aleksi("#quizlet_connecting").hide();
-}
-
-function clear_quizlet_sets(url){
-    quizlet_sets = [];
+  */
 }
 
 
@@ -1924,6 +1922,10 @@ function save_session(){
             alert("error on save_session");
         }   
     });
+}
+
+function clear_quizlet_sets(url){
+    quizlet_sets = [];
 }
 function create_quizlet_set(){
     var new_quizlet_set_title = $jquery_aleksi("input[name=new_quizlet_set_title]").val();

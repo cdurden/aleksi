@@ -21,6 +21,61 @@ var settings = { 'analyse_url':'http://localhost/aleksi/analyse/__word.html' ,
 };
 */
 
+
+function isURL(str) {
+      var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+            '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+            '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+            '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+            '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+            '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+      return pattern.test(str);
+}
+
+
+const interleave = ([ x, ...xs ], ys = []) =>
+      x === undefined
+    ? ys                             // base: no x
+    : [ x, ...interleave (ys, xs) ]  // inductive: some x
+function show_dialog() {
+    $jquery_aleksi("#analysis_failed").hide();
+    $jquery_aleksi("#analysis_results").hide();
+    $jquery_aleksi("#requesting_analysis").show();
+    if (!isMobile){
+      if ($jquery_aleksi(".ui-widget-overlay")) //the dialog has popped up in modal view
+      {
+          //fix the overlay so it scrolls down with the page
+          $jquery_aleksi(".ui-widget-overlay").css({
+              position: 'fixed',
+              top: '0'
+          });
+      
+          //get the current popup position of the dialog box
+          pos = $jquery_aleksi(".ui-dialog").position();
+      
+          //adjust the dialog box so that it scrolls as you scroll the page
+          $jquery_aleksi(".ui-dialog").css({
+              position: 'fixed',
+              top: pos.y
+          });
+      }
+    } else {
+      var winWidth = $jquery_aleksi(window).width();
+      var posX = (winWidth/2) + $jquery_aleksi(window).scrollLeft();
+      var posY = e.clientY;
+      $jquery_aleksi( "#aleksi_dialog" ).dialog("option", {
+          position: {
+          my: "center top", 
+          at: "left+"+posX.toString()+" top+"+posY.toString(),
+          of: window }
+      });
+    }
+    $jquery_aleksi( "#aleksi_dialog" ).dialog( "open" );
+    $jquery_aleksi( ".controlgroup-vertical" ).controlgroup({
+      "direction": "vertical"
+    });
+}
+
 function update_settings() {
     $jquery_aleksi("#disable_links_checkbox").prop("checked",get_setting('disable_links'));
 }
@@ -28,6 +83,61 @@ function get_setting(setting) {
     if (typeof settings != 'undefined' && setting in settings) {
         return(settings[setting]);
     }
+}
+/*
+function imgSrcToDataURL(src, callback, outputFormat) {
+  var img = new Image();
+  img.crossOrigin = 'Anonymous';
+  img.onload = function() {
+    var canvas = document.createElement('CANVAS');
+    var ctx = canvas.getContext('2d');
+    var dataURI;
+    canvas.height = this.naturalHeight;
+    canvas.width = this.naturalWidth;
+    ctx.drawImage(this, 0, 0);
+    dataURL = canvas.toDataURL(outputFormat);
+    callback(dataURL);
+  };
+  img.src = src;
+  if (img.complete || img.complete === undefined) {
+    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+    img.src = src;
+  }
+}
+*/
+function imgSrcToDataURL(src, callback, outputFormat) {
+    var x = new XMLHttpRequest();
+    x.responseType = 'blob';
+    console.log(src);
+    if (!isURL(src)) {
+        return;
+    }
+    x.open('get', src);
+    x.onload = function() {
+        var fileReader = new FileReader();
+        fileReader.onloadend = function() {
+            // fileReader.result is a data-URL (string)
+            callback(fileReader.result);
+            //window.open(fileReader.result);
+        };
+        // x.response is a Blob object
+        fileReader.readAsDataURL(x.response);
+    };
+    x.onerror = function (e) {
+          console.error(x.statusText);
+    };
+    x.send();
+}
+function setContextImgData(dataURI) {
+    var imgData;
+    if (typeof dataURI != 'undefined') {
+        if (dataURI.split(',')[0].indexOf('base64') >= 0) {
+            imgData = dataURI.split(',')[1];
+        } else {
+            imgData = unescape(dataURI.split(',')[1]);
+        }
+    }
+    window.aleksi.contextImgData = imgData;
 }
 function linkHandler(e) {
       if (mode == 'app') {
@@ -54,21 +164,72 @@ function linkHandler(e) {
       if (link_behavior=="follow_external") {
       }
 }
+function createContextImgCanvas() {
+    oCanvas = $jquery_aleksi(document.createElement("canvas")).hide();
+    oCanvas.attr("id","contextImgCanvas");
+    $jquery_aleksi('body').append(oCanvas);
+}
+function drawImgToContextImgCanvas(imgElmt) {
+    oCanvas = $jquery_aleksi('#contextImgCanvas');
+    oCtx = oCanvas.get(0).getContext('2d');
+    nWidth = imgElmt.offsetWidth;
+    nHeight = imgElmt.offsetHeight;
+    oCanvas.width = nWidth;
+    oCanvas.height = nHeight;
+    imgElmt.setAttribute('crossOrigin', 'anonymous');
+    oCtx.drawImage(imgElmt, 0, 0);
+}
+function getImgData(canvas, outputFormat) {
+    dataURI = canvas.toDataURL(outputFormat);
+    if (typeof dataURI != 'undefined') {
+        if (dataURI.split(',')[0].indexOf('base64') >= 0) {
+            imgData = dataURI.split(',')[1];
+        } else {
+            imgData = unescape(dataURI.split(',')[1]);
+        }
+    }
+    return(imgData);
+}
 function clickHandler(e) {
     var word = getFullWord(e);
     //alert(word);
     word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
     if (word != "") {
+      /*imgElmt = $jquery_aleksi(e.target).parents("div").find("img").get(0);
+      if (typeof imgElmt != 'undefined') {
+          drawImgToContextImgCanvas(imgElmt)
+      }*/
+      //imgSrc = $jquery_aleksi(e.target).parents("div").find("img").first().attr("src");
+      //var elmt = $jquery_aleksi(e.target);
+      window.aleksi.word = word;
       analyse(word, e);
     }
 }
-function ocrHandler(e) {
+function ocrHandler(message) {
     var text = $jquery_aleksi(".ocrext-ocr-message").val();
     var word = text.split(" ")[0];
     word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
+    window.aleksi.word = word;
     if (word != "") {
-      analyse(word, e);
+      analyse(word, message.event);
     }
+    /*
+    var elmt = $jquery_aleksi(e.target);
+    var img = elmt.find("img").first();
+    if (img.length == 0) {
+        img = elmt.parents("img").first();
+    }
+    var imgSrc = img.first().attr("src");
+    if ('contextImgData' in $jquery_aleksi('#ocrext-canOrig').data()) {
+        window.aleksi.contextImgData = $jquery_aleksi('#ocrext-canOrig').data().contextImgData;
+    }
+    */
+    var imgSrc = message.imgSrc;
+    window.aleksi.contextImgData = undefined;
+    if (typeof imgSrc != 'undefined') {
+        imgSrcToDataURL(imgSrc, setContextImgData);
+    }
+    window.aleksi.context = undefined;
 }
 function bindHandlers() {
     $jquery_aleksi(document).bind("click.doc",clickHandler);
@@ -125,12 +286,19 @@ function getFullWord(event) {
   alert($jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode));
   alert($jquery_aleksi("#session_dialog").dialog('isOpen'));
   */
+    var suppress = false;
+    $jquery_aleksi(".suppress-aleksi").each(function() { 
+        if (this === event.target || $jquery_aleksi.contains(this,event.target)) {
+            suppress = true; 
+            return false;
+        }
+    });
   if (mode == 'app') {
-    if (!textNode || textNode.nodeType !== Node.TEXT_NODE || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode) || $jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode) || $jquery_aleksi("#session_dialog").dialog('isOpen')) {
+    if (!textNode || textNode.nodeType !== Node.TEXT_NODE || suppress || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode) || $jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode) || $jquery_aleksi("#session_dialog").dialog('isOpen')) {
       return "";
     }
   } else {
-    if (!textNode || textNode.nodeType !== Node.TEXT_NODE || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode)) {
+    if (!textNode || textNode.nodeType !== Node.TEXT_NODE || suppress || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode)) {
       return "";
     }
   }
@@ -161,7 +329,11 @@ function getFullWord(event) {
   while (i < data.length - 1 && !isW(data[i + 1])) {
     i++;
   }
-  end = i;
+  if (data.substring(i) == ".") {
+      end = i-1;
+  } else {
+      end = i;
+  }
 
   // This is our temporary word
   var word = data.substring(begin, end + 1);
@@ -203,6 +375,31 @@ function getFullWord(event) {
       }
     }
   }
+  var elmt = $jquery_aleksi(textNode);
+  var prevAll, nextAll, siblings;
+  var img = [];
+  do {
+    prevAll = elmt.prevAll();
+    nextAll = elmt.nextAll();
+    siblings = $jquery_aleksi(prevAll.toArray().concat(nextAll.toArray()));
+    //siblings = $jquery_aleksi(interleave(prevAll.toArray(),nextAll.toArray()));
+    siblings.each(function() {
+        img = $jquery_aleksi(this).find("img").first();
+        if (img.length > 0) {
+            return false;
+        }
+    });
+    elmt = elmt.parent();
+  } 
+  //img = elmt.parents().find("img").first();
+  while (img.length == 0 && !elmt.is('html'));
+  window.aleksi.contextImgData = undefined;
+  var imgSrc = img.first().attr("src");
+  if (typeof imgSrc != 'undefined') {
+    imgSrcToDataURL(imgSrc, setContextImgData);
+  }
+  context = textNode.parentNode.textContent;
+  window.aleksi.context = context.replace(word,"<b>"+word+"</b>");
   return word;
 }
 
@@ -294,11 +491,24 @@ var session = {};
      || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) isMobile = true;
 
 function configure_dialog() {
+    $jquery_aleksi('a[href="#aleksi_main"]').on('click', function(e) {
+      e.preventDefault();
+      $jquery_aleksi( "#aleksi" ).tabs('option', 'active', 0 );
+      e.stopImmediatePropagation();
+    });
+    $jquery_aleksi('a[href="#aleksi_pins"]').on('click', function(e) {
+      e.preventDefault();
+      $jquery_aleksi( "#aleksi" ).tabs('option', 'active', 1 );
+      e.stopImmediatePropagation();
+    });
     $jquery_aleksi('#aleksi').tabs();
     $jquery_aleksi('#aleksi_tabs').tabs();
-    //$jquery_aleksi('a[href="#aleksi_main"]').on('click', function(e) {
-    //  e.stopPropagation();
-    //});
+    // Prevent hashtag change on tab link click
+    $jquery_aleksi('.ui-tab-active a').on('click', function(e){
+        e.preventDefault();
+        e.stopPropagation();
+    });
+
     function config_dialog_clickoutside_handler(e) {
             if (e.target.id!="open_config_dialog_button") {
                 $jquery_aleksi("#config_dialog").dialog('close');
@@ -367,7 +577,7 @@ function configure_dialog() {
           var pane = $jquery_aleksi(this).dialog("widget").find(".ui-dialog-buttonpane");
           var options_pane = $jquery_aleksi("<div id='aleksi_dialog_options_pane'></div>").prependTo(pane);
           $jquery_aleksi("<div><label class='checkbox_label' ><input id='disable_links_checkbox' type='checkbox'/> Disable hyperlinks <i class='icon icon-question-sign' title='Prevent your browser tab from following hyperlinks when you click on them. This will allow Aleksi to analyse the link text instead of following the link.'></i></label></div>").prependTo(options_pane);
-          $jquery_aleksi("<div><label class='checkbox_label' ><input id='capture_ocr_checkbox' type='checkbox'/> OCR Capture <i class='icon icon-question-sign' title='Enable screen capture and optical character recognition. If enabled, a crosshair cursor will appear above the document, allowing the user to select a region to analyse by clicking and dragging. Note: This option requires the Copyfish-aleksi Chrome extension.'></i></label></div>").prependTo(options_pane);
+          $jquery_aleksi("<div><label class='checkbox_label' ><input id='capture_ocr_checkbox' type='checkbox'/> OCR Capture <i class='icon icon-question-sign' title='Enable screen capture and optical character recognition. If enabled, a crosshair cursor will appear above the document, allowing the user to select a region to analyse by clicking and dragging. '></i></label></div>").prependTo(options_pane);
         },
         buttons: [{
             id: 'closer',
@@ -423,13 +633,20 @@ function configure_dialog() {
 }
 function initialize_aleksi() {
     //alert("initializing aleksi");
+    window.aleksi = {};
+    createContextImgCanvas();
+    canvas = $jquery_aleksi(document.createElement("canvas")).hide();
+    canvas.attr("id","aleksi-canvas");
+    $jquery_aleksi('body').append(canvas);
     configure_dialog();
     get_quizlet_sets();
     get_session();
     reset_ui();
-    get_pins(update_pins_interfaces);
+    get_pins(function(pins) {
+        update_pins_interfaces(pins);
+        activate_anki_connect_add_pins_button(pins);
+    });
     set_anki_connect_get_decks_link();
-    activate_anki_connect_add_pins_button(pins);
     $jquery_aleksi( document ).tooltip();
     if (mode == 'app') {
       window.onscroll = function() {set_menu_placement()};
@@ -570,15 +787,22 @@ function initialize_aleksi() {
     if (event.data.type && (event.data.type == "FROM_PAGE")) {
         console.log("received ocr event");
         if (event.data.text == 'ocrEvent') {
-            ocrHandler(event.data.event);
-        }
-        if (event.data.text == 'ocrEnabled') {
+            ocrHandler(event.data);
+        } else if (event.data.text == 'ocrEnabled') {
             $jquery_aleksi("#capture_ocr_checkbox").prop("checked",true);
-        }
-        if (event.data.text == 'ocrDisabled') {
+        } else if (event.data.text == 'ocrDisabled') {
             $jquery_aleksi("#capture_ocr_checkbox").prop("checked",false);
+        } else if (event.data.text == 'captureComplete') {
+            if ('imgSrc' in event.data) {
+                var imgSrc = event.data.imgSrc;
+                window.aleksi.contextImgData = undefined;
+                if (typeof imgSrc != 'undefined') {
+                    imgSrcToDataURL(imgSrc, setContextImgData);
+                }
+            } else {
+                window.aleksi.contextImgData = getOCRImgData();
+            }
         }
-  
     }
   }, false);
   update_settings();
@@ -843,7 +1067,7 @@ function update_anki_connect_deck_selector(anki_connect_decks)
         var input_id = "anki_connect_deck_radio_0";
         option.attr("id", input_id);
         option.attr("value", 0);
-        option.append(" -- select an AnkiConnect deck -- ");
+        option.append(" -- select an Anki deck -- ");
         select.append(option);
         for (var i = 0; i < anki_connect_decks.length; i++) {
             var option = $jquery_aleksi(document.createElement("option"));
@@ -896,11 +1120,12 @@ function update_anki_connect_deck_selector(anki_connect_decks)
     if (anki_connect_decks.length > 0) {
       $jquery_aleksi("#anki_connect").show();
     }
+    $jquery_aleksi("#anki_connect_get_decks_button").text("Refresh Anki deck list");
 }
 function activate_anki_connect_add_pins_button(pins) {
     var anki_connect_deck_id = $jquery_aleksi("select[name=anki_connect_deck_name]").val();
     if (anki_connect_deck_id != '0' & pins.length > 0) {
-      var anki_connect_add_pins_button = '<a id="anki_connect_add_pins_button">Add pins to AnkiConnect</a>';
+      var anki_connect_add_pins_button = '<a id="anki_connect_add_pins_button">Add pins to Anki</a>';
       $jquery_aleksi("#aleksi_anki_connect_add_pins").html(anki_connect_add_pins_button);
       $jquery_aleksi("#anki_connect_add_pins_button").button();
     } else {
@@ -1054,6 +1279,94 @@ $jquery_aleksi(document).ready(function() {
   var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
   page_overlay.appendTo(document.body);
   $jquery_aleksi("#aleksi_overlay").hide();
+  var capture_mask = $jquery_aleksi('<div id="aleksi_capture_mask" class="overlay suppress-aleksi"></div>');
+  capture_mask.appendTo(document.body);
+/*
+  capture_mask.on('mousedown', function(e1) {
+    ISPOSITIONED = ['absolute', 'relative', 'fixed'].indexOf($('body').css('position')) >= 0;
+        $SELECTOR = $('<div class="ocrext-selector"></div>');
+        $SELECTOR.appendTo($body);
+        if (ISPOSITIONED) {
+            startX = e.pageX - $body.scrollLeft();
+            startY = e.pageY - $body.scrollTop();
+            $SELECTOR.css({
+                'position': 'fixed'
+            });
+        } else {
+            startX = e.pageX;
+            startY = e.pageY;
+            $SELECTOR.css({
+                'position': 'absolute'
+            });
+        }
+        startCx = e.clientX;
+        startCy = e.clientY;
+
+        $SELECTOR.css({
+            left: 0,
+            top: 0,
+            width: 0,
+            height: 0,
+            zIndex: MAX_ZINDEX - 1
+        });
+
+
+    capture_mask.on('mouseup', function handler(e2) {
+      if (Math.abs(e1.clientX - e2.clientX) < 5 || Math.abs(e1.clientY - e2.clientY) < 5) {
+        // click
+        $jquery_aleksi('img').each(function() {
+          if (mouse_event_over_element(e, $jquery_aleksi(this))) {
+            var imgSrc = $jquery_aleksi(this).attr("src");
+            imgSrcToDataURL(imgSrc, setContextImgData);
+            return false;
+          }
+        });
+      } else {
+        // drag
+        chrome.runtime.sendMessage({
+            evt: 'capture-screen'
+        }, function (response) {
+            var img = new Image();
+            img.onload = function () {
+                var can = $jquery_aleksi('#aleksi-canvas');
+                var sx = Math.min(e1.clientX, e2.clientX),
+                    sy = Math.min(e1.clientY, e2.clientY),
+                    width = Math.abs(e2.clientX - e1.clientX),
+                    height = Math.abs(e2.clientY - e1.clientY);
+                can.attr({
+                    width: width,
+                    height: height
+                });
+                var ctx = can.get(0).getContext('2d');
+                //ctx.drawImage(img, 0, 0, width, height, 0, 0, width, height);
+                ctx.drawImage(img, sx, sy, width, height, 0, 0, width, height);
+                //ctx.drawImage(img, 300, 100, width, height, 0, 0, width, height);
+                //ctx.drawImage(img, 0, 0);
+                dataURL = can.get(0).toDataURL();
+                setContextImgData(dataURL);
+            };
+           img.src = response.dataURL;
+        });
+      }
+      $jquery_aleksi(this).hide();
+      capture_mask.off('mouseup mousemove', handler);
+    });
+  });
+*/
+/*
+  capture_mask.on('click', function(e) {
+    $jquery_aleksi('img').each(function() {
+      if (mouse_event_over_element(e, $jquery_aleksi(this))) {
+        var imgSrc = $jquery_aleksi(this).attr("src");
+        imgSrcToDataURL(imgSrc, setContextImgData);
+        return false;
+      }
+    });
+    $jquery_aleksi(this).hide();
+  });
+*/
+  capture_mask.hide();
+  //$jquery_aleksi("#aleksi_capture_mask").hide();
   $jquery_aleksi("#quizlet").hide();
   $jquery_aleksi(".controlgroup").controlgroup({
     "direction": "horizontal"
@@ -1140,15 +1453,28 @@ function clear_quizlet_sets(url){
 //}
 function set_anki_connect_get_decks_link() { 
     $jquery_aleksi("#anki_connect_get_decks_button").on("click",function() { anki_connect_get_decks(update_anki_connect_deck_selector) });
+    anki_connect_get_decks_button_container = $jquery_aleksi("#anki_connect_get_decks_button_container");
+    $jquery_aleksi("<label class='button_label' > <i class='icon icon-question-sign' title='Connect to Anki for memorization of pinned words. To use this feature, you must have Anki installed and open on your computer, and the AnkiConnect add-on must also be installed and enabled.'></i></label>").appendTo(anki_connect_get_decks_button_container);
 }
+/*
 function anki_connect_store_pin_media(pin_id, on_success) {
-    media_data = $jquery_aleksi("#aleksi_media_data").data(pin_id.toString());
-    if (typeof media_data != 'undefined') {
-        anki_connect_store_media_file(media_data, on_success);
-    } else {
-        on_success()
+    //media_data = $jquery_aleksi("#aleksi_pin_data").data(pin_id.toString());
+    if ('contextImgData' in window.aleksi.pin_data[pin_id.toString()]) {
+        var contextImgData = window.aleksi.pin_data[pin_id.toString()]['contextImgData'];
+    //media_data = {'ocrImgData': window.aleksi.pin_data[pin_id.toString()]['ocrImgData'],
+    //              'contextImgData': window.aleksi.pin_data[pin_id.toString()]['contextImgData']};
+    //if (typeof media_data['contextImgData'] != 'undefined') {
+        anki_connect_store_media_data(contextImgData, on_success);
+        return;
     }
+    if ('ocrImgData' in window.aleksi.pin_data[pin_id.toString()]) {
+        var ocrImgData = window.aleksi.pin_data[pin_id.toString()]['ocrImgData'];
+        anki_connect_store_media_data(ocrImgData, on_success);
+        return;
+    }
+    on_success();
 }
+*/
 function set_anki_connect_add_pins_link() { 
     $jquery_aleksi("#anki_connect_add_pins_button").on("click",function() {
         var anki_connect_deck_name = $jquery_aleksi("select[name=anki_connect_deck_name]").val();
@@ -1157,44 +1483,84 @@ function set_anki_connect_add_pins_link() {
             get_pins(function (pins) {
                 for (i=0; i<pins.length; i++) {
                     (function(i) {
-                        anki_connect_store_pin_media(pins[i].id, function(filename) {
-                            pins[i].media_filename = filename;
-                            anki_connect_add_pins([pins[i]], anki_connect_deck_name, function() {
-                                unpin(pins[i].id,update_pins_interfaces);
-                            });
+                        anki_connect_add_pin(pins[i], anki_connect_deck_name, function() {
+                            unpin(pins[i].id, update_pins_interfaces);
                         });
-                    //var unpin_callback = (function(pin) { return function() { unpin(pin.id,update_pins_interfaces); } })(pins[i]);
-                    //var add_pin_callback = (function(pin) { return function() { anki_connect_add_pins([pin], anki_connect_deck_name, unpin_callback ); } })(pins[i]);
                     })(i);
                 }
-                //anki_connect_add_pins(pins, anki_connect_deck_name, function() { clear_pins(update_pins_interfaces); });
             });
         }
     });
 }
+function getOCRImgData() {
+    var $canOrig = $jquery_aleksi('#ocrext-canOrig');
+    var ocrImgData;
+    if ($canOrig.length > 0) {
+        ocrImgData = getImgData($canOrig.get(0));
+    }
+    return(ocrImgData)
+}
+/*
 function store_pin_data(pin_id) {
     var $canOrig = $jquery_aleksi('#ocrext-canOrig');
+    var ocrImgData;
     if ($canOrig.length > 0) {
-        var dataURI = $canOrig.get(0).toDataURL();
+        ocrImgData = getImgData($canOrig.get(0));
     }
-    var imgData;
-    if (typeof dataURI != 'undefined') {
-        if (dataURI.split(',')[0].indexOf('base64') >= 0) {
-            imgData = dataURI.split(',')[1];
-        } else {
-            imgData = unescape(dataURI.split(',')[1]);
-        }
+    var contextImgData;
+    if ('contextImgData' in window.aleksi) {
+		contextImgData = window.aleksi.contextImgData;
+	}
+    if (!('pin_data' in window.aleksi)) {
+        window.aleksi.pin_data = {};
     }
-    var aleksi_media_data = $jquery_aleksi("#aleksi_media_data");
-    if (aleksi_media_data.length === 0) {
-        aleksi_media_data = $jquery_aleksi('<div/>', {
-            id: 'aleksi_media_data'
-        }).appendTo('body').hide();
+    window.aleksi.pin_data[pin_id.toString()] = {'ocrImgData': ocrImgData, 'contextImgData': contextImgData, 'contextString': window.aleksi.context};
+}
+*/
+/*
+function captureContextImg(e) {
+    var elmt = $jquery_aleksi(e.target);
+    var img = elmt.find("img").first()
+    var prevAll;
+    while (img.length == 0 && !elmt.is('html')) {
+      prevAll = elmt.prevAll();
+      img = prevAll.find("img").first();
+      elmt = elmt.parent();
+    } 
+    //img = elmt.parents().find("img").first();
+    window.aleksi.contextImgData = undefined;
+    var imgSrc = img.first().attr("src");
+    if (typeof imgSrc != 'undefined') {
+      imgSrcToDataURL(imgSrc, setContextImgData);
     }
-    aleksi_media_data.data(pin_id.toString(), imgData);
+}
+*/
+function mouse_event_over_element(evt, elem) {
+  var o= elem.offset();
+  var w= elem.width();
+  var h= elem.height();
+  val = evt.pageX >= o.left && evt.pageX <= o.left + w && evt.pageY >= o.top && evt.pageY <= o.top + h;
+  return val;
+}
+
+function set_capture_link(capture_link) { 
+    capture_link.on("click",function(e) { 
+        //$jquery_aleksi('#aleksi_capture_mask').show();
+        window.postMessage({ type: "FROM_PAGE", text: "capture"}, "*");
+        e.stopImmediatePropagation();
+        e.preventDefault();
+    });
 }
 function set_pin_link(pin_link, _pin) { 
-    pin_link.on("click",function() { pin(_pin, function(pins, new_pin_id) { store_pin_data(new_pin_id); update_pins_interfaces(pins); }); });
+    pin_link.on("click",function(e) { 
+        _pin.word = window.aleksi.word;
+        _pin.context = window.aleksi.context;
+        _pin.contextImgData = window.aleksi.contextImgData;
+        //_pin.ocrImgData = getOCRImgData();
+        pin(_pin, function(pins, new_pin_id) { update_pins_interfaces(pins); });
+        e.stopImmediatePropagation();
+        e.preventDefault();
+    });
 }
 function set_unpin_link(unpin_link, pin_id) { 
     unpin_link.on("click",function() { unpin(pin_id, update_pins_interfaces); });
@@ -1208,12 +1574,25 @@ function get_source_link(translation) {
     return(translation.source_url+anchor);
 }
 */
-function analysisSuccessCallback(result) {
+function update_translations_table(result) {
     $jquery_aleksi("#requesting_analysis").hide();
     $jquery_aleksi("#aleksi_translations_table tbody").remove();
     $jquery_aleksi("#aleksi_morph_tag_tables table").remove();
     $jquery_aleksi("#analysis_results").show();
+    if (typeof result === 'undefined' || result.lemmas.length == 0) {
+        var row = $jquery_aleksi(document.createElement("tr"));
+        var cell = $jquery_aleksi(document.createElement("td"));
+        cell.append("No results found.");
+        row.append(cell);
+        $jquery_aleksi("#aleksi_translations_table").append(row);
+    }
+    if (typeof result === 'undefined') {
+        return;
+    }
     result.lemmas.forEach( function(lemma) {
+        if (lemma.translations.length == 0) {
+            lemma.translations = [{'text': '<b>not found</b>', 'source_url': 'javascript:void(0);'}];
+        }
         for (var i=0; i<lemma.translations.length; i++) {
             var pin = lemma.translations[i];
             var row = $jquery_aleksi(document.createElement("tr"));
@@ -1221,6 +1600,7 @@ function analysisSuccessCallback(result) {
             var pin_icon_span = $jquery_aleksi(document.createElement("span"));
             var pin_div = $jquery_aleksi(document.createElement("div"));
             var pin_link = $jquery_aleksi(document.createElement("a"));
+            var capture_link = $jquery_aleksi(document.createElement("a"));
             var en_cell = $jquery_aleksi(document.createElement("td"));
             var fi_cell = $jquery_aleksi(document.createElement("td"));
             fi_cell.attr("class", "aleksi_table_heading");
@@ -1229,16 +1609,19 @@ function analysisSuccessCallback(result) {
             }
             en_cell.append(lemma.translations[i].text);
             pin_link.append('<i class="icon-pushpin"></i>');
+            capture_link.append('<i class="icon-picture"></i>');
             //pin_link.attr("href", 'javascript:pin("'+escape_double_quotes(lemma.lemma)+'", "'+escape_double_quotes(lemma.translations[i].en)+'");');
             pin['lemma'] = lemma.lemma;
             //set_pin_link(pin_link, lemma, i);
             set_pin_link(pin_link, pin);
+            set_capture_link(capture_link);
             pin_div.attr("class","links");
             pin_link.append(pin_icon_span);
             var source_link = $jquery_aleksi(document.createElement("a"));
             //source_link.attr("href", get_source_link(lemma.translations[i]));
             source_link.attr("href", lemma.translations[i].source_url);
             source_link.append('<i class="icon icon-external-link"></i>');
+            pin_div.append(capture_link);
             pin_div.append(source_link);
             pin_div.append(pin_link);
             pin_cell.append(pin_div);
@@ -1272,7 +1655,7 @@ function analysisSuccessCallback(result) {
         $jquery_aleksi("#aleksi_morph_tag_tables").append(tag_table);
     });
 }
-function analysisErrorCallback(errorText) { 
+function report_analysis_failed(errorText) { 
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").hide();
     $jquery_aleksi("#analysis_failed").show();
@@ -1330,7 +1713,7 @@ function analyse(word, e){
                 //url: url,
                 lang: lang}, function (response) { 
                                 if (response['textStatus']=='success') {
-                                    analysisSuccessCallback(response['response']);
+                                    update_translations_table(response['response']);
                                 }
                                 if (response['textStatus']=='error') {
                                     analysisErrorCallback(response['errorText']);
@@ -1346,7 +1729,7 @@ function analyse(word, e){
             //dataType: 'text',
             //contentType: 'application/json',
             //complete : analysisCompleteCallback
-            success : analysisSuccessCallback,
+            success : update_translations_table,
             error: analysisErrorCallback
         });
     }

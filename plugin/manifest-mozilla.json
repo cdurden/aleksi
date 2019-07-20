@@ -1,7 +1,7 @@
 {
     "name": "Aleksi Browser Plugin",
     "description": "Fetches and displays analytical information about Finnish words on a webpage",
-    "version": "1.02",
+    "version": "1.0",
     "permissions": [
         "storage",
         "activeTab",
@@ -31,6 +31,12 @@
     },
     "browser_action": {
         "default_title": "Toggle analysis of Finnish words on this page"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{41286fcb-6a7e-4cbf-84c0-8f197d9edec7}",
+            "strict_min_version": "42.0"
+        }
     },
     "manifest_version": 2
 }

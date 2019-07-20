@@ -1,1 +1,1 @@
-/home/cld/aleksi/plugin/js/aleksi.js
+../../../plugin/js/aleksi.js

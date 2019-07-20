@@ -34,7 +34,7 @@ chrome.storage.onChanged.addListener(function(changes, namespace) {
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.action=='getStatus')
-            sendResponse({enabled: enabled, initialized: initialized});
+            sendResponse({'enabled': enabled, 'initialized': initialized});
         if (request.action=='initialize') {
             if (typeof settings != "undefined") {
                 url = request.url;
@@ -50,9 +50,18 @@ chrome.runtime.onMessage.addListener(
             bindHandlers();
             enabled = true;
             sendResponse({enabled: enabled, initialized: initialized});
+            $jquery_aleksi("#aleksi_word").text("");
+            $jquery_aleksi("#analysis_failed").hide();
+            $jquery_aleksi("#analysis_results").show();
+            $jquery_aleksi("body").css("cursor","pointer");
+            load_last_analysis_results();
+            //update_translations_table();
+            show_dialog();
+            activateOCR();
         }
         if (request.action=='disable') {
             $jquery_aleksi("#aleksi_dialog").dialog("close");
+            $jquery_aleksi("body").css("cursor","auto");
             unbindHandlers();
             enabled = false;
             sendResponse({enabled: enabled, initialized: initialized});
@@ -60,3 +69,18 @@ chrome.runtime.onMessage.addListener(
     }
 );
 
+function activateOCR() {
+    chrome.runtime.sendMessage({
+                'evt': 'activateOCR',
+            }, function() {});
+}
+
+function load_last_analysis_results() {
+    chrome.runtime.sendMessage({action: 'get_last_analysis_results'}, function(response) {
+        $jquery_aleksi("#aleksi_word" ).text(response['last_analysis_results']['word']);
+        $jquery_aleksi("#analysis_failed").hide();
+        $jquery_aleksi("#analysis_results").hide();
+        $jquery_aleksi("#requesting_analysis").show();
+        update_translations_table(response['last_analysis_results']['results']);
+    });
+}

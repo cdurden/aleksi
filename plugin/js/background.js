@@ -19,31 +19,33 @@ chrome.runtime.onMessage.addListener(
         //    //chrome.tabs.sendMessage(request.tab.id,{action: 'reload_options'});
         //}
 
-        if (request.action == "anki_connect_store_media_file") {
+        if (request.action == "anki_connect_store_media_data") {
             media_data = request.media_data; // base64 encoded
-            filename = md5(media_data)+'.png';
+            var filename = md5(media_data)+'.png';
             data = anki_request('storeMediaFile', {'filename': filename, 'data': media_data});
-            chrome.storage.sync.get({'anki_connect_url': settings['anki_connect_url']}, function(result) { 
-                var url = result.anki_connect_url
-                jQuery.ajax({
-                    'url'  : url,
-            	    'data' : JSON.stringify(data),
-                    'contentType': 'application/json; charset=utf-8',
-                    'type' : 'POST',
-                    'dataType' : 'json',
-                    'beforeSend' : function() {
-                        //track_anki_request();
-                    },
-                    success : function(response, textStatus, xhr) {
-                        sendResponse({'filename': filename, 'textStatus': textStatus, 'xhr': xhr, 'response': response});
-                        //track_anki_success(response);
-                    },
-                    error : function(xhr, textStatus, errorText) {
-                        sendResponse({'textStatus': textStatus, 'xhr': xhr, 'errorText': errorText});
-                        //track_anki_error(errorText);
-                    }
+            (function(filename) {
+                chrome.storage.sync.get({'anki_connect_url': settings['anki_connect_url']}, function(result) { 
+                    var url = result.anki_connect_url
+                    jQuery.ajax({
+                        'url'  : url,
+                	    'data' : JSON.stringify(data),
+                        'contentType': 'application/json; charset=utf-8',
+                        'type' : 'POST',
+                        'dataType' : 'json',
+                        'beforeSend' : function() {
+                            //track_anki_request();
+                        },
+                        success : function(response, textStatus, xhr) {
+                            sendResponse({'filename': filename, 'textStatus': textStatus, 'xhr': xhr, 'response': response});
+                            //track_anki_success(response);
+                        },
+                        error : function(xhr, textStatus, errorText) {
+                            sendResponse({'textStatus': textStatus, 'xhr': xhr, 'errorText': errorText});
+                            //track_anki_error(errorText);
+                        }
+                    });
                 });
-            });
+            })(filename);
             return true;
         }
         if (request.action == "anki_connect_create_deck") {
@@ -98,16 +100,23 @@ chrome.runtime.onMessage.addListener(
         }
         if (request.action == "anki_connect_add_pins") {
             var media_html = '';
+            var context_html = '';
             notes = request.pins.map(function(pin) {
                 if ('media_filename' in pin) {
                     media_html = "<div><img src='"+pin.media_filename+"'/></div>";
+                }
+                if ('context' in pin && typeof pin.context != 'undefined') {
+                    context_html = "<p>"+pin.context+"</p>";
                 }
                 note = {
                     "deckName": request.deckName,
                     "modelName": "Basic",
                     "fields": {
-                        "Front": pin['lemma']+media_html,
-                        "Back": pin['text'] 
+                        "Lemma": pin['lemma'],
+                        "Word": pin['word'],
+                        "TranslationText": pin['text'],
+                        "Context": context_html,
+                        "Media": media_html 
                     },
                     "tags": []
                 };
@@ -144,52 +153,85 @@ chrome.runtime.onMessage.addListener(
             updateStatus(sender.tab.id);
             sendResponse();
         }
+        if (request.action == "get_last_analysis_results") {
+            chrome.storage.local.get({'last_analysis_results': 
+                {
+                    'word': 'tervetuloa', 
+                    'results': {"wordform": "tervetuloa", "lemmas":
+                        [
+                            {"translations": 
+                                [{"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "healthy, sane (enjoying health and vigor of body, mind, or spirit)", "source": "Wiktionary"}, {"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "healthy, sound (beneficial)", "source": "Wiktionary"}, {"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "sound, well (free from injury, disease)", "source": "Wiktionary"}, {"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "sound (complete, solid, or secure)", "source": "Wiktionary"}, {"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "able-bodied (having a sound, strong body)", "source": "Wiktionary"}, {"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "Said when meeting, hello", "source": "Wiktionary"}, {"from": "fin", "lemma": "terve", "source_url": "http://en.wiktionary.org/wiki/terve#Finnish", "to": "en", "text": "Said when departing, bye", "source": "Wiktionary"}]
+                                , "lang": "fi", "lemma": "terve"}, 
+                            {"translations": 
+                                [{"from": "fin", "lemma": "tulo", "source_url": "http://en.wiktionary.org/wiki/tulo#Finnish", "to": "en", "text": "coming, arrival", "source": "Wiktionary"}, {"from": "fin", "lemma": "tulo", "source_url": "http://en.wiktionary.org/wiki/tulo#Finnish", "to": "en", "text": "product", "source": "Wiktionary"}, {"from": "fin", "lemma": "tulo", "source_url": "http://en.wiktionary.org/wiki/tulo#Finnish", "to": "en", "text": "income", "source": "Wiktionary"}, {"from": "fin", "lemma": "tulo", "source_url": "http://en.wiktionary.org/wiki/tulo#Finnish", "to": "en", "text": "revenue", "source": "Wiktionary"}, {"from": "fin", "lemma": "tulo", "source_url": "http://en.wiktionary.org/wiki/tulo#Finnish", "to": "en", "text": "in (port that takes an input signal of some kind)", "source": "Wiktionary"}]
+                                , "lang": "fi", "lemma": "tulo"},
+                            {"translations": 
+                                [], "lang": "fi", "lemma": "tervetulo"},
+                            {"translations": 
+                                [{"from": "fin", "lemma": "tervetuloa", "source_url": "http://en.wiktionary.org/wiki/tervetuloa#Finnish", "to": "en", "text": "{{qualifier|when greeting}} welcome, great to see you, nice you could come", "source": "Wiktionary"}, {"from": "fin", "lemma": "tervetuloa", "source_url": "http://en.wiktionary.org/wiki/tervetuloa#Finnish", "to": "en", "text": "{{qualifier|after having arranged a visit}} looking forward to seeing you", "source": "Wiktionary"}, {"from": "fin", "lemma": "tervetuloa", "source_url": "http://en.wiktionary.org/wiki/tervetuloa#Finnish", "to": "en", "text": "{{qualifier|when inviting someone}} Would you like to visit us? It would be nice to have you over sometime. (Please) come again!  (Please) call again!", "source": "Wiktionary"}]
+                                , "lang": "fi", "lemma": "tervetuloa"}
+                        ], "tags": [{"SIJAMUOTO": "partitive", "CLASS": "noun", "WORDBASES": "+terve(terve)+tulo(tulo)", "BASEFORM": "tervetulo", "NUMBER": "singular", "STRUCTURE": "=ppppp=ppppp", "FSTOUTPUT": "[Lnl][Xp]terve[X]terve[Sn][Ny][Bh][Bc][Ln][Xp]tulo[X]tulo[Sp][Ny]a"}, {"CLASS": "huudahdussana", "STRUCTURE": "=ppppp=ppppp", "BASEFORM": "tervetuloa", "WORDBASES": "+tervetuloa(terve=tuloa)", "FSTOUTPUT": "[Lh][Xp]terve=tuloa[X]terve[Bm]tuloa"}]
+                    } // end results
+                }
+            }, function(result) { 
+                sendResponse(result);
+            });
+            return true;
+        }
         if (request.action == "get_pins") {
-            chrome.storage.sync.get({'pins': []}, function(result) { 
+            //chrome.storage.sync.get({'pins': []}, function(result) { 
+            chrome.storage.local.get({'pins': []}, function(result) { 
                 pins = result.pins;
                 sendResponse(pins);
             });
             return true;
         }
         if (request.action == "unpin") {
-            chrome.storage.sync.get({'pins': []}, function(result) { 
+            //chrome.storage.sync.get({'pins': []}, function(result) { 
+            chrome.storage.local.get({'pins': []}, function(result) { 
                 pins = result.pins;
                 for (i=0; i<pins.length; i++) {
                     if(pins[i].id == request.pin_id) pins.splice(i,1)
                 }
-                chrome.storage.sync.set({'pins': pins}, function() { 
+                //chrome.storage.sync.set({'pins': pins}, function() { 
+                chrome.storage.local.set({'pins': pins}, function() { 
                     sendResponse(pins);
                 });
             });
             return true;
         }
         if (request.action == "update_pin") {
-            chrome.storage.sync.get({'pins': []}, function(result) { 
+            //chrome.storage.sync.get({'pins': []}, function(result) { 
+            chrome.storage.local.get({'pins': []}, function(result) { 
                 pins = result.pins;
                 for (i=0; i<pins.length; i++) {
                     if(pins[i].id == request.pin.id) {
                         pins[i] = pin;
                     }
                 }
-                chrome.storage.sync.set({'pins': pins}, function() { 
+                //chrome.storage.sync.set({'pins': pins}, function() { 
+                chrome.storage.local.set({'pins': pins}, function() { 
                     sendResponse(pins);
                 });
             });
             return true;
         }
         if (request.action == "pin") {
-            chrome.storage.sync.get({'pins': []}, function(result) { 
+            //chrome.storage.sync.get({'pins': []}, function(result) { 
+            chrome.storage.local.get({'pins': []}, function(result) { 
                 pins = result.pins;
                 pins.push(request.pin);
                 pins = generate_pin_ids(pins);
-                chrome.storage.sync.set({'pins': pins}, function() { 
+                //chrome.storage.sync.set({'pins': pins}, function() { 
+                chrome.storage.local.set({'pins': pins}, function() { 
                     sendResponse({'pins': pins, 'new_pin_id': request.pin.id});
                 });
             });
             return true;
         }
         if (request.action == "clear_pins") {
-            chrome.storage.sync.set({'pins': []}, function() { 
+            //chrome.storage.sync.set({'pins': []}, function() { 
+            chrome.storage.local.set({'pins': []}, function() { 
                 sendResponse([]);
             });
             return true;
@@ -208,6 +250,7 @@ chrome.runtime.onMessage.addListener(
                     },
                     success : function(response, textStatus, xhr) {
                         sendResponse({'textStatus': textStatus, 'xhr': xhr, 'response': response});
+                        chrome.storage.local.set({'last_analysis_results': {'word': request.word, 'results': response}}, function() {});
                         track_analysis_success(response);
                     },
                     error : function(xhr, textStatus, errorText) {
@@ -226,6 +269,16 @@ chrome.runtime.onMessage.addListener(
 
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     updateStatus(activeInfo.tabId);
+});
+
+chrome.tabs.onUpdated.addListener(function(tabId) {
+    chrome.browserAction.setBadgeText({text: "off"});
+    updateStatus(tabId);
+});
+
+chrome.tabs.onCreated.addListener(function(tab) {
+    chrome.browserAction.setBadgeText({text: "off"});
+    updateStatus(tab.id);
 });
 
 function updateStatus(tabId) {
@@ -266,31 +319,44 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
     chrome.tabs.executeScript(tab.id, {file: "js/lookup.js"}, function() {
 */
 function updateIconState(response) {
-    if ( response.enabled ) {
-        console.log("aleksi plugin enabled");
-        chrome.browserAction.setBadgeText({text: "on"});
-    } else {
-        console.log("aleksi plugin disabled");
+    if (typeof(response) == 'undefined' || !response.hasOwnProperty("enabled")) {
         chrome.browserAction.setBadgeText({text: "off"});
+    } else {
+        if ( response.enabled ) {
+            console.log("aleksi plugin enabled");
+            chrome.browserAction.setBadgeText({text: "on"});
+        } else {
+            console.log("aleksi plugin disabled");
+            chrome.browserAction.setBadgeText({text: "off"});
+        }
     }
 }
 function toggle(tab) {
     chrome.tabs.sendMessage(tab.id,{action: 'getStatus'}, function(response) {
-        if (response.initialized) {
-            console.log("aleksi plugin initialized");
-            if (!response.enabled) {
-                chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
-            } else {
-                chrome.tabs.sendMessage(tab.id,{action: 'disable'}, updateIconState);
-            }
-        } else {
-            console.log("initializing aleksi plugin");
-            chrome.tabs.sendMessage(tab.id,{action: 'initialize', url: tab.url}, function(response) {
-                if (response.initialized) {
-                    console.log("aleksi plugin initialized. enabling aleksi plugin");
-                    chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState );
+        if (typeof(response) != 'undefined') {
+            if (response.initialized) {
+                console.log("aleksi plugin initialized");
+                if (!response.enabled) {
+                    chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+                    activate(tab);
+                } else {
+                    chrome.tabs.sendMessage(tab.id,{action: 'disable'}, updateIconState);
                 }
-            });
+            } else {
+                console.log("initializing aleksi plugin");
+                chrome.tabs.sendMessage(tab.id,{action: 'initialize', url: tab.url}, function(response) {
+                    if (response.initialized) {
+                        console.log("aleksi plugin initialized. enabling aleksi plugin");
+                        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState );
+                        /*
+                        chrome.runtime.sendMessage({
+                            action: 'activateOCR',
+                            tab: tab
+                        }, function(response) {});
+                        */
+                    }
+                });
+            }
         }
     });
 //    });
@@ -310,3 +376,4 @@ function generate_pin_ids(pins) {
     }
     return(pins)
 }
+

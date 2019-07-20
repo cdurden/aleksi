@@ -266,6 +266,9 @@ class Website(Base):
             aleksi_js = soup.new_tag("script")
             aleksi_js['src'] =  request.static_path('aleksi:content/js/aleksi.js')
             head.append(aleksi_js)
+            aleksi_web_methods_js = soup.new_tag("script")
+            aleksi_web_methods_js['src'] =  request.static_path('aleksi:content/js/aleksi_web_methods.js')
+            head.append(aleksi_web_methods_js)
             head.append(settings_script)
 
 #            lookup_js = soup.new_tag("script")

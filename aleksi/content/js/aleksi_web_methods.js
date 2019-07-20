@@ -108,7 +108,7 @@ function save_pin (pin)
       'success': function(pins)
       {
         set_pins(pins);
-        build_pins_table();
+        update_pins_table(pins);
         update_create_quizlet_set_state();
       }
     });
@@ -124,13 +124,13 @@ function unpin (pin_id)
           'success': function(pins)
           {
             set_pins(pins);
-            build_pins_table();
+            update_pins_table(pins);
             update_create_quizlet_set_state();
           }
         });
     } else {
       rm_pin(pin_id);
-      build_pins_table();
+      update_pins_table(pins);
       update_create_quizlet_set_state();
     }
 }
@@ -147,14 +147,14 @@ function pin (fi, en)
         'success': function(pins)
         {
           set_pins(pins);
-          build_pins_table();
+          update_pins_table(pins);
           update_create_quizlet_set_state();
         }
       });
     } else {
       add_pins(new_pins);
       generate_pin_ids();
-      build_pins_table();
+      update_pins_table(pins);
       update_create_quizlet_set_state();
     }
 }
@@ -170,14 +170,14 @@ function pin (_pin)
         'success': function(pins)
         {
           set_pins(pins);
-          build_pins_table();
+          update_pins_table(pins);
           update_create_quizlet_set_state();
         }
       });
     } else {
       add_pins([_pin]);
       generate_pin_ids();
-      build_pins_table();
+      update_pins_table(pins);
       update_create_quizlet_set_state();
     }
 }
@@ -190,8 +190,8 @@ function get_pins ()
       'success': function(pins)
       {
         set_pins(pins);
-        build_pins_table();
-        update_create_quizlet_set_state();
+        update_pins_table(pins);
+        //update_create_quizlet_set_state();
       },
       'error': function(data)
       {
@@ -208,8 +208,8 @@ function get_session() {
         type    : 'GET',
         success : function(session){
           set_session(session);
-          get_quizlet_sets();
-          build_quizlet_set_selector();
+          //get_quizlet_sets();
+          //build_quizlet_set_selector();
           build_website_selector();
 	  $jquery_aleksi("#lang_selector option[value='"+session.lang+"']").prop('selected', true);
           if (session.shared_session) {
@@ -316,7 +316,7 @@ function sync_to_quizlet(){
       'success': function(pins)
       {
         set_pins(pins);
-        build_pins_table();
+        update_pins_table(pins);
         update_create_quizlet_set_state();
       },
       'error': function(xhr, textStatus, errorThrown) {
@@ -342,7 +342,7 @@ function get_quizlet_sets(){
       'success': function(_quizlet_sets)
       {
         //set_quizlet_sets(_quizlet_sets);
-        build_quizlet_set_selector();
+        //build_quizlet_set_selector();
         update_quizlet_set_title();
         $jquery_aleksi("#quizlet").show();
         $jquery_aleksi("#quizlet-connect-button").hide();

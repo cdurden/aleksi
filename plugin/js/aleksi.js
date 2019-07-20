@@ -639,7 +639,7 @@ function initialize_aleksi() {
     canvas.attr("id","aleksi-canvas");
     $jquery_aleksi('body').append(canvas);
     configure_dialog();
-    get_quizlet_sets();
+    //get_quizlet_sets();
     get_session();
     reset_ui();
     get_pins(function(pins) {
@@ -667,6 +667,7 @@ function initialize_aleksi() {
           $jquery_aleksi( "#config_dialog" ).bind('clickoutside', config_dialog_clickoutside_handler);
         },
     });
+    /*
     $jquery_aleksi("#quizlet_dialog").dialog({
         dialogClass: 'notitle',
         resizable: false,
@@ -681,6 +682,7 @@ function initialize_aleksi() {
           $jquery_aleksi( "#quizlet_dialog" ).bind('clickoutside', quizlet_dialog_clickoutside_handler);
         },
     });
+    */
     $jquery_aleksi("#open_config_dialog_button").on('click', function(ev) {
         $jquery_aleksi("#session_dialog").dialog('close');
         if ($jquery_aleksi("#config_dialog").dialog('isOpen')) {
@@ -718,6 +720,7 @@ function initialize_aleksi() {
           }
         }
     });
+    /*
     $jquery_aleksi("#open_quizlet_dialog_button").on('click', function(ev) {
         $jquery_aleksi("#config_dialog").dialog('close');
         if ($jquery_aleksi("#quizlet_dialog").dialog('isOpen')) {
@@ -732,12 +735,13 @@ function initialize_aleksi() {
               });
         }
     });
+    */
     $jquery_aleksi('.ui-dialog[aria-describedby="config_dialog"]').find(".ui-dialog-titlebar").remove();
     $jquery_aleksi('.ui-dialog[aria-describedby="config_dialog"]').addClass('fixed-dialog');
     $jquery_aleksi('.ui-dialog[aria-describedby="session_dialog"]').find(".ui-dialog-titlebar").remove();
     $jquery_aleksi('.ui-dialog[aria-describedby="session_dialog"]').addClass('fixed-dialog');
-    $jquery_aleksi('.ui-dialog[aria-describedby="quizlet_dialog"]').find(".ui-dialog-titlebar").remove();
-    $jquery_aleksi('.ui-dialog[aria-describedby="quizlet_dialog"]').addClass('fixed-dialog');
+    //$jquery_aleksi('.ui-dialog[aria-describedby="quizlet_dialog"]').find(".ui-dialog-titlebar").remove();
+    //$jquery_aleksi('.ui-dialog[aria-describedby="quizlet_dialog"]').addClass('fixed-dialog');
     $jquery_aleksi( "a" ).on('dblclick', function(e) {
       var href = $jquery_aleksi(this).attr('href');
       $jquery_aleksi("input[name=website_url]").val(href);

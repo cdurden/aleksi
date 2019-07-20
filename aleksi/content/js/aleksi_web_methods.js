@@ -98,6 +98,18 @@ function set_quizlet_set(new_quizlet_set_id){
         });
     }
 }
+/*
+function clear_pins ()
+{
+    pins = [];
+}
+function set_pins(pins) {
+        clear_pins();
+        pins.forEach( function(pin) {
+            this.pins.push(pin);
+        });
+}
+*/
 function save_pin (pin)
 {
     $jquery_aleksi.ajax({
@@ -107,7 +119,7 @@ function save_pin (pin)
       'data': JSON.stringify({'pin': pin}),
       'success': function(pins)
       {
-        set_pins(pins);
+        //set_pins(pins);
         update_pins_table(pins);
         update_create_quizlet_set_state();
       }
@@ -123,7 +135,7 @@ function unpin (pin_id)
           'data': JSON.stringify({'pin_id': pin_id}),
           'success': function(pins)
           {
-            set_pins(pins);
+            //set_pins(pins);
             update_pins_table(pins);
             update_create_quizlet_set_state();
           }
@@ -169,12 +181,12 @@ function pin (_pin)
         'data': JSON.stringify({'pins': [_pin]}),
         'success': function(pins)
         {
-          set_pins(pins);
+          //set_pins(pins);
           update_pins_table(pins);
           update_create_quizlet_set_state();
         }
       });
-    } else {
+    } else { //FIXME
       add_pins([_pin]);
       generate_pin_ids();
       update_pins_table(pins);
@@ -189,7 +201,7 @@ function get_pins ()
       'dataType': 'json', 
       'success': function(pins)
       {
-        set_pins(pins);
+        //set_pins(pins);
         update_pins_table(pins);
         //update_create_quizlet_set_state();
       },
@@ -315,7 +327,7 @@ function sync_to_quizlet(){
       'data'    : JSON.stringify({'prune_pins_on_sync': prune_pins_on_sync, 'prune_quizlet_on_sync': prune_quizlet_on_sync}), 
       'success': function(pins)
       {
-        set_pins(pins);
+        //set_pins(pins);
         update_pins_table(pins);
         update_create_quizlet_set_state();
       },

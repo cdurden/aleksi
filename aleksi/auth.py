@@ -24,8 +24,8 @@ from pyramid.security import Everyone, Authenticated
 
 class MyAuthenticationPolicy(AuthTktAuthenticationPolicy):
     def authenticated_userid(self, request):
-        userid = get_user(request)
-        return userid
+        user = get_user(request)
+        return user.id
 
     def effective_principals(self, request):
         principals = [Everyone]

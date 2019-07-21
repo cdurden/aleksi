@@ -305,7 +305,7 @@ def main(global_config, **settings):
     config.scan()
     config.scan('social_pyramid')
     config.set_authentication_policy(authn_policy)
-    #config.set_authorization_policy(authz_policy)
+    config.set_authorization_policy(authz_policy)
 
 
     return config.make_wsgi_app()

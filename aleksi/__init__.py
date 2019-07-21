@@ -215,8 +215,8 @@ class Root(object):
         settings = request.registry.settings
         settings['SOCIAL_AUTH_LOGIN_URL'] = request.route_url('start')
         settings['SOCIAL_AUTH_EMAIL_FORM_URL'] = request.route_url('login_email')
-        #settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('browse_sessions')
-        settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('login_redirect')
+        settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('browse_sessions')
+        #settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('login_redirect')
         settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')
         settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = request.route_url('email_validation_sent')
         request.user = None

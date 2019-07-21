@@ -12,7 +12,8 @@ SOCIAL_AUTH_EMAIL_FORCE_EMAIL_VALIDATION = True
 SESSION_SERIALIZER='pyramid.session.PickleSerializer'
 #SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
-SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['local_password','next',]
+#SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['local_password',]
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = []
 SOCIAL_AUTH_GOOGLE_OAUTH2_AUTH_EXTRA_ARGUMENTS = {
     'access_type': 'offline',
     'prompt': 'select_account'

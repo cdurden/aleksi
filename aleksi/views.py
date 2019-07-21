@@ -110,7 +110,7 @@ def signup_email(request, *args, **kwargs):
             backend = load_backend(strategy, 'email', 'social:complete')
             #raise exc.HTTPFound(request.route_url("social.complete", backend="email"))
             kwargs['signup'] = True
-            return do_complete(backend, login=login_user, redirect_name='next, *args, **kwargs)
+            return do_complete(backend, login=login_user, redirect_name='next', *args, **kwargs)
 #    if 'email_validated' in request.session:
 #        email = request.session['email']
 #        password = request.session['local_password']

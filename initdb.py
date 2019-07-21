@@ -61,8 +61,8 @@ def main(argv=sys.argv):
 
     authn_policy = MyAuthenticationPolicy()
     authz_policy = ACLAuthorizationPolicy()
-    config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
+    config.set_authentication_policy(authn_policy)
 
     config.registry.settings.update(get_settings(social_auth_settings))
     config.registry.settings.update(social_auth_local_settings.SOCIAL_AUTH_KEYS)

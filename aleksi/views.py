@@ -204,7 +204,7 @@ def login_redirect(request, *args, **kwargs):
     try:
         return exc.HTTPFound(location=request.session['next'])
     except:
-        return exc.HTTPFound(location=request.registry.settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'])
+        return exc.HTTPFound(location=request.route_url("browse_sessions"))
 
 @view_config(route_name='login_email', renderer='templates/login_email.pt')
 def login_email(request, *args, **kwargs):

@@ -19,7 +19,7 @@ from social_core.pipeline.partial import partial
 from aleksi.exceptions import *
 from social_core.actions import do_disconnect
 
-from pyramid.authentication import AuthTktAuthenticationPolicy, SessionAuthenticationPolicy
+from pyramid.authentication import SessionAuthenticationPolicy
 from pyramid.security import Everyone, Authenticated
 
 class MyAuthenticationPolicy(SessionAuthenticationPolicy):

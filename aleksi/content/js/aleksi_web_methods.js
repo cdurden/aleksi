@@ -44,7 +44,7 @@ function analyse(word, e){
                 report_analysis_failed(response['errorText']);
             }
         },
-        error: analysisErrorCallback
+        error: function(response) { return }
     });
 }
 /*

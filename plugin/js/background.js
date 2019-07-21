@@ -1,7 +1,7 @@
 var logger = console;
 var settings = {'analyse_url': "http://www.aleksi.org/analyse/{word}.json",
                         'implicitGrantUrl': "https://accounts.google.com/o/oauth2/auth",
-                        'authURL': 'http://www.aleksi.org/login/google-oauth2/',
+                        'authUrl': 'http://www.aleksi.org/login/google-oauth2/',
                         'anki_connect_url': 'http://localhost:8765',
                         'disable_links': false};
 //var settings = {};
@@ -340,8 +340,12 @@ function updateIconState(response) {
     }
 }
 function login(callback) {
-    authURL = settings.authURL;
+    authUrl = settings.authUrl;
     chrome.identity.launchWebAuthFlow({'url': authUrl, 'interactive': true}, function (redirectUrl) {
+        chrome.cookies.get({"url": authUrl, "name": "session_key"}, function(cookie) {
+                a = cookie.value;
+            }
+        });
         if (redirectUrl) {
             logger.debug('launchWebAuthFlow login successful: ', redirectUrl);
             var parsed = parse(redirectUrl.substr(chrome.identity.getRedirectURL("oauth2").length + 1));
@@ -356,7 +360,7 @@ function login(callback) {
 }
 function enable(tab) {
     chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
-    login();
+    login(function(redirectUrl) { return });
 }
 function toggle(tab) {
     chrome.tabs.sendMessage(tab.id,{action: 'getStatus'}, function(response) {
@@ -365,7 +369,7 @@ function toggle(tab) {
                 console.log("aleksi plugin initialized");
                 if (!response.enabled) {
                     enable(tab);
-                    activate(tab);
+                    //activate(tab);
                 } else {
                     chrome.tabs.sendMessage(tab.id,{action: 'disable'}, updateIconState);
                 }

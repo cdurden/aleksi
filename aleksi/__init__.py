@@ -304,7 +304,7 @@ def main(global_config, **settings):
     init_social(config, Base, DBSession)
     config.scan()
     config.scan('social_pyramid')
-    #config.set_authentication_policy(authn_policy)
+    config.set_authentication_policy(authn_policy)
     #config.set_authorization_policy(authz_policy)
 
 

@@ -38,8 +38,6 @@ from aleksi.models.quizlet import (
 from aleksi.auth import MyAuthenticationPolicy
 from pyramid.authorization import ACLAuthorizationPolicy
 
-authn_policy = MyAuthenticationPolicy()
-authz_policy = ACLAuthorizationPolicy()
 
 
 def usage(argv):
@@ -60,6 +58,9 @@ def main(argv=sys.argv):
 
     session_factory = session_factory_from_settings(settings)
     config = Configurator(settings=settings, session_factory=session_factory, root_factory=Root, autocommit=True)
+
+    authn_policy = MyAuthenticationPolicy()
+    authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
 

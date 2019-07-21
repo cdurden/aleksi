@@ -70,8 +70,6 @@ from .auth import get_user
 from .utils import url_for
 #from .views import quizlet_sets
 
-authn_policy = MyAuthenticationPolicy()
-authz_policy = ACLAuthorizationPolicy()
 
 #@view_config(route_name='index', renderer='templates/website_index.pt')
 #def index(request):
@@ -237,6 +235,8 @@ def main(global_config, **settings):
     #DBSession.configure(bind=engine)
     #Base.metadata.bind = engine
     config = Configurator(settings=settings, session_factory=session_factory, root_factory=Root, autocommit=True)
+    authn_policy = MyAuthenticationPolicy()
+    authz_policy = ACLAuthorizationPolicy()
     config.set_authentication_policy(authn_policy)
     config.set_authorization_policy(authz_policy)
     config.registry.settings.update(get_settings(social_auth_settings))

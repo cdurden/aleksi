@@ -199,6 +199,13 @@ def set_password(request, *args, **kwargs):
     return {'request': request, 'main_macros': main_macros, 'title': 'Set password', 'msg': '', 'email': email, 'user': request.user}
 
 
+@view_config(route_name='login_redirect')
+def login_redirect(request, *args, **kwargs):
+    try:
+        return HTTPFound(location=request.session['next'])
+    except:
+        return HTTPFound(location=request.registry.settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'])
+
 @view_config(route_name='login_email', renderer='templates/login_email.pt')
 def login_email(request, *args, **kwargs):
     try:

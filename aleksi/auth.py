@@ -25,7 +25,10 @@ from pyramid.security import Everyone, Authenticated
 class MyAuthenticationPolicy(SessionAuthenticationPolicy):
     def authenticated_userid(self, request):
         user = get_user(request)
-        return user.id
+        if user:
+            return user.id
+        else:
+            return None
 
     def unauthenticated_userid(self, request):
         user_id = request.session.get('user_id')

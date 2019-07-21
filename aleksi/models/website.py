@@ -177,7 +177,7 @@ class Website(Base):
             mobile_width_meta['content'] = "width=device-width,initial-scale=1"
             mobile_width_meta['name'] = "viewport"
             settings_script = soup.new_tag("script", id="settings_script")
-            settings = { 'analyse_url': request.route_path("analyse",word="__word"),
+            settings = { 'analyse_url': request.route_path("analyse",word="{word}"),
                              'share_session_url': request.route_path("share_session"),
                              'quizlet_auth_url': request.route_path('social.auth',backend='quizlet',_query={'next': request.static_path('aleksi:content/html/done.html')}),
                              'check_quizlet_auth_url': request.route_path('is_authed',provider='quizlet'),

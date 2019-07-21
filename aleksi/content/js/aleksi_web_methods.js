@@ -35,15 +35,7 @@ function analyse(word, e){
         //dataType: 'text',
         //contentType: 'application/json',
         //complete : analysisCompleteCallback
-        success : function (response) { 
-            if (response['textStatus']=='success') {
-                // analysis successful
-                update_translations_table(response['response']);
-            } else if (response['textStatus']=='error') {
-                // analysis failed
-                report_analysis_failed(response['errorText']);
-            }
-        },
+        success : update_translations_table,
         error: function(response) { return }
     });
 }

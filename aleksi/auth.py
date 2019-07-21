@@ -45,6 +45,13 @@ class MyAuthenticationPolicy(SessionAuthenticationPolicy):
 session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
 USER_FIELDS = ['username', 'email']
 
+def save_next(strategy, backend, request, details, *args, **kwargs):
+    try:
+        data = backend.strategy.request_data()
+        strategy.session_set('next', data['next'])
+    except:
+        pass
+
 def no_new_users(strategy, backend, request, details, *args, **kwargs):
     if backend.name == 'email':
         email = strategy.session_get('email', None)

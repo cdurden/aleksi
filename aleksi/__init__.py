@@ -70,7 +70,7 @@ from .auth import get_user
 from .utils import url_for
 #from .views import quizlet_sets
 
-authn_policy = MyAuthenticationPolicy('seekrit', hashalg='sha512')
+authn_policy = MyAuthenticationPolicy()
 authz_policy = ACLAuthorizationPolicy()
 
 #@view_config(route_name='index', renderer='templates/website_index.pt')

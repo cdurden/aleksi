@@ -219,6 +219,7 @@ class Root(object):
         #settings['SOCIAL_AUTH_LOGIN_REDIRECT_URL'] = request.route_url('login_redirect')
         settings['SOCIAL_AUTH_PASSWORD_FORM_URL'] = request.route_url('set_password')
         settings['SOCIAL_AUTH_EMAIL_VALIDATION_URL'] = request.route_url('email_validation_sent')
+        print(request.session)
         request.user = None
 
 def main(global_config, **settings):

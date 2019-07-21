@@ -39,6 +39,7 @@ ul.right {
         width: 100%;
         height:2305px !important; /*change to YOUR page height*/
         background-color: #000;
+        display: none;
         filter:alpha(opacity=50);
         -moz-opacity:0.5;
         -khtml-opacity: 0.5;

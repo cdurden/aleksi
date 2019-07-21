@@ -1,5 +1,6 @@
 {
     "name": "Aleksi Browser Plugin",
+    "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArZ8WqAg/MK0Vx5ZbD/TwJCQulmbaLH9uaTAKmTjwL/bKhsfoeJ5dmCpkvNpVjRE2KhISv7XBUzD/09p0DRwX5ffin9zr7C0jv9zsEgZ5ZV++wQyFk3aifby0tLM5PxYP5Smcstz+WFeBoJJcwiHmK/xn++b5B0zOrQgpqK6PuRj2h/nrmTufjUoLc5GNaU9p2L/8YQulgtVcmqYEFSbHV6SGGmt10ACxJg2NEqP8Tj5zxfBZQf7+ICciBKOMFlCDvwrgAQbgIfMBvHbllrHHDiHsiktZxSJBmaw+6S/WygKgsanncEWScI4Tgp9LG1vqg+7GBqFWqMF5L+5pmRBw0wIDAQAB",
     "description": "Fetches and displays analytical information about Finnish words on a webpage",
     "version": "1.02",
     "permissions": [

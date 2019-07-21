@@ -1,7 +1,8 @@
 SOCIAL_AUTH_KEYS = {
     'SOCIAL_AUTH_GOOGLE_OAUTH2_KEY': '688589481195-6a03sh0gvnrm41rjqglk3v623ruqsj2e.apps.googleusercontent.com',
     'SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET': 'wXYXlx-BRs_oHDoiaE6WYFyw',
-    'SOCIAL_AUTH_GOOGLE_PLUS_KEY': '688589481195-6a03sh0gvnrm41rjqglk3v623ruqsj2e.apps.googleusercontent.com',
+    'SOCIAL_AUTH_GOOGLE_PLUS_KEY': '688589481195-415as39tpoafhgs1fkb1clj6ve6f9q72.apps.googleusercontent.com',
+    #688589481195-6a03sh0gvnrm41rjqglk3v623ruqsj2e.apps.googleusercontent.com',
     'SOCIAL_AUTH_GOOGLE_PLUS_SECRET': 'wXYXlx-BRs_oHDoiaE6WYFyw',
     'SOCIAL_AUTH_QUIZLET_KEY': 'GM2K4y5rVy',
     'SOCIAL_AUTH_QUIZLET_SECRET': 'dwWHwXxg8gH2JA8u5py9tc',

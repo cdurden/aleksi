@@ -1,10 +1,6 @@
 // AJAX-calling functions
 function analyse(word, e){
-    //var lang = $jquery_aleksi("select[name=lang]").val();
     var lang = get_setting('lang');
-    //alert(url);
-    //set interface elements to report initiation of analysis
-    $jquery_aleksi( "#aleksi_word" ).text(word);
     if (!isMobile){
       if ($jquery_aleksi(".ui-widget-overlay")) //the dialog has popped up in modal view
       {
@@ -24,6 +20,40 @@ function analyse(word, e){
           });
       }
     }
+    //set interface elements to report initiation of analysis
+    $jquery_aleksi("#aleksi_word" ).text(word);
+    $jquery_aleksi("#analysis_failed").hide();
+    $jquery_aleksi("#analysis_results").hide();
+    $jquery_aleksi("#requesting_analysis").show();
+    show_dialog();
+    var url = get_setting('analyse_url').replace("{word}",word)
+    jQuery.ajax({
+        url     : url,
+	    data : {'lang': lang},
+        type    : 'POST',
+        dataType: 'json',
+        //dataType: 'text',
+        //contentType: 'application/json',
+        //complete : analysisCompleteCallback
+        success : function (response) { 
+            if (response['textStatus']=='success') {
+                // analysis successful
+                update_translations_table(response['response']);
+            } else if (response['textStatus']=='error') {
+                // analysis failed
+                report_analysis_failed(response['errorText']);
+            }
+        },
+        error: analysisErrorCallback
+    });
+}
+/*
+function analyse(word, e){
+    //var lang = $jquery_aleksi("select[name=lang]").val();
+    var lang = get_setting('lang');
+    //alert(url);
+    //set interface elements to report initiation of analysis
+    $jquery_aleksi( "#aleksi_word" ).text(word);
     $jquery_aleksi("#analysis_failed").hide();
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").show();
@@ -71,6 +101,7 @@ function analyse(word, e){
         });
     }
 }
+*/
 function set_website(new_website_id){
     if (session.website.id!=new_website_id) {
         jQuery.ajax({

@@ -342,7 +342,7 @@ function updateIconState(response) {
 function login(callback) {
     authUrl = settings.authUrl+"?next="+chrome.identity.getRedirectURL();
     chrome.identity.launchWebAuthFlow({'url': authUrl, 'interactive': true}, function (redirectUrl) {
-        chrome.cookies.get({"url": redirectUrl, "name": "session_key"}, function(cookie) {
+        chrome.cookies.get({"url": authUrl, "name": "session_key"}, function(cookie) {
                 a = cookie.value;
         });
         if (redirectUrl) {

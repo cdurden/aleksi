@@ -19,13 +19,18 @@ from social_core.pipeline.partial import partial
 from aleksi.exceptions import *
 from social_core.actions import do_disconnect
 
-from pyramid.authentication import AuthTktAuthenticationPolicy
+from pyramid.authentication import AuthTktAuthenticationPolicy, SessionAuthenticationPolicy
 from pyramid.security import Everyone, Authenticated
 
-class MyAuthenticationPolicy(AuthTktAuthenticationPolicy):
+class MyAuthenticationPolicy(SessionAuthenticationPolicy):
     def authenticated_userid(self, request):
         user = get_user(request)
         return user.id
+
+    def unauthenticated_userid(self, request):
+        user_id = request.session.get('user_id')
+        return user_id
+        #return request.session.get(self.userid_key)
 
     def effective_principals(self, request):
         principals = [Everyone]

@@ -35,6 +35,12 @@ from aleksi.models.quizlet import (
     QuizletSet,
     )
 
+from aleksi.auth import MyAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
+
+authn_policy = MyAuthenticationPolicy()
+authz_policy = ACLAuthorizationPolicy()
+
 
 def usage(argv):
     cmd = os.path.basename(argv[0])

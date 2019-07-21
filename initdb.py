@@ -54,6 +54,9 @@ def main(argv=sys.argv):
 
     session_factory = session_factory_from_settings(settings)
     config = Configurator(settings=settings, session_factory=session_factory, root_factory=Root, autocommit=True)
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
+
     config.registry.settings.update(get_settings(social_auth_settings))
     config.registry.settings.update(social_auth_local_settings.SOCIAL_AUTH_KEYS)
     config.include('social_pyramid')

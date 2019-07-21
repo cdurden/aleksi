@@ -627,7 +627,7 @@ def update_website(request):
 #def quizlet_data(request):
 #    session_id = request.matchdict['session_id']
 
-@view_config(route_name='analyse', renderer='json')
+@view_config(route_name='analyse', renderer='json', permission='view')
 def analyse(request):
     word = request.matchdict['word']
     print(word)

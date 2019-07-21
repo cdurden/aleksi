@@ -1,5 +1,7 @@
-
+var logger = console;
 var settings = {'analyse_url': "http://www.aleksi.org/analyse/{word}.json",
+                        'implicitGrantUrl': "https://accounts.google.com/o/oauth2/auth",
+                        'authURL': 'http://www.aleksi.org/login/google-oauth2/',
                         'anki_connect_url': 'http://localhost:8765',
                         'disable_links': false};
 //var settings = {};
@@ -8,6 +10,12 @@ var settings = {'analyse_url': "http://www.aleksi.org/analyse/{word}.json",
 function anki_request(action, params) {
     return {'action': action, 'params': params, 'version': 6}
 }
+/*
+function init(cfg, log) {
+      settings = cfg;
+      logger = log;
+}
+*/
 
 chrome.browserAction.setBadgeText({text: "off"});
 
@@ -331,13 +339,32 @@ function updateIconState(response) {
         }
     }
 }
+function login(callback) {
+    authURL = settings.authURL;
+    chrome.identity.launchWebAuthFlow({'url': authUrl, 'interactive': true}, function (redirectUrl) {
+        if (redirectUrl) {
+            logger.debug('launchWebAuthFlow login successful: ', redirectUrl);
+            var parsed = parse(redirectUrl.substr(chrome.identity.getRedirectURL("oauth2").length + 1));
+            token = parsed.access_token;
+            logger.debug('Background login complete');
+            return callback(redirectUrl); // call the original callback now that we've intercepted what we needed
+        } else {
+            logger.debug("launchWebAuthFlow login failed. Is your redirect URL (" + chrome.identity.getRedirectURL("oauth2") + ") configured with your OAuth2 provider?");
+            return (null);
+        }
+    });
+}
+function enable(tab) {
+    chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+    login();
+}
 function toggle(tab) {
     chrome.tabs.sendMessage(tab.id,{action: 'getStatus'}, function(response) {
         if (typeof(response) != 'undefined') {
             if (response.initialized) {
                 console.log("aleksi plugin initialized");
                 if (!response.enabled) {
-                    chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+                    enable(tab);
                     activate(tab);
                 } else {
                     chrome.tabs.sendMessage(tab.id,{action: 'disable'}, updateIconState);
@@ -347,7 +374,8 @@ function toggle(tab) {
                 chrome.tabs.sendMessage(tab.id,{action: 'initialize', url: tab.url}, function(response) {
                     if (response.initialized) {
                         console.log("aleksi plugin initialized. enabling aleksi plugin");
-                        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState );
+//                        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState );
+                        enable(tab);
                         /*
                         chrome.runtime.sendMessage({
                             action: 'activateOCR',

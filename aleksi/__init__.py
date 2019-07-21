@@ -39,6 +39,10 @@ from pyramid.session import UnencryptedCookieSessionFactoryConfig
 from pyramid_beaker import session_factory_from_settings
 
 from aleksi.auth import session_secret
+from aleksi.auth import MyAuthenticationPolicy
+from pyramid.authorization import ACLAuthorizationPolicy
+from pyramid.security import Allow, Authenticated
+
 #session_secret = '4ab5fdd18e4c74bf5f1fc87945bc49a7'
 #session_factory = UnencryptedCookieSessionFactoryConfig(session_secret,timeout=3600)
 #session_factory = BeakerSessionFactoryConfig()
@@ -65,6 +69,9 @@ from .models import initialize_sql
 from .auth import get_user
 from .utils import url_for
 #from .views import quizlet_sets
+
+authn_policy = MyAuthenticationPolicy('seekrit', hashalg='sha512')
+authz_policy = ACLAuthorizationPolicy()
 
 #@view_config(route_name='index', renderer='templates/website_index.pt')
 #def index(request):
@@ -205,6 +212,7 @@ def commit_veto(request, response):
     return response.status.startswith(('4', '5'))
 
 class Root(object):
+    __acl__ = [ (Allow, Authenticated, 'view') ]
     def __init__(self, request):
         settings = request.registry.settings
         settings['SOCIAL_AUTH_LOGIN_URL'] = request.route_url('start')
@@ -296,6 +304,8 @@ def main(global_config, **settings):
     init_social(config, Base, DBSession)
     config.scan()
     config.scan('social_pyramid')
+    config.set_authentication_policy(authn_policy)
+    config.set_authorization_policy(authz_policy)
 
 
     return config.make_wsgi_app()

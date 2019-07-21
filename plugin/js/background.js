@@ -340,11 +340,10 @@ function updateIconState(response) {
     }
 }
 function login(callback) {
-    authUrl = settings.authUrl;
+    authUrl = settings.authUrl+"?next=https://"+chrome.runtime.id+".chromiumapp.org/";
     chrome.identity.launchWebAuthFlow({'url': authUrl, 'interactive': true}, function (redirectUrl) {
-        chrome.cookies.get({"url": authUrl, "name": "session_key"}, function(cookie) {
+        chrome.cookies.get({"url": redirectUrl, "name": "session_key"}, function(cookie) {
                 a = cookie.value;
-            }
         });
         if (redirectUrl) {
             logger.debug('launchWebAuthFlow login successful: ', redirectUrl);

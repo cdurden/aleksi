@@ -25,7 +25,7 @@ function analyse(word, e){
     $jquery_aleksi("#analysis_failed").hide();
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").show();
-    show_dialog();
+    show_dialog(e);
     var url = get_setting('analyse_url').replace("{word}",word)
     jQuery.ajax({
         url     : url,

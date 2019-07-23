@@ -37,7 +37,7 @@ const interleave = ([ x, ...xs ], ys = []) =>
       x === undefined
     ? ys                             // base: no x
     : [ x, ...interleave (ys, xs) ]  // inductive: some x
-function show_dialog() {
+function show_dialog(e) {
     $jquery_aleksi("#analysis_failed").hide();
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").show();

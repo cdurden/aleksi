@@ -35,6 +35,17 @@ chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
         if (request.action=='getStatus')
             sendResponse({'enabled': enabled, 'initialized': initialized});
+        if (request.action=='login') {
+            var win = window.open(request.authUrl);
+            var id = setInterval(function () {
+                if (win.location.href.indexOf(request.authUrl) < 0) {
+                    clearInterval(id);
+                    //ready to close the window.
+                    win.close();
+                }
+            }, 500);
+            sendResponse({});
+        }
         if (request.action=='initialize') {
             if (typeof settings != "undefined") {
                 url = request.url;

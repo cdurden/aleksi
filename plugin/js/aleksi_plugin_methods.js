@@ -6,7 +6,7 @@ function analyse(word, e){
     $jquery_aleksi("#analysis_failed").hide();
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").show();
-    show_dialog();
+    show_dialog(e);
     chrome.runtime.sendMessage({
         action: 'analyse',
         word: word,

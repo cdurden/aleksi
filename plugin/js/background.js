@@ -1,7 +1,7 @@
 var logger = console;
 var settings = {'analyse_url': "http://www.aleksi.org/analyse/{word}.json",
                         'implicitGrantUrl': "https://accounts.google.com/o/oauth2/auth",
-                        'authUrl': 'http://www.aleksi.org/login/google-oauth2/',
+                        'authUrl': 'http://www.aleksi.org/login/google-oauth2/?next=/html/done.html',
                         'anki_connect_url': 'http://localhost:8765',
                         'disable_links': false};
 //var settings = {};
@@ -339,6 +339,7 @@ function updateIconState(response) {
         }
     }
 }
+/*
 function login(callback) {
     authUrl = settings.authUrl+"?next="+encodeURI(chrome.identity.getRedirectURL());
     chrome.identity.launchWebAuthFlow({'url': authUrl, 'interactive': true}, function (redirectUrl) {
@@ -357,9 +358,29 @@ function login(callback) {
         }
     });
 }
+*/
+function authenticated(tab, callback) {
+    chrome.cookies.get({"url": settings.authUrl, "name": "session_key"}, function(cookie) {
+        if (cookie.value == "") {
+            callback(tab);
+        } else { // FIXME: do a more rigorous check of authentication
+            chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+        }
+    //chrome.storage.local.set({'access_token': cookie.value});
+    });
+}
+function authenticate_callback(tab) {
+    chrome.tabs.sendMessage(tab.id, { action: 'login', authUrl: settings.authUrl }, function() {
+        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+    });
+}
 function enable(tab) {
-    chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
-    login(function(redirectUrl) { return });
+    if (authenticated(tab, authenticate_callback)) {
+        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+    } else {
+    }
+    //chrome.windows.create({ url: settings.authUrl });
+    //login(function(redirectUrl) { return });
 }
 function toggle(tab) {
     chrome.tabs.sendMessage(tab.id,{action: 'getStatus'}, function(response) {

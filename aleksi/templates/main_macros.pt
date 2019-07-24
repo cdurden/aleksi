@@ -121,7 +121,7 @@
 <tal:block metal:define-macro="website_tile"> 
             <div style="float: left; max-width: 80%;">
                 <div>
-                  <a tal:attributes="href structure: website.url)" data-ajax="false">
+                  <a tal:attributes="href structure: website.url" data-ajax="false">
                     <h3>${(website.title[:75] + '..') if len(website.title) > 75 else website.title}</h3>
                   </a>
                 </div>

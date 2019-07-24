@@ -78,6 +78,13 @@ function confirm_delete_session(session_title, callback) {
     <div class="ui-content">
     <h2>Shared Reading</h2>
         <p tal:condition="python: len(sessions)==0">You do not have any existing sessions.</p>
+        <div class="tile" style="overflow:hidden" tal:repeat="session python:my_shared_sessions">
+            <tal:block metal:use-macro="main_macros['session_pane']"/>
+        </div>
+    </div>
+    <div class="ui-content">
+    <h2>Shared Reading</h2>
+        <p tal:condition="python: len(sessions)==0">You do not have any existing sessions.</p>
         <div class="tile" style="overflow:hidden" tal:repeat="session python:sessions">
             <!--
             <table style="width: 100%;">

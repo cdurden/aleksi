@@ -193,6 +193,7 @@ function getImgData(canvas, outputFormat) {
 function clickHandler(e) {
     var word = getFullWord(e);
     //alert(word);
+    console.log("handling word "+word);
     word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
     if (word != "") {
       /*imgElmt = $jquery_aleksi(e.target).parents("div").find("img").get(0);

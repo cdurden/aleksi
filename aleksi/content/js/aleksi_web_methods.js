@@ -1,5 +1,6 @@
 // AJAX-calling functions
 function analyse(word, e){
+    console.log("analysing word "+word);
     var lang = get_setting('lang');
     if (!isMobile){
       if ($jquery_aleksi(".ui-widget-overlay")) //the dialog has popped up in modal view

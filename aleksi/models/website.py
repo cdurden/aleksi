@@ -96,6 +96,7 @@ class Website(Base):
     snapshot = Column(Text)
     datetime = Column(DateTime)
     pins = relationship("Pin")
+    #visits = Column(Integer)
 
     def __init__(self, **kwargs):
         self.__dict__.update( kwargs )

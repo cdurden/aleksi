@@ -116,4 +116,43 @@
             <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
                 <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}"/>
             </a>
-            </tal:block>
+</tal:block>
+
+<tal:block metal:define-macro="website_tile"> 
+            <div style="float: left; max-width: 80%;">
+                <div>
+                  <a tal:attributes="href structure: website.url)" data-ajax="false">
+                    <h3>${(website.title[:75] + '..') if len(website.title) > 75 else website.title}</h3>
+                  </a>
+                </div>
+              <div>${website.datetime.strftime("%Y-%m-%d %H:%M")}</div>
+            </div>
+            <div>
+            <!--
+                    </td>
+                    <td style="direction: rtl;">
+                        <div class="links">
+                        </div>
+            -->
+                        <!--
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                    <td>
+                        -->
+                      <div style="float: right;">
+                        <div class="links">
+                        </div>
+                      </div>
+            </div>
+            <!--
+                    </td>
+                </tr>
+            </table>
+            -->
+            <a tal:attributes="href structure: website.url" data-ajax="false">
+                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, website.snapshot))}"/>
+            </a>
+</tal:block>

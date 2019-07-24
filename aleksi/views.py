@@ -310,12 +310,22 @@ def browse_sessions(request):
         #raise exc.HTTPNotFound
     # get user's sessions
     sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
+    #my_shared_sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
+    websites = DBSession.query(Website).filter_by(url=url).order_by(desc(Website.datetime)).first()
+    website_visits = {}
+    for website in websites:
+        if website.url not in website_visits.keys():
+            website_visits[website.url] = {'visits': 1, 'website': website}
+        else:
+            website_visits[website.url]['visits'] += 1
+    sorted_websites = [websites[key]['website'] for key, value in sorted(website_visits.items(), key=lambda item: item[1], reverse=True)]
+
     print(user.sessions)
     # render sessions page
     main_macros = get_renderer('templates/main_macros.pt').implementation()
     app_dir = request.registry.settings['app_dir']
     snapshot_relpath = os.path.relpath(request.registry.settings['website_snapshot_dir'], app_dir)
-    return {'request': request, 'main_macros': main_macros, 'title': user.username + "'s sessions", 'user': user, 'sessions': sessions, 'snapshot_relpath': snapshot_relpath}
+    return {'request': request, 'main_macros': main_macros, 'title': user.username + "'s sessions", 'user': user, 'sessions': sessions, 'snapshot_relpath': snapshot_relpath, 'sorted_websites': sorted_websites}
 
 @view_config(route_name='delete_session')
 def delete_session(request):

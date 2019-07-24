@@ -751,7 +751,9 @@ function initialize_aleksi() {
       }
     });
     //$jquery_aleksi( "a" ).on('click', linkHandler );
-    if (!isMobile){
+    if (isMobile){
+      $jquery_aleksi("body").css("cursor","pointer");
+    } else {
       $jquery_aleksi(document).scroll(function(e){
   
           if ($jquery_aleksi(".ui-widget-overlay")) //the dialog has popped up in modal view

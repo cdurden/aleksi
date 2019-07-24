@@ -97,13 +97,13 @@ function confirm_delete_session(session_title, callback) {
             <tal:block metal:use-macro="main_macros['session_tile']"/>
         </div>
     </div>
-    </div>
-    <div class="ui-content">
+    <div class="pane" style="overflow:hidden">
     <h2>My Private Reading</h2>
         <p tal:condition="python: len(user.sessions)==0">You do not have any existing sessions.</p>
         <div class="tile" style="overflow:hidden" tal:repeat="session python:user.sessions">
             <tal:block metal:use-macro="main_macros['session_tile']"/>
         </div>
+    </div>
     </div>
     <div class="ui-content" id="create_session" style="max-width: 40em;">
     <h2>New Private Reading Session</h2>

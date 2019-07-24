@@ -309,7 +309,7 @@ def browse_sessions(request):
         #raise exc.HTTPFound("{:s}?{:s}={:s}".format(request.route_url("social.auth", backend="quizlet"),"next",request.url))
         #raise exc.HTTPNotFound
     # get user's sessions
-    sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
+    sessions = DBSession.query(Session).join(User).filter(Session.permissions.op('&')(256+32+4)>0).all()
     #my_shared_sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
     websites = DBSession.query(Website).all()
     website_visits = {}
@@ -644,7 +644,8 @@ def update_website(request):
 #def quizlet_data(request):
 #    session_id = request.matchdict['session_id']
 
-@view_config(route_name='analyse', renderer='json', permission='view')
+#@view_config(route_name='analyse', renderer='json', permission='view')
+@view_config(route_name='analyse', renderer='json')
 def analyse(request):
     word = request.matchdict['word']
     print(word)

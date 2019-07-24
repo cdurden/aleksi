@@ -79,7 +79,7 @@ function confirm_delete_session(session_title, callback) {
     <div class="pane" style="overflow:hidden">
     <h2>Popular Sites</h2>
         <p tal:condition="python: len(sorted_websites)==0">You do not have any existing sessions.</p>
-        <div class="tile" style="overflow:hidden" tal:repeat="website python:sorted_websites">
+        <div class="tile" style="overflow:hidden" tal:repeat="website python:sorted_websites[:3]">
             <tal:block metal:use-macro="main_macros['website_tile']"/>
         </div>
     </div>

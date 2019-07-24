@@ -309,7 +309,7 @@ def browse_sessions(request):
         #raise exc.HTTPFound("{:s}?{:s}={:s}".format(request.route_url("social.auth", backend="quizlet"),"next",request.url))
         #raise exc.HTTPNotFound
     # get user's sessions
-    sessions = DBSession.query(Session).all()
+    sessions = DBSession.query.filter(Session.permissions.op('&')(256+32+4)>0).all()
     print(user.sessions)
     # render sessions page
     main_macros = get_renderer('templates/main_macros.pt').implementation()

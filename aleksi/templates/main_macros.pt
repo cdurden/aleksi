@@ -62,7 +62,7 @@
       </tal:block>
 </body>
 </html>
-<tal:block metal:define-macro="session_pane"> 
+<tal:block metal:define-macro="session_tile"> 
             <!--
             <table style="width: 100%;">
                 <tr>

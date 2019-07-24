@@ -89,6 +89,14 @@ h3 {
     margin:.1cm;
     font-size:medium;
 }
+.pane {
+    padding:.2cm;
+    float:left;
+    width:30em;
+    border:thin black ridge;
+    margin:.1cm;
+    font-size:medium;
+}
 .tile img {
     width: 14em;
 }

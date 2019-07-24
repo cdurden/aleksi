@@ -76,129 +76,26 @@ function confirm_delete_session(session_title, callback) {
   </span>
   <span metal:fill-slot="content">
     <div class="ui-content">
+    <div class="pane" style="overflow:hidden">
     <h2>Shared Reading</h2>
         <p tal:condition="python: len(sessions)==0">You do not have any existing sessions.</p>
         <div class="tile" style="overflow:hidden" tal:repeat="session python:sessions">
-            <tal:block metal:use-macro="main_macros['session_pane']"/>
+            <tal:block metal:use-macro="main_macros['session_tile']"/>
         </div>
     </div>
-    <div class="ui-content">
-    <h2>Shared Reading</h2>
+    <div class="pane" style="overflow:hidden">
+    <h2>My Shared Reading</h2>
         <p tal:condition="python: len(sessions)==0">You do not have any existing sessions.</p>
         <div class="tile" style="overflow:hidden" tal:repeat="session python:sessions">
-            <!--
-            <table style="width: 100%;">
-                <tr>
-                    <td>
-            -->
-            <div style="float: left; max-width: 80%;">
-                <div>
-                  <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
-                    <h3>${(session.title[:75] + '..') if len(session.title) > 75 else session.title}</h3>
-                  </a>
-                </div>
-              <div>${session.website.datetime.strftime("%Y-%m-%d %H:%M")}</div>
-            </div>
-            <div>
-            <!--
-                    </td>
-                    <td style="direction: rtl;">
-                        <div class="links">
-                        </div>
-            -->
-                        <!--
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                        -->
-                      <div style="float: right;">
-                        <div class="links">
-                            <a href="#" class="iconlink" title="${python: '\n'.join([pin.lemma for pin in session.pins])}">
-                                ${python: len(session.pins)} <i class="icon-pushpin"></i>
-                            </a>
-                            <!--<a class="iconlink deletelink" href="javascript:confirm_delete_session ${session.id})" data-session_id="${session.id}" data-ajax="false">-->
-                        </div>
-                        <div class="links">
-                            <a class="iconlink deletelink" href="javascript:confirm_delete_session('${session.title}', function() {delete_session(${session.id})})" data-ajax="false">
-                                <i class="icon-trash"></i>
-                            </a>
-                            <a class="iconlink" href="${session.website.url}" data-ajax="false">
-                                <i class="icon icon-external-link"></i>
-                            </a>
-                        </div>
-                      </div>
-            </div>
-            <!--
-                    </td>
-                </tr>
-            </table>
-            -->
-            <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
-                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}"/>
-            </a>
+            <tal:block metal:use-macro="main_macros['session_tile']"/>
         </div>
     </div>
-
+    </div>
     <div class="ui-content">
-    <h2>Private Reading</h2>
+    <h2>My Private Reading</h2>
         <p tal:condition="python: len(user.sessions)==0">You do not have any existing sessions.</p>
         <div class="tile" style="overflow:hidden" tal:repeat="session python:user.sessions">
-            <!--
-            <table style="width: 100%;">
-                <tr>
-                    <td>
-            -->
-            <div style="float: left; max-width: 80%;">
-                <div>
-                  <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
-                    <h3>${(session.title[:75] + '..') if len(session.title) > 75 else session.title}</h3>
-                  </a>
-                </div>
-              <div>${session.website.datetime.strftime("%Y-%m-%d %H:%M")}</div>
-            </div>
-            <div>
-            <!--
-                    </td>
-                    <td style="direction: rtl;">
-                        <div class="links">
-                        </div>
-            -->
-                        <!--
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td>
-                        -->
-                      <div style="float: right;">
-                        <div class="links">
-                            <a href="#" class="iconlink" title="${python: '\n'.join([pin.lemma for pin in session.pins])}">
-                                ${python: len(session.pins)} <i class="icon-pushpin"></i>
-                            </a>
-                            <!--<a class="iconlink deletelink" href="javascript:confirm_delete_session ${session.id})" data-session_id="${session.id}" data-ajax="false">-->
-                        </div>
-                        <div class="links">
-                            <a class="iconlink deletelink" href="javascript:confirm_delete_session('${session.title}', function() {delete_session(${session.id})})" data-ajax="false">
-                                <i class="icon-trash"></i>
-                            </a>
-                            <a class="iconlink" href="${session.website.url}" data-ajax="false">
-                                <i class="icon icon-external-link"></i>
-                            </a>
-                        </div>
-                      </div>
-            </div>
-            <!--
-                    </td>
-                </tr>
-            </table>
-            -->
-            <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
-                <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}"/>
-            </a>
+            <tal:block metal:use-macro="main_macros['session_tile']"/>
         </div>
     </div>
     <div class="ui-content" id="create_session" style="max-width: 40em;">

@@ -318,7 +318,7 @@ def browse_sessions(request):
             website_visits[website.url] = {'visits': 1, 'website': website}
         else:
             website_visits[website.url]['visits'] += 1
-    sorted_websites = [websites[key]['website'] for key, value in sorted(website_visits.items(), key=lambda item: item[1], reverse=True)]
+    sorted_websites = [website_visits[key]['website'] for key, value in sorted(website_visits.items(), key=lambda item: item[1], reverse=True)]
 
     print(user.sessions)
     # render sessions page

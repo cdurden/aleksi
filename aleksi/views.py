@@ -311,7 +311,7 @@ def browse_sessions(request):
     # get user's sessions
     sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
     #my_shared_sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
-    websites = DBSession.query(Website).filter_by(url=url).order_by(desc(Website.datetime)).first()
+    websites = DBSession.query(Website).all()
     website_visits = {}
     for website in websites:
         if website.url not in website_visits.keys():

@@ -25,6 +25,7 @@ from aleksi.exceptions import *
 from .utils import common_context, associations, url_for
 from social_core.utils import sanitize_redirect
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy import and_, or_
 
 
 from .models import DBSession, Base, RemoteCall, NoWordDataFound
@@ -309,7 +310,8 @@ def browse_sessions(request):
         #raise exc.HTTPFound("{:s}?{:s}={:s}".format(request.route_url("social.auth", backend="quizlet"),"next",request.url))
         #raise exc.HTTPNotFound
     # get user's sessions
-    sessions = DBSession.query(Session).join(User).filter(Session.permissions.op('&')(256+32+4)>0).all()
+    #sessions = DBSession.query(Session).join(User).filter(and_(Session.permissions.op('&')(256+32+4)>0,User.id=user.id)).all()
+    sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)>0,Session.owner_id!=user.id)).all()
     #my_shared_sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
     websites = DBSession.query(Website).all()
     website_visits = {}

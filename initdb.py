@@ -146,6 +146,7 @@ def main(argv=sys.argv):
                             for gloss in sense['glosses']:
                                 translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
                                 DBSession.add(translation)
+    DBSession.commit()
 
 
 if __name__ == "__main__":

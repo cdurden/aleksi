@@ -142,7 +142,7 @@ def main(argv=sys.argv):
                 word = eval(line)
                 if 'senses' in word:
                     for sense in word['senses']:
-                        if 'gloss' in sense:
+                        if 'glosses' in sense:
                             for gloss in sense['glosses']:
                                 translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
                                 print(gloss)

@@ -135,13 +135,14 @@ def main(argv=sys.argv):
 #        DBSession.add(model)
     
     lang='fin'
+    to_lang='en'
     with transaction.manager:
         with open('wikt.words', 'r') as f:
             for line in f:
                 word = eval(line)
                 for sense in word['senses']:
                     for gloss in sense['glosses']:
-                        translation = Translation(lemma=word, lang=lang, _from=lang, to=self.to_lang, text=gloss, source="Wiktionary")
+                        translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
                         DBSession.add(translation)
 
 

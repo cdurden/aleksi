@@ -141,9 +141,10 @@ def main(argv=sys.argv):
             for line in f:
                 word = eval(line)
                 for sense in word['senses']:
-                    for gloss in sense['glosses']:
-                        translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
-                        DBSession.add(translation)
+                    if 'gloss' in sense:
+                        for gloss in sense['glosses']:
+                            translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
+                            DBSession.add(translation)
 
 
 if __name__ == "__main__":

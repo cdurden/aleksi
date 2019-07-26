@@ -741,6 +741,8 @@ function initialize_aleksi() {
     $jquery_aleksi('.ui-dialog[aria-describedby="config_dialog"]').addClass('fixed-dialog');
     $jquery_aleksi('.ui-dialog[aria-describedby="session_dialog"]').find(".ui-dialog-titlebar").remove();
     $jquery_aleksi('.ui-dialog[aria-describedby="session_dialog"]').addClass('fixed-dialog');
+    //$jquery_aleksi("#aleksi_analysis_progress_indicator").html('<img src="'+get_setting('loading_spinner_url')+'"/>').hide();
+    $jquery_aleksi("#aleksi_analysis_progress_indicator").hide();
     //$jquery_aleksi('.ui-dialog[aria-describedby="quizlet_dialog"]').find(".ui-dialog-titlebar").remove();
     //$jquery_aleksi('.ui-dialog[aria-describedby="quizlet_dialog"]').addClass('fixed-dialog');
     $jquery_aleksi( "a" ).on('dblclick', function(e) {
@@ -1286,6 +1288,10 @@ $jquery_aleksi(document).ready(function() {
   var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
   page_overlay.appendTo(document.body);
   $jquery_aleksi("#aleksi_overlay").hide();
+  //$jquery_aleksi('<img src="'+get_setting('loading_spinner_url')+'"/>').appendTo(progress_indicator);
+  //progress_indicator.html('');
+  //progress_indicator.hide();
+
   var capture_mask = $jquery_aleksi('<div id="aleksi_capture_mask" class="overlay suppress-aleksi"></div>');
   capture_mask.appendTo(document.body);
 /*
@@ -1580,6 +1586,8 @@ function get_source_link(translation) {
 }
 */
 function update_translations_table(result) {
+    progress_indicator = $jquery_aleksi("#aleksi_analysis_progress_indicator");
+    progress_indicator.hide();
     $jquery_aleksi("#requesting_analysis").hide();
     $jquery_aleksi("#aleksi_translations_table tbody").remove();
     $jquery_aleksi("#aleksi_morph_tag_tables table").remove();
@@ -1660,9 +1668,26 @@ function update_translations_table(result) {
         $jquery_aleksi("#aleksi_morph_tag_tables").append(tag_table);
     });
 }
-function report_analysis_failed(errorText) { 
+function report_analysis_failed(jqxhr, textStatus, errorText) { 
+    progress_indicator = $jquery_aleksi("#aleksi_analysis_progress_indicator");
+    progress_indicator.hide();
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").hide();
+    if (textStatus == 'error') {
+        if (jqxhr.status == 404) {
+            $jquery_aleksi("#analysis_error").text('Server returned response "'+errorText+'." Please verify that a valid Aleksi word lookup URL is set in your Aleksi options.');
+        } else {
+            $jquery_aleksi("#analysis_error").text('Server returned response "'+errorText+'"');
+        }
+    } else if (textStatus == 'timeout') {
+        $jquery_aleksi("#analysis_error").text("Request to server timed out.");
+    } else if (textStatus == 'abort') {
+        $jquery_aleksi("#analysis_error").text("Analysis aborted. If you receive this message in error, please report it to aleksi.salolampi@gmail.com.");
+    } else if (textStatus == 'parsererror') {
+        $jquery_aleksi("#analysis_error").text("Response from server could not be parsed. This should not happen. Please report this error to aleksi.salolampi@gmail.com.");
+    } else {
+        $jquery_aleksi("#analysis_error").text("No response received from Aleksi server. Please verify that the word lookup URL in Aleksi options is set to a valid Aleksi server.");
+    }
     $jquery_aleksi("#analysis_failed").show();
 }    
 /*

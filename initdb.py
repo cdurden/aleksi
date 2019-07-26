@@ -132,6 +132,17 @@ def main(argv=sys.argv):
 #    with transaction.manager:
 #        model = Page(title='Root', body='<p>Root</p>')
 #        DBSession.add(model)
+    
+    lang='fin'
+    with transaction.manager:
+        with open('wikt.words', 'r') as f:
+            for line in f:
+                word = eval(line)
+                for sense in word['senses']:
+                    for gloss in sense['glosses']:
+                        translation = Translation(lemma=word, lang=lang, _from=lang, to=self.to_lang, text=gloss, source="Wiktionary")
+                        DBSession.add(translation)
+
 
 if __name__ == "__main__":
         main()

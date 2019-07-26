@@ -2,7 +2,8 @@
 function analyse(word, e){
     var lang = get_setting('lang');
     //set interface elements to report initiation of analysis
-    $jquery_aleksi("#aleksi_word" ).text(word);
+    $jquery_aleksi("#aleksi_analysis_progress_indicator").show();
+    $jquery_aleksi("#aleksi_word_text" ).text(word);
     $jquery_aleksi("#analysis_failed").hide();
     $jquery_aleksi("#analysis_results").hide();
     $jquery_aleksi("#requesting_analysis").show();
@@ -13,12 +14,12 @@ function analyse(word, e){
         lang: lang
     },
     function (response) { 
-        if (response['textStatus']=='success') {
+        if (response['status']=='success') {
             // analysis successful
             update_translations_table(response['response']);
-        } else if (response['textStatus']=='error') {
+        } else if (response['status']=='error') {
             // analysis failed
-            report_analysis_failed(response['errorText']);
+            report_analysis_failed(response['textStatus'],response['errorText']);
         }
     });
 }

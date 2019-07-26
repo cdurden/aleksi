@@ -1,5 +1,6 @@
 var logger = console;
 var settings = {'analyse_url': "http://www.aleksi.org/analyse/{word}.json",
+                'loading_spinner_url': 'http://www.aleksi.org/img/loading_spinner.gif',
                         'implicitGrantUrl': "https://accounts.google.com/o/oauth2/auth",
                         'authUrl': 'http://www.aleksi.org/login/google-oauth2/?next=/html/done.html',
                         'anki_connect_url': 'http://localhost:8765',
@@ -257,12 +258,12 @@ chrome.runtime.onMessage.addListener(
                         track_analysis_request();
                     },
                     success : function(response, textStatus, xhr) {
-                        sendResponse({'textStatus': textStatus, 'xhr': xhr, 'response': response});
+                        sendResponse({'status': 'success', 'textStatus': textStatus, 'xhr': xhr, 'response': response});
                         chrome.storage.local.set({'last_analysis_results': {'word': request.word, 'results': response}}, function() {});
                         track_analysis_success(response);
                     },
                     error : function(xhr, textStatus, errorText) {
-                        sendResponse({'textStatus': textStatus, 'xhr': xhr, 'errorText': errorText});
+                        sendResponse({'status': 'error', 'textStatus': textStatus, 'xhr': xhr, 'errorText': errorText});
                         track_analysis_error(errorText);
                     }
                     //complete : function(xhr, textStatus) {

@@ -61,7 +61,7 @@ chrome.runtime.onMessage.addListener(
             bindHandlers();
             enabled = true;
             sendResponse({enabled: enabled, initialized: initialized});
-            $jquery_aleksi("#aleksi_word").text("");
+            $jquery_aleksi("#aleksi_word_text").text("");
             $jquery_aleksi("#analysis_failed").hide();
             $jquery_aleksi("#analysis_results").show();
             $jquery_aleksi("body").css("cursor","pointer");
@@ -88,7 +88,7 @@ function activateOCR() {
 
 function load_last_analysis_results() {
     chrome.runtime.sendMessage({action: 'get_last_analysis_results'}, function(response) {
-        $jquery_aleksi("#aleksi_word" ).text(response['last_analysis_results']['word']);
+        $jquery_aleksi("#aleksi_word_text" ).text(response['last_analysis_results']['word']);
         $jquery_aleksi("#analysis_failed").hide();
         $jquery_aleksi("#analysis_results").hide();
         $jquery_aleksi("#requesting_analysis").show();

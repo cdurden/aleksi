@@ -144,7 +144,7 @@ def main(argv=sys.argv):
                     for sense in word['senses']:
                         if 'glosses' in sense:
                             for gloss in sense['glosses']:
-                                translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
+                                translation = Translation(lemma=word['word'], lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
                                 print(gloss)
                                 DBSession.add(translation)
 

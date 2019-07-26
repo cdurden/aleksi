@@ -23,6 +23,7 @@ from aleksi.models import (
     )
 from aleksi.models.sanakirja import (
     Word,
+    Translation,
     #MissingWord,
     )
 from aleksi.models.website import (

@@ -140,11 +140,12 @@ def main(argv=sys.argv):
         with open('wikt.words', 'r') as f:
             for line in f:
                 word = eval(line)
-                for sense in word['senses']:
-                    if 'gloss' in sense:
-                        for gloss in sense['glosses']:
-                            translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
-                            DBSession.add(translation)
+                if 'senses' in word:
+                    for sense in word['senses']:
+                        if 'gloss' in sense:
+                            for gloss in sense['glosses']:
+                                translation = Translation(lemma=word, lang=lang, _from=lang, to=to_lang, text=gloss, source="Wiktionary")
+                                DBSession.add(translation)
 
 
 if __name__ == "__main__":

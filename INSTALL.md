@@ -26,3 +26,6 @@ The main configuration settings are:
 enwikt_db_dir = /home/cld/tmp/enwikt/
 
 # anki integration
+
+# Prepopulating the Finnish translation database
+wiktwords /opt/enwikt.bak/enwiktionary-20180320-pages-articles.xml.bz2 --out wikt.words --language Finnish

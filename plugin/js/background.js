@@ -362,12 +362,14 @@ function login(callback) {
 */
 function authenticated(tab, callback) {
     chrome.cookies.get({"url": settings.authUrl, "name": "session_key"}, function(cookie) {
-        if (cookie.value == "") {
-            callback(tab);
-        } else { // FIXME: do a more rigorous check of authentication
+        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+        /*
+        if (cookie == null || cookie.value != "") {
             chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
+        } else { // FIXME: do a more rigorous check of authentication
+            callback(tab);
         }
-    //chrome.storage.local.set({'access_token': cookie.value});
+        */
     });
 }
 function authenticate_callback(tab) {
@@ -376,10 +378,7 @@ function authenticate_callback(tab) {
     });
 }
 function enable(tab) {
-    if (authenticated(tab, authenticate_callback)) {
-        chrome.tabs.sendMessage(tab.id,{action: 'enable'}, updateIconState);
-    } else {
-    }
+    authenticated(tab, authenticate_callback)
     //chrome.windows.create({ url: settings.authUrl });
     //login(function(redirectUrl) { return });
 }

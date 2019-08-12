@@ -10,6 +10,7 @@ from sqlalchemy import (
     String,
     Boolean,
     Table,
+    ForeignKey,
     )
 
 from sqlalchemy.orm import relationship

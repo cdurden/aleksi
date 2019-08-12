@@ -70,7 +70,7 @@
             -->
             <div style="float: left; max-width: 80%;">
                 <div>
-                  <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
+                  <a tal:attributes="href structure: request.route_path('load_session_by_hash', session_hash=session.hash)" data-ajax="false">
                     <h3>${(session.title[:75] + '..') if len(session.title) > 75 else session.title}</h3>
                   </a>
                 </div>
@@ -113,7 +113,7 @@
                 </tr>
             </table>
             -->
-            <a tal:attributes="href structure: request.route_path('load_session', session_id=session.id)" data-ajax="false">
+            <a tal:attributes="href structure: request.route_path('load_session_by_hash', session_hash=session.hash)" data-ajax="false">
                 <img src="${request.static_path('aleksi:{:s}/{:s}'.format(snapshot_relpath, session.website.snapshot))}"/>
             </a>
 </tal:block>

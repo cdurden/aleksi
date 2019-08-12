@@ -6,6 +6,8 @@ apt-get install libvoikko1
 apt-get install voikko-fi
 apt-get install phantomjs
 
+# Setting up Google OAuth
+https://console.developers.google.com/?pli=1
 # Setting up the wiktionary database
  1. Download the wiktionary dump, e.g.
     wget https://dumps.wikimedia.org/enwiktionary/20190501/enwiktionary-20190501-pages-articles.xml.bz2
@@ -27,5 +29,11 @@ enwikt_db_dir = /home/cld/tmp/enwikt/
 
 # anki integration
 
+# Fix AWS issue with python not finding modules in lib64 directory
+
+export PYTHONPATH="${APACHE_WSGI_PYTHON_PATH}/lib64/"
+
 # Prepopulating the Finnish translation database
-wiktwords /opt/enwikt.bak/enwiktionary-20180320-pages-articles.xml.bz2 --out wikt.words --language Finnish
+screen
+wiktwords /opt/enwiktionary-20190723-pages-articles.xml.bz2 --out /tmp/wikt.words --language Finnish
+sudo cp /tmp/wikt.words /opt

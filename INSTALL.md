@@ -37,3 +37,4 @@ export PYTHONPATH="${APACHE_WSGI_PYTHON_PATH}/lib64/"
 screen
 wiktwords /opt/enwiktionary-20190723-pages-articles.xml.bz2 --out /tmp/wikt.words --language Finnish
 sudo cp /tmp/wikt.words /opt
+ln -s /opt/wikt.words ${WSGI_APPS_PATH}/master/aleksi/

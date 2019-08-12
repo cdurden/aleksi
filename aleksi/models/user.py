@@ -9,6 +9,7 @@ from sqlalchemy import (
     DateTime,
     String,
     Boolean,
+    Table,
     )
 
 from sqlalchemy.orm import relationship

@@ -347,6 +347,12 @@ def delete_session(request):
     DBSession.flush()
     return exc.HTTPFound(request.route_url("browse_sessions"))
 
+@view_config(route_name='load_session_by_hash')
+def load_session_by_hash(request):
+    session_hash = request.matchdict['session_hash']
+    session = DBSession.query(Session).filter_by(hash=session_hash).one()
+    return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
+
 @view_config(route_name='load_session')
 def load_session(request):
     session_id = request.matchdict['session_id']
@@ -355,18 +361,17 @@ def load_session(request):
     if user is None:
         request.session['next'] = request.url
         raise exc.HTTPFound(request.route_url("start"))
-        #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
-    # get requested session
+    # FIXME: check user permissions
     try:
-        session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
+        #session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
+        session = DBSession.query(Session).filter_by(id=session_id).one()
+        assert((session.permissions & 4) > 0 or session.group in user.groups and (session.permissions & 32) > 0 or session.owner == user.id and (session.permissions & 256) > 0)
+    except AssertionError:
+        raise exc.HTTPForbidden()
     except NoResultFound:
-        request.session['next'] = request.url
-        raise exc.HTTPFound(request.route_url("start"))
-        #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
-    # check session permissions for user
-    # render session
-    # get website by id
-    #website = Website.query.get(session.website_id)
+        raise exc.HTTPNotFound()
+        #request.session['next'] = request.url
+        #raise exc.HTTPFound(request.route_url("start"))
     website = session.website
     website.html_path = request.registry.settings['cached_website_dir']
     request.session['aleksi_session_id'] = session_id
@@ -937,6 +942,7 @@ def create_session(request):
     if user is not None:
         session = Session(website=website, title=website.title, websites=[website])
         session.owner = user
+        session.hash = hashlib.sha224(json.dumps(session.to_dict(), sort_keys=True).encode('utf-8')).hexdigest()
         session.save()
     return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
     #return Response(website.aleksi_html(request, aleksi_blank_html))

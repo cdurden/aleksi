@@ -1,26 +1,25 @@
-/*
-var settings = { 'analyse_url':'http://localhost/aleksi/analyse/__word.html' ,
-  'share_session_url':'' ,
-  'quizlet_auth_url':'' ,
-  'check_quizlet_auth_url':'' ,
-  'load_shared_session_url':'' ,
-  'get_pins_url':'' ,
-  'unpin_url':'' ,
-  'pin_url':'' ,
-  'get_quizlet_sets_url':'' ,
-  'get_session_url':'' ,
-  'loading_spinner_url':'' ,
-  'save_session_url':'' ,
-  'update_pin_url':'' ,
-  'create_quizlet_set_url':'' ,
-  'sync_to_quizlet_url':'' ,
-  'set_website_url':'' ,
-  'set_quizlet_set_url':'' ,
-  'update_website_url': '',
-  'lang': 'fi'
-};
-*/
+var menu_anchor = "left top";
+var menu_placement = "left bottom";
 
+var tag_types =[ { 'key': 'CLASS', 'label': 'Class' },
+                 { 'key': 'SIJAMUOTO', 'label': 'Case' },
+                 { 'key': 'NUMBER', 'label': 'Number' },
+                 { 'key': 'MOOD', 'label': 'Mood' },
+                 { 'key': 'PERSON', 'label': 'Person' },
+                 { 'key': 'TENSE', 'label': 'Tense' },
+                 { 'key': 'NEGATIVE', 'label': '' },
+                 { 'key': 'BASEFORM', 'label': 'Base word' },
+                 { 'key': 'WORDBASES', 'label': 'Morphemes' },];
+
+var isMobile = false; //initiate as false
+var pins = [];
+var quizlet_sets = [];
+var quizlet_set = {};
+var session = {};
+
+// device detection
+ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
+     || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) isMobile = true;
 
 function isURL(str) {
       var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
@@ -33,10 +32,12 @@ function isURL(str) {
 }
 
 
+/*
 const interleave = ([ x, ...xs ], ys = []) =>
       x === undefined
     ? ys                             // base: no x
     : [ x, ...interleave (ys, xs) ]  // inductive: some x
+*/
 function show_dialog(e) {
     $jquery_aleksi("#analysis_failed").hide();
     $jquery_aleksi("#analysis_results").hide();
@@ -84,27 +85,7 @@ function get_setting(setting) {
         return(settings[setting]);
     }
 }
-/*
-function imgSrcToDataURL(src, callback, outputFormat) {
-  var img = new Image();
-  img.crossOrigin = 'Anonymous';
-  img.onload = function() {
-    var canvas = document.createElement('CANVAS');
-    var ctx = canvas.getContext('2d');
-    var dataURI;
-    canvas.height = this.naturalHeight;
-    canvas.width = this.naturalWidth;
-    ctx.drawImage(this, 0, 0);
-    dataURL = canvas.toDataURL(outputFormat);
-    callback(dataURL);
-  };
-  img.src = src;
-  if (img.complete || img.complete === undefined) {
-    img.src = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
-    img.src = src;
-  }
-}
-*/
+
 function imgSrcToDataURL(src, callback, outputFormat) {
     var x = new XMLHttpRequest();
     x.responseType = 'blob';
@@ -128,6 +109,7 @@ function imgSrcToDataURL(src, callback, outputFormat) {
     };
     x.send();
 }
+
 function setContextImgData(dataURI) {
     var imgData;
     if (typeof dataURI != 'undefined') {
@@ -139,6 +121,7 @@ function setContextImgData(dataURI) {
     }
     window.aleksi.contextImgData = imgData;
 }
+
 function linkHandler(e) {
       if (mode == 'app') {
           if ( $jquery_aleksi.contains($jquery_aleksi('.ui-dialog[aria-describedby="aleksi_dialog"]')[0],e.target) || $jquery_aleksi.contains(document.getElementById("navbar"),e.target) || $jquery_aleksi.contains(document.getElementById("session_dialog"),e.target) ) {
@@ -164,11 +147,13 @@ function linkHandler(e) {
       if (link_behavior=="follow_external") {
       }
 }
+
 function createContextImgCanvas() {
     oCanvas = $jquery_aleksi(document.createElement("canvas")).hide();
     oCanvas.attr("id","contextImgCanvas");
     $jquery_aleksi('body').append(oCanvas);
 }
+
 function drawImgToContextImgCanvas(imgElmt) {
     oCanvas = $jquery_aleksi('#contextImgCanvas');
     oCtx = oCanvas.get(0).getContext('2d');
@@ -179,6 +164,7 @@ function drawImgToContextImgCanvas(imgElmt) {
     imgElmt.setAttribute('crossOrigin', 'anonymous');
     oCtx.drawImage(imgElmt, 0, 0);
 }
+
 function getImgData(canvas, outputFormat) {
     dataURI = canvas.toDataURL(outputFormat);
     if (typeof dataURI != 'undefined') {
@@ -190,22 +176,17 @@ function getImgData(canvas, outputFormat) {
     }
     return(imgData);
 }
+
 function clickHandler(e) {
     var word = getFullWord(e);
-    //alert(word);
     console.log("handling word "+word);
     word = word.replace(/[^a-zA-Z\u00C0-\u02AF]*([-a-zA-Z\u00C0-\u02AF]+)[^a-zA-Z\u00C0-\u02AF]*$/g, "$1");
     if (word != "") {
-      /*imgElmt = $jquery_aleksi(e.target).parents("div").find("img").get(0);
-      if (typeof imgElmt != 'undefined') {
-          drawImgToContextImgCanvas(imgElmt)
-      }*/
-      //imgSrc = $jquery_aleksi(e.target).parents("div").find("img").first().attr("src");
-      //var elmt = $jquery_aleksi(e.target);
       window.aleksi.word = word;
       analyse(word, e);
     }
 }
+
 function ocrHandler(message) {
     var text = $jquery_aleksi(".ocrext-ocr-message").val();
     var word = text.split(" ")[0];
@@ -214,17 +195,6 @@ function ocrHandler(message) {
     if (word != "") {
       analyse(word, message.event);
     }
-    /*
-    var elmt = $jquery_aleksi(e.target);
-    var img = elmt.find("img").first();
-    if (img.length == 0) {
-        img = elmt.parents("img").first();
-    }
-    var imgSrc = img.first().attr("src");
-    if ('contextImgData' in $jquery_aleksi('#ocrext-canOrig').data()) {
-        window.aleksi.contextImgData = $jquery_aleksi('#ocrext-canOrig').data().contextImgData;
-    }
-    */
     var imgSrc = message.imgSrc;
     window.aleksi.contextImgData = undefined;
     if (typeof imgSrc != 'undefined') {
@@ -232,19 +202,19 @@ function ocrHandler(message) {
     }
     window.aleksi.context = undefined;
 }
+
 function bindHandlers() {
     $jquery_aleksi(document).bind("click.doc",clickHandler);
-    //$jquery_aleksi("a").bind("click.link",linkHandler);
     $jquery_aleksi("a").on("click",linkHandler);
-    // Listen for the event.
-
     $jquery_aleksi(document).on("ocr",ocrHandler);
 }
+
 function unbindHandlers() {
     $jquery_aleksi("a").unbind("click.link");
     $jquery_aleksi(document).unbind("click.doc");
     $jquery_aleksi(document).off("ocr");
 }
+
 // Get the full word the cursor is over regardless of span breaks
 function getFullWord(event) {
    var i, begin, end, range, textNode, offset;
@@ -281,19 +251,13 @@ function getFullWord(event) {
 
   // Only act on text nodes
   var data = textNode.textContent;
-  /*
-  alert(data);
-  alert($jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode));
-  alert($jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode));
-  alert($jquery_aleksi("#session_dialog").dialog('isOpen'));
-  */
-    var suppress = false;
-    $jquery_aleksi(".suppress-aleksi").each(function() { 
-        if (this === event.target || $jquery_aleksi.contains(this,event.target)) {
-            suppress = true; 
-            return false;
-        }
-    });
+  var suppress = false;
+  $jquery_aleksi(".suppress-aleksi").each(function() { 
+    if (this === event.target || $jquery_aleksi.contains(this,event.target)) {
+      suppress = true; 
+      return false;
+    }
+  });
   if (mode == 'app') {
     if (!textNode || textNode.nodeType !== Node.TEXT_NODE || suppress || $jquery_aleksi.contains(document.getElementById("aleksi_dialog").parentNode, textNode) || $jquery_aleksi.contains(document.getElementById("navbar").parentNode, textNode) || $jquery_aleksi("#session_dialog").dialog('isOpen')) {
       return "";
@@ -436,14 +400,12 @@ var hasScrollbar = function() {
 }
 // When the user scrolls down 20px from the top of the document, slide down the navbar
 
-
-var menu_anchor = "left top";
-var menu_placement = "left bottom";
 function has_no_scrollbar(){
     var winheight = $jquery_aleksi(window).height()
     var docheight = $jquery_aleksi(document).height()
     return(winheight >= docheight)
 }
+
 function set_menu_placement() {
     if (!hasScrollbar()) {
         document.getElementById("navbar").style.bottom = "0";
@@ -471,25 +433,6 @@ function set_menu_placement() {
         }
     }
 }
- 
-var tag_types =[ { 'key': 'CLASS', 'label': 'Class' },
-                 { 'key': 'SIJAMUOTO', 'label': 'Case' },
-                 { 'key': 'NUMBER', 'label': 'Number' },
-                 { 'key': 'MOOD', 'label': 'Mood' },
-                 { 'key': 'PERSON', 'label': 'Person' },
-                 { 'key': 'TENSE', 'label': 'Tense' },
-                 { 'key': 'NEGATIVE', 'label': '' },
-                 { 'key': 'BASEFORM', 'label': 'Base word' },
-                 { 'key': 'WORDBASES', 'label': 'Morphemes' },];
-
-var isMobile = false; //initiate as false
-var pins = [];
-var quizlet_sets = [];
-var quizlet_set = {};
-var session = {};
-// device detection
- if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|Android|Silk|lge |maemo|midp|mmp|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i.test(navigator.userAgent) 
-     || /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i.test(navigator.userAgent.substr(0,4))) isMobile = true;
 
 function configure_dialog() {
     $jquery_aleksi('a[href="#aleksi_main"]').on('click', function(e) {
@@ -630,8 +573,8 @@ function configure_dialog() {
       $jquery_aleksi("#aleksi_dialog").dialog( "close" );
     });
     reset_ui();
-
 }
+
 function initialize_aleksi() {
     //alert("initializing aleksi");
     window.aleksi = {};
@@ -1013,8 +956,8 @@ function update_pins_table(pins)
       $jquery_aleksi("#aleksi_pins_table").append(row);
     }
 }
-function build_website_selector ()
-{
+
+function build_website_selector () {
     var website_selector = $jquery_aleksi(document.createElement("div"));
     website_selector.attr("id","website_selector");
     $jquery_aleksi("#website_selector").replaceWith(website_selector);
@@ -1131,6 +1074,7 @@ function update_anki_connect_deck_selector(anki_connect_decks)
     }
     $jquery_aleksi("#anki_connect_get_decks_button").text("Refresh Anki deck list");
 }
+
 function activate_anki_connect_add_pins_button(pins) {
     var anki_connect_deck_id = $jquery_aleksi("select[name=anki_connect_deck_name]").val();
     if (anki_connect_deck_id != '0' & pins.length > 0) {
@@ -1142,8 +1086,8 @@ function activate_anki_connect_add_pins_button(pins) {
     }
     set_anki_connect_add_pins_link();
 }
-function update_quizlet_set_selector ()
-{
+
+function update_quizlet_set_selector () {
     var quizlet_set_selector = $jquery_aleksi(document.createElement("div"));
     quizlet_set_selector.attr("id","quizlet_set_selector");
     $jquery_aleksi("#quizlet_set_selector").replaceWith(quizlet_set_selector);
@@ -1204,8 +1148,8 @@ function update_quizlet_set_selector ()
       }
       quizlet_set_selector.append(table)
     }
-
 }
+
 function update_quizlet_set_title() {
     if (typeof this.quizlet_set.title !== "undefined") {
       var quizlet_sync_form = '        <form>'+
@@ -1220,21 +1164,23 @@ function update_quizlet_set_title() {
       $jquery_aleksi("#aleksi_quizlet_sync").html('');
     }
 }
-function edit_pin_en (i, en)
-{
+
+function edit_pin_en (i, en) {
     pins[i]['en'] = en;
     update_pin(pins[i]);
     reset_ui();
 }
-function edit_pin_fi (i, fi)
-{
+
+function edit_pin_fi (i, fi) {
     pins[i]['fi'] = fi;
     update_pin(pins[i]);
     reset_ui();
 }
+
 function set_session(session) {
     this.session = session;
 }
+
 function generate_pin_ids() {
     min_id = 0;
     for (i=0; i<this.pins.length; i++) {
@@ -1281,124 +1227,6 @@ function clear_pins ()
     pins = [];
 }
 */
-$jquery_aleksi(document).ready(function() {
-  if (mode == 'app') {
-    set_menu_placement();
-  }
-  var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
-  page_overlay.appendTo(document.body);
-  $jquery_aleksi("#aleksi_overlay").hide();
-  //$jquery_aleksi('<img src="'+get_setting('loading_spinner_url')+'"/>').appendTo(progress_indicator);
-  //progress_indicator.html('');
-  //progress_indicator.hide();
-
-  var capture_mask = $jquery_aleksi('<div id="aleksi_capture_mask" class="overlay suppress-aleksi"></div>');
-  capture_mask.appendTo(document.body);
-/*
-  capture_mask.on('mousedown', function(e1) {
-    ISPOSITIONED = ['absolute', 'relative', 'fixed'].indexOf($('body').css('position')) >= 0;
-        $SELECTOR = $('<div class="ocrext-selector"></div>');
-        $SELECTOR.appendTo($body);
-        if (ISPOSITIONED) {
-            startX = e.pageX - $body.scrollLeft();
-            startY = e.pageY - $body.scrollTop();
-            $SELECTOR.css({
-                'position': 'fixed'
-            });
-        } else {
-            startX = e.pageX;
-            startY = e.pageY;
-            $SELECTOR.css({
-                'position': 'absolute'
-            });
-        }
-        startCx = e.clientX;
-        startCy = e.clientY;
-
-        $SELECTOR.css({
-            left: 0,
-            top: 0,
-            width: 0,
-            height: 0,
-            zIndex: MAX_ZINDEX - 1
-        });
-
-
-    capture_mask.on('mouseup', function handler(e2) {
-      if (Math.abs(e1.clientX - e2.clientX) < 5 || Math.abs(e1.clientY - e2.clientY) < 5) {
-        // click
-        $jquery_aleksi('img').each(function() {
-          if (mouse_event_over_element(e, $jquery_aleksi(this))) {
-            var imgSrc = $jquery_aleksi(this).attr("src");
-            imgSrcToDataURL(imgSrc, setContextImgData);
-            return false;
-          }
-        });
-      } else {
-        // drag
-        chrome.runtime.sendMessage({
-            evt: 'capture-screen'
-        }, function (response) {
-            var img = new Image();
-            img.onload = function () {
-                var can = $jquery_aleksi('#aleksi-canvas');
-                var sx = Math.min(e1.clientX, e2.clientX),
-                    sy = Math.min(e1.clientY, e2.clientY),
-                    width = Math.abs(e2.clientX - e1.clientX),
-                    height = Math.abs(e2.clientY - e1.clientY);
-                can.attr({
-                    width: width,
-                    height: height
-                });
-                var ctx = can.get(0).getContext('2d');
-                //ctx.drawImage(img, 0, 0, width, height, 0, 0, width, height);
-                ctx.drawImage(img, sx, sy, width, height, 0, 0, width, height);
-                //ctx.drawImage(img, 300, 100, width, height, 0, 0, width, height);
-                //ctx.drawImage(img, 0, 0);
-                dataURL = can.get(0).toDataURL();
-                setContextImgData(dataURL);
-            };
-           img.src = response.dataURL;
-        });
-      }
-      $jquery_aleksi(this).hide();
-      capture_mask.off('mouseup mousemove', handler);
-    });
-  });
-*/
-/*
-  capture_mask.on('click', function(e) {
-    $jquery_aleksi('img').each(function() {
-      if (mouse_event_over_element(e, $jquery_aleksi(this))) {
-        var imgSrc = $jquery_aleksi(this).attr("src");
-        imgSrcToDataURL(imgSrc, setContextImgData);
-        return false;
-      }
-    });
-    $jquery_aleksi(this).hide();
-  });
-*/
-  capture_mask.hide();
-  //$jquery_aleksi("#aleksi_capture_mask").hide();
-  $jquery_aleksi("#quizlet").hide();
-  $jquery_aleksi(".controlgroup").controlgroup({
-    "direction": "horizontal"
-  });
-  $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
-  $jquery_aleksi('input[type=radio][name="website_setter"]').change(function () {
-    if (this.value == 'set_url') {
-      $jquery_aleksi("#set_website_url").removeClass("ui-state-disabled");
-      $jquery_aleksi("#website_selector").addClass("ui-state-disabled");
-    }
-    if (this.value == 'select_active') {
-      $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
-      $jquery_aleksi("#website_selector").removeClass("ui-state-disabled");
-    }
-  });
-  if (mode == 'app') {
-    initialize_aleksi();
-  }
-});
 
 function show_overlay(){
     $jquery_aleksi("#aleksi_overlay").show();
@@ -1454,14 +1282,6 @@ function reset_ui ()
 }
 
 
-//$jquery_aleksi(document).ready( function() {
-//    reset_ui();
-//});
-//  $jquery_aleksi( function() {
-//  } );
-//function set_pin_link(pin_link, lemma, i) { 
-//    pin_link.on("click",function() { pin(lemma.lemma,lemma.translations[i].en); });
-//}
 function set_anki_connect_get_decks_link() { 
     $jquery_aleksi("#anki_connect_get_decks_button").on("click",function() { anki_connect_get_decks(update_anki_connect_deck_selector) });
     anki_connect_get_decks_button_container = $jquery_aleksi("#anki_connect_get_decks_button_container");
@@ -1511,41 +1331,7 @@ function getOCRImgData() {
     }
     return(ocrImgData)
 }
-/*
-function store_pin_data(pin_id) {
-    var $canOrig = $jquery_aleksi('#ocrext-canOrig');
-    var ocrImgData;
-    if ($canOrig.length > 0) {
-        ocrImgData = getImgData($canOrig.get(0));
-    }
-    var contextImgData;
-    if ('contextImgData' in window.aleksi) {
-		contextImgData = window.aleksi.contextImgData;
-	}
-    if (!('pin_data' in window.aleksi)) {
-        window.aleksi.pin_data = {};
-    }
-    window.aleksi.pin_data[pin_id.toString()] = {'ocrImgData': ocrImgData, 'contextImgData': contextImgData, 'contextString': window.aleksi.context};
-}
-*/
-/*
-function captureContextImg(e) {
-    var elmt = $jquery_aleksi(e.target);
-    var img = elmt.find("img").first()
-    var prevAll;
-    while (img.length == 0 && !elmt.is('html')) {
-      prevAll = elmt.prevAll();
-      img = prevAll.find("img").first();
-      elmt = elmt.parent();
-    } 
-    //img = elmt.parents().find("img").first();
-    window.aleksi.contextImgData = undefined;
-    var imgSrc = img.first().attr("src");
-    if (typeof imgSrc != 'undefined') {
-      imgSrcToDataURL(imgSrc, setContextImgData);
-    }
-}
-*/
+
 function mouse_event_over_element(evt, elem) {
   var o= elem.offset();
   var w= elem.width();
@@ -1562,6 +1348,7 @@ function set_capture_link(capture_link) {
         e.preventDefault();
     });
 }
+
 function set_pin_link(pin_link, _pin) { 
     pin_link.on("click",function(e) { 
         _pin.word = window.aleksi.word;
@@ -1573,18 +1360,11 @@ function set_pin_link(pin_link, _pin) {
         e.preventDefault();
     });
 }
+
 function set_unpin_link(unpin_link, pin_id) { 
     unpin_link.on("click",function() { unpin(pin_id, update_pins_interfaces); });
 }
-/*
-function get_source_link(translation) {
-    var anchor = '';
-    if (translation.lang == 'fi' & translation.source == 'en.wiktionary.org') {
-        anchor = '#Finnish';
-    }
-    return(translation.source_url+anchor);
-}
-*/
+
 function update_translations_table(result) {
     progress_indicator = $jquery_aleksi("#aleksi_analysis_progress_indicator");
     progress_indicator.hide();
@@ -1690,408 +1470,122 @@ function report_analysis_failed(jqxhr, textStatus, errorText) {
     }
     $jquery_aleksi("#analysis_failed").show();
 }    
+
+
+$jquery_aleksi(document).ready(function() {
+  if (mode == 'app') {
+    set_menu_placement();
+  }
+  var page_overlay = $jquery_aleksi('<div id="aleksi_overlay"><img src="'+get_setting('loading_spinner_url')+'"/> <p id="aleksi_overlay_msg">Processing</p></div>');
+  page_overlay.appendTo(document.body);
+  $jquery_aleksi("#aleksi_overlay").hide();
+  //$jquery_aleksi('<img src="'+get_setting('loading_spinner_url')+'"/>').appendTo(progress_indicator);
+  //progress_indicator.html('');
+  //progress_indicator.hide();
+
+  var capture_mask = $jquery_aleksi('<div id="aleksi_capture_mask" class="overlay suppress-aleksi"></div>');
+  capture_mask.appendTo(document.body);
 /*
-// AJAX-calling functions
-function analyse(word, e){
-    //var lang = $jquery_aleksi("select[name=lang]").val();
-    var lang = get_setting('lang');
-    //alert(url);
-    //set interface elements to report initiation of analysis
-    $jquery_aleksi( "#aleksi_word" ).text(word);
-    if (!isMobile){
-      if ($jquery_aleksi(".ui-widget-overlay")) //the dialog has popped up in modal view
-      {
-          //fix the overlay so it scrolls down with the page
-          $jquery_aleksi(".ui-widget-overlay").css({
-              position: 'fixed',
-              top: '0'
-          });
-      
-          //get the current popup position of the dialog box
-          pos = $jquery_aleksi(".ui-dialog").position();
-      
-          //adjust the dialog box so that it scrolls as you scroll the page
-          $jquery_aleksi(".ui-dialog").css({
-              position: 'fixed',
-              top: pos.y
-          });
-      }
-    }
-    $jquery_aleksi("#analysis_failed").hide();
-    $jquery_aleksi("#analysis_results").hide();
-    $jquery_aleksi("#requesting_analysis").show();
-    if (isMobile){
-      var winWidth = $jquery_aleksi(window).width();
-      var posX = (winWidth/2) + $jquery_aleksi(window).scrollLeft();
-      var posY = e.clientY;
-      $jquery_aleksi( "#aleksi_dialog" ).dialog("option",
-               {
-                position: {
-                  my: "center top", 
-                  at: "left+"+posX.toString()+" top+"+posY.toString(),
-                  of: window }
-                          });
-    }
-    $jquery_aleksi( "#aleksi_dialog" ).dialog( "open" );
-    $jquery_aleksi( ".controlgroup-vertical" ).controlgroup({
-      "direction": "vertical"
-    });
-    if (mode == 'plugin') {
-        chrome.runtime.sendMessage(
-            {   action: 'analyse',
-                word: word,
-                //url: url,
-                lang: lang}, function (response) { 
-                                if (response['textStatus']=='success') {
-                                    update_translations_table(response['response']);
-                                }
-                                if (response['textStatus']=='error') {
-                                    analysisErrorCallback(response['errorText']);
-                                }
-                            });
-    } else {
-        var url = get_setting('analyse_url').replace("{word}",word)
-        jQuery.ajax({
-            url     : url,
-    	    data : {'lang': lang},
-            type    : 'POST',
-            dataType: 'json',
-            //dataType: 'text',
-            //contentType: 'application/json',
-            //complete : analysisCompleteCallback
-            success : update_translations_table,
-            error: analysisErrorCallback
+  capture_mask.on('mousedown', function(e1) {
+    ISPOSITIONED = ['absolute', 'relative', 'fixed'].indexOf($('body').css('position')) >= 0;
+        $SELECTOR = $('<div class="ocrext-selector"></div>');
+        $SELECTOR.appendTo($body);
+        if (ISPOSITIONED) {
+            startX = e.pageX - $body.scrollLeft();
+            startY = e.pageY - $body.scrollTop();
+            $SELECTOR.css({
+                'position': 'fixed'
+            });
+        } else {
+            startX = e.pageX;
+            startY = e.pageY;
+            $SELECTOR.css({
+                'position': 'absolute'
+            });
+        }
+        startCx = e.clientX;
+        startCy = e.clientY;
+
+        $SELECTOR.css({
+            left: 0,
+            top: 0,
+            width: 0,
+            height: 0,
+            zIndex: MAX_ZINDEX - 1
         });
-    }
-}
-function set_website(new_website_id){
-    if (session.website.id!=new_website_id) {
-        jQuery.ajax({
-            url     : get_setting('set_website_url'),
-            data    : JSON.stringify({'new_website_id': new_website_id}), 
-            type    : 'POST',
-            dataType: 'html',
-            success : function(response){
-                location.reload();
-            }    
-        });
-    }
-}
-function set_quizlet_set(new_quizlet_set_id){
-    if (session.quizlet_set_id!=new_quizlet_set_id) {
-        jQuery.ajax({
-            url     : get_setting('set_quizlet_set_url'),
-            data    : JSON.stringify({'new_quizlet_set_id': new_quizlet_set_id}), 
-            type    : 'POST',
-            dataType: 'html',
-            success : function(response){
-                //get_session();
-                update_quizlet_set_title();
-            }    
-        });
-    }
-}
-function update_pin(pin)
-{
-    $jquery_aleksi.ajax({
-      'url': get_setting('update_pin_url'),
-      'type': 'POST',
-      'dataType': 'json', 
-      'data': JSON.stringify({'pin': pin}),
-      'success': function(pins)
-      {
-        set_pins(pins);
-        update_pins_table(pins);
-        update_create_quizlet_set_state();
-      }
-    });
-}
-function unpin (pin_id)
-{
-    if (mode == 'app') {
-        $jquery_aleksi.ajax({
-          'url': get_setting('unpin_url'),
-          'type': 'POST',
-          'dataType': 'json', 
-          'data': JSON.stringify({'pin_id': pin_id}),
-          'success': function(pins)
-          {
-            set_pins(pins);
-            update_pins_table(pins);
-            update_create_quizlet_set_state();
+
+
+    capture_mask.on('mouseup', function handler(e2) {
+      if (Math.abs(e1.clientX - e2.clientX) < 5 || Math.abs(e1.clientY - e2.clientY) < 5) {
+        // click
+        $jquery_aleksi('img').each(function() {
+          if (mouse_event_over_element(e, $jquery_aleksi(this))) {
+            var imgSrc = $jquery_aleksi(this).attr("src");
+            imgSrcToDataURL(imgSrc, setContextImgData);
+            return false;
           }
         });
-    } else {
-      rm_pin(pin_id);
-      update_pins_table(pins);
-      update_create_quizlet_set_state();
-    }
-}
-function pin (_pin)
-{
-    if (mode == 'app') {
-      $jquery_aleksi.ajax({
-        'url': get_setting('pin_url'),
-        'type': 'POST',
-        'dataType': 'json', 
-        'data': JSON.stringify({'pins': [_pin]}),
-        'success': function(pins)
-        {
-          set_pins(pins);
-          update_pins_table(pins);
-          update_create_quizlet_set_state();
-        }
-      });
-    } else {
-      add_pins([_pin]);
-      generate_pin_ids();
-      update_pins_table(pins);
-      update_create_quizlet_set_state();
-    }
-}
-function get_pins ()
-{
-    $jquery_aleksi.ajax({
-      'url': get_setting('get_pins_url'),
-      'type': 'POST',
-      'dataType': 'json', 
-      'success': function(pins)
-      {
-        set_pins(pins);
-        update_pins_table(pins);
-        update_create_quizlet_set_state();
-      },
-      'error': function(data)
-      {
-        $jquery_aleksi("#aleksi_pinned_status").text("An error occured while transferring fi data to Quizlet!");
+      } else {
+        // drag
+        chrome.runtime.sendMessage({
+            evt: 'capture-screen'
+        }, function (response) {
+            var img = new Image();
+            img.onload = function () {
+                var can = $jquery_aleksi('#aleksi-canvas');
+                var sx = Math.min(e1.clientX, e2.clientX),
+                    sy = Math.min(e1.clientY, e2.clientY),
+                    width = Math.abs(e2.clientX - e1.clientX),
+                    height = Math.abs(e2.clientY - e1.clientY);
+                can.attr({
+                    width: width,
+                    height: height
+                });
+                var ctx = can.get(0).getContext('2d');
+                //ctx.drawImage(img, 0, 0, width, height, 0, 0, width, height);
+                ctx.drawImage(img, sx, sy, width, height, 0, 0, width, height);
+                //ctx.drawImage(img, 300, 100, width, height, 0, 0, width, height);
+                //ctx.drawImage(img, 0, 0);
+                dataURL = can.get(0).toDataURL();
+                setContextImgData(dataURL);
+            };
+           img.src = response.dataURL;
+        });
       }
+      $jquery_aleksi(this).hide();
+      capture_mask.off('mouseup mousemove', handler);
     });
-}
-function get_session() {
-    if (mode == 'plugin') {
-        return;
-    }
-    jQuery.ajax({
-        url     : get_setting('get_session_url'),
-        type    : 'GET',
-        success : function(session){
-          set_session(session);
-          get_quizlet_sets();
-          update_quizlet_set_selector();
-          build_website_selector();
-	  $jquery_aleksi("#lang_selector option[value='"+session.lang+"']").prop('selected', true);
-          if (session.shared_session) {
-            $jquery_aleksi("#share_session_button").hide();
-            var load_shared_session_url = get_setting('load_shared_session_url').replace("__shared_session_hash",session.shared_session.hash);
-            $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
-          } else {
-            $jquery_aleksi("#shared_session").hide();
-          }
-        }    
-    });
-}
-function update_current_website(){
-    var website_url = session.website.url;
-    show_overlay();
-    jQuery.ajax({
-        url     : get_setting('update_website_url'),
-        data    : JSON.stringify({'website_url': website_url, 'use_cache': false}), 
-        type    : 'POST',
-        dataType: 'html',
-        success : function(response){
-            location.reload();
-        }    
-    });
-}
-function update_website(){
-    var website_url = $jquery_aleksi("input[name=website_url]").val();
-    show_overlay();
-    jQuery.ajax({
-        url     : get_setting('update_website_url'),
-        data    : JSON.stringify({'website_url': website_url, 'use_cache': true}), 
-        type    : 'POST',
-        dataType: 'html',
-        success : function(response){
-            location.reload();
-        }    
-    });
-}
-function share_session(){
-    var session_id = $jquery_aleksi("input[name=session_id]").val();
-    show_overlay();
-    jQuery.ajax({
-        url     : get_setting('share_session_url'),
-        data    : JSON.stringify({'session_id': session_id}), 
-        type    : 'POST',
-        dataType: 'json',
-        success : function(shared_session){
-          var load_shared_session_url = get_setting('load_shared_session_url').replace("__shared_session_hash",shared_session.hash);
-          $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
-          $jquery_aleksi("#share_session_button").hide();
-          $jquery_aleksi("#shared_session").show();
-          hide_overlay();
-        },
-    });
-}
-function save_session(){
-    var quizlet_set_id = $jquery_aleksi("select[name=quizlet_set_id]").val();
-    var session_title = $jquery_aleksi("input[name=session_title]").val();
-    var link_behavior = $jquery_aleksi("input[name=link_behavior]:checked").val();
-    var website_setter_value = $jquery_aleksi("input[name=website_setter]:checked").val();
-    var lang = $jquery_aleksi("select[name=lang]").val();
-    var website_url = $jquery_aleksi("input[name=website_url]").val();
-    var new_website_id = $jquery_aleksi("input[name=new_website_id]").val() || session.website.id;
-    show_overlay();
-    jQuery.ajax({
-        url     : get_setting('save_session_url'),
-        data    : JSON.stringify({'session_title': session_title , 'quizlet_set_id': quizlet_set_id, 'link_behavior': link_behavior, 'lang': lang, 'website_setter_value': website_setter_value, 'website_url': website_url, 'new_website_id': new_website_id, 'use_cache': false}), 
-        type    : 'POST',
-        dataType: 'html',
-        success : function(response){
-            location.reload();
-        },
-        error   : function(response) {
-            alert("error on save_session");
-        }   
-    });
-}
-
-function clear_quizlet_sets(url){
-    quizlet_sets = [];
-}
-function create_quizlet_set(){
-    var new_quizlet_set_title = $jquery_aleksi("input[name=new_quizlet_set_title]").val();
-    jQuery.ajax({
-        url     : get_setting('create_quizlet_set_url'),
-        data    : JSON.stringify({'new_quizlet_set_title': new_quizlet_set_title, 'pins': pins}), 
-        type    : 'POST',
-        dataType: 'json',
-        success : function(_quizlet_sets){
-            $jquery_aleksi("input[name=new_quizlet_set_title]").val('');
-            //get_session();
-            set_quizlet_sets(_quizlet_sets);
-            update_quizlet_set_selector();
-            update_quizlet_set_title();
-        }    
-    });
-}
-function sync_to_quizlet(){
-    var prune_quizlet_on_sync = $jquery_aleksi("input[name=prune_quizlet_on_sync]").prop("checked");
-    var prune_pins_on_sync = $jquery_aleksi("input[name=prune_pins_on_sync]").prop("checked");
-    $jquery_aleksi.ajax({
-      'url': get_setting('sync_to_quizlet_url'),
-      'type': 'POST',
-      'tryCount': 0,
-      'retryLimit': 3,
-      'dataType': 'json', 
-      'data'    : JSON.stringify({'prune_pins_on_sync': prune_pins_on_sync, 'prune_quizlet_on_sync': prune_quizlet_on_sync}), 
-      'success': function(pins)
-      {
-        set_pins(pins);
-        update_pins_table(pins);
-        update_create_quizlet_set_state();
-      },
-      'error': function(xhr, textStatus, errorThrown) {
-        if (xhr.status == 401) {
-        // handle error
-          var ajax_retry_callback = (function (params) {
-              return function () { $jquery_aleksi.ajax(params) }
-          })(this);
-          var quizlet_connect = new QuizletConnect(get_setting('quizlet_auth_url'), ajax_retry_callback);
-          if (this.tryCount <= this.retryLimit) {
-            this.tryCount++;
-            quizlet_connect.exec();
-          } 
-        }
-      }
-    });
-}
-function get_quizlet_sets(){
-    $jquery_aleksi.ajax({
-      'url': get_setting('get_quizlet_sets_url'),
-      'type': 'POST',
-      'dataType': 'json', 
-      'success': function(_quizlet_sets)
-      {
-        //set_quizlet_sets(_quizlet_sets);
-        update_quizlet_set_selector();
-        update_quizlet_set_title();
-        $jquery_aleksi("#quizlet").show();
-        $jquery_aleksi("#quizlet-connect-button").hide();
-      },
-    });
-}
-var QuizletConnect = (function() {
-
-  // constructor accepts a url which should be your Quizlet OAuth url
-  function QuizletConnect(url, callback) {
-    this.url = url;
-    this.callback = callback
-  }
-
-  QuizletConnect.prototype.exec = function() {
-    var self = this,
-      params = 'location=0,status=0,width=800,height=600';
-
-    $jquery_aleksi("#quizlet_connecting").show();
-    var quizlet_window = window.open(this.url, 'quizletWindow', params);
-
-    var interval = window.setInterval((function() {
-      if (quizlet_window.closed) {
-        window.clearInterval(interval);
-        self.finish();
-      }
-    }), 1000);
-
-    // the server will use this cookie to determine if the Quizlet redirection
-    // url should window.close() or not
-    document.cookie = 'quizlet_oauth_popup=1; path=/';
-  }
-
-  QuizletConnect.prototype.finish = function() {
-    var self = this;
-    $jquery_aleksi.ajax({
-      type: 'get',
-      url: get_setting('check_quizlet_auth_url'),
-      dataType: 'json',
-      complete: function() {
-        $jquery_aleksi("#quizlet_connecting").hide();
-      },
-      success: function(response) {
-        if (response) {
-          self.callback();
-        }
-      },
-    });
-  };
-
-  return QuizletConnect;
-})();
-
-var QuizletDisconnect = (function() {
-
-  // constructor accepts a url which should be your Quizlet OAuth url
-  function QuizletDisconnect(url, callback) {
-    this.url = url;
-    this.callback = callback
-  }
-
-  QuizletDisconnect.prototype.exec = function() {
-
-    $jquery_aleksi.ajax({
-      type: 'get',
-      url: this.url,
-      dataType: 'json',
-      beforeSend: function() {
-        $jquery_aleksi("#quizlet_connecting").show();
-      },
-      complete: function() {
-        this.callback();
-      },
-    });
-  };
-
-  return QuizletDisconnect;
-})();
+  });
 */
-//# sourceURL=aleksi.js
+/*
+  capture_mask.on('click', function(e) {
+    $jquery_aleksi('img').each(function() {
+      if (mouse_event_over_element(e, $jquery_aleksi(this))) {
+        var imgSrc = $jquery_aleksi(this).attr("src");
+        imgSrcToDataURL(imgSrc, setContextImgData);
+        return false;
+      }
+    });
+    $jquery_aleksi(this).hide();
+  });
+*/
+  capture_mask.hide();
+  $jquery_aleksi("#quizlet").hide();
+  $jquery_aleksi(".controlgroup").controlgroup({
+    "direction": "horizontal"
+  });
+  $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
+  $jquery_aleksi('input[type=radio][name="website_setter"]').change(function () {
+    if (this.value == 'set_url') {
+      $jquery_aleksi("#set_website_url").removeClass("ui-state-disabled");
+      $jquery_aleksi("#website_selector").addClass("ui-state-disabled");
+    }
+    if (this.value == 'select_active') {
+      $jquery_aleksi("#set_website_url").addClass("ui-state-disabled");
+      $jquery_aleksi("#website_selector").removeClass("ui-state-disabled");
+    }
+  });
+  if (mode == 'app') {
+    initialize_aleksi();
+  }
+});

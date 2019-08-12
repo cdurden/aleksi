@@ -12,6 +12,15 @@ from sqlalchemy import (
     )
 
 from sqlalchemy.orm import relationship
+user_group_association_table = Table('user_group_association', Base.metadata,
+    Column('user_id', Integer, ForeignKey('users.id')),
+    Column('group_id', Integer, ForeignKey('groups.id'))
+)
+class Group(Base):
+    __tablename__ = 'groups'
+    id = Column(Integer, primary_key=True)
+    name = Column(String(200), nullable=False, unique=True)
+    users = relationship("User", secondary=user_group_association_table, back_populates="groups")
 
 class User(Base):
     __tablename__ = 'users'
@@ -22,6 +31,7 @@ class User(Base):
     name = Column(String(100))
     active = Column(Boolean, default=True)
     sessions = relationship("Session")
+    groups = relationship("Group", secondary=user_group_association_table, back_populates="users")
 
     def is_active(self):
         return self.active

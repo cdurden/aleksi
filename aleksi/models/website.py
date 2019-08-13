@@ -182,7 +182,7 @@ class Website(Base):
                              'share_session_url': request.route_path("share_session"),
                              'quizlet_auth_url': request.route_path('social.auth',backend='quizlet',_query={'next': request.static_path('aleksi:content/html/done.html')}),
                              'check_quizlet_auth_url': request.route_path('is_authed',provider='quizlet'),
-                             'load_shared_session_url': request.route_path("load_shared_session",shared_session_hash="__shared_session_hash"),
+                             'load_session_by_hash_url': request.route_path("load_session_by_hash",session_hash="__session_hash"),
                              'get_pins_url': request.route_path("get_pins"),
                              'unpin_url': request.route_path("unpin"),
                              'pin_url': request.route_path("pin"),

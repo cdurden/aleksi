@@ -7,6 +7,7 @@ from tempfile import mkstemp
 
 from paste.deploy.converters import asbool
 from pyramid.response import Response
+from pyramid.request import Request
 from pyramid.view import view_config
 from pyramid.decorator import reify
 from pyramid.renderers import get_renderer
@@ -351,7 +352,10 @@ def delete_session(request):
 def load_session_by_hash(request):
     session_hash = request.matchdict['session_hash']
     session = DBSession.query(Session).filter_by(hash=session_hash).one()
-    return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
+    subrequest = Request.blank(request.route_url("load_session", session_id=session.id))
+    response = request.invoke_subrequest(subrequest)
+    return response
+    #return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
 
 @view_config(route_name='load_session')
 def load_session(request):

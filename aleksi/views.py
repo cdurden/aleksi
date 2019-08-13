@@ -365,7 +365,7 @@ def load_session(request):
     try:
         #session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
         session = DBSession.query(Session).filter_by(id=session_id).one()
-        assert((session.permissions & 4) > 0 or session.group in user.groups and (session.permissions & 32) > 0 or session.owner == user.id and (session.permissions & 256) > 0)
+        assert((session.permissions & 4) > 0 or session.group in user.groups and (session.permissions & 32) > 0 or session.owner_id == user.id and (session.permissions & 256) > 0)
     except AssertionError:
         raise exc.HTTPForbidden()
     except NoResultFound:

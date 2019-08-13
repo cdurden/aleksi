@@ -8,6 +8,7 @@ apt-get install phantomjs
 
 # Setting up Google OAuth
 https://console.developers.google.com/?pli=1
+
 # Setting up the wiktionary database
  1. Download the wiktionary dump, e.g.
     wget https://dumps.wikimedia.org/enwiktionary/20190501/enwiktionary-20190501-pages-articles.xml.bz2
@@ -16,11 +17,10 @@ https://console.developers.google.com/?pli=1
 
 # setup virtualenv
 
-    virtualenv-3.4 ~/venv
-    source ~/venv/bin/activate
+    virtualenv /virtualenv/master
+    source /virtualenv/bin/activate
     cd aleksi
-    python setup.py install
-    pserve development.ini
+    python setup.py develop
 
 # Setup aleksi
 The main configuration settings are:
@@ -38,3 +38,4 @@ screen
 wiktwords /opt/enwiktionary-20190723-pages-articles.xml.bz2 --out /tmp/wikt.words --language Finnish
 sudo cp /tmp/wikt.words /opt
 ln -s /opt/wikt.words ${WSGI_APPS_PATH}/master/aleksi/
+python initdb.py apache.ini

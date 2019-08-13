@@ -313,8 +313,8 @@ def browse_sessions(request):
     # get user's sessions
     #sessions = DBSession.query(Session).join(User).filter(and_(Session.permissions.op('&')(256+32+4)>0,User.id=user.id)).all()
     sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)>0,Session.owner_id!=user.id)).all()
-    my_shared_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)>0,Session.owner_id==user.id)).all()
-    my_private_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)==0,Session.owner_id==user.id)).all()
+    my_shared_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(32+4)>0,Session.owner_id==user.id)).all()
+    my_private_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(32+4)==0,Session.owner_id==user.id)).all()
     #my_shared_sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
     websites = DBSession.query(Website).all()
     website_visits = {}

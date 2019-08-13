@@ -17,6 +17,7 @@ var/
 *.egg
 *.bak
 
+plugin.zip
 apache.ini
 aleksi.log
 aleksi.sqlite

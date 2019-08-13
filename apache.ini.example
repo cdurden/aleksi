@@ -1,23 +1,26 @@
 [app:main]
 use = egg:aleksi
 pyramid.includes = pyramid_tm pyramid_debugtoolbar
+wiktionary_db_dir = /opt/enwikt/
+libvoikko_dir = /opt/lib
+voikkofi_dir = /opt/voikko
+spanish_morphology_path = /opt/spanish-morphology
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = none
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = none
+smtp_endpoint = email-smtp.us-east-1.amazonaws.com
+base_dir = %(here)s
+app_dir = %(here)s/aleksi/
 sqlalchemy.url = sqlite:///%(here)s/aleksi.sqlite
 cached_website_dir = %(here)s/aleksi/content/websites/html/
 website_snapshot_dir = %(here)s/aleksi/content/websites/snapshots/
 phantomjs_script_path = %(here)s/phantomjs_scripts/
-smtp_endpoint = email-smtp.us-east-1.amazonaws.com
-app_dir = %(here)s/aleksi/
-libvoikko_dir = /usr/lib
-voikkofi_dir = /usr/lib/voikko
-spanish_morphology_path = /opt/spanish-morphology
-base_dir = %(here)s
 WiktionaryParser_jarfile = %(here)s/WiktionaryParser/target/WiktionaryParser-1.0-jar-with-dependencies.jar
-wiktionary_db_dir = /home/cld/tmp/enwikt/
+session.data_dir = %(here)s/data/sessions/data
+session.lock_dir = %(here)s/data/sessions/lock
+
 fail_on_remote_call = false
 remote = true
 session.type = file
-session.data_dir = %(here)s/data/sessions/data
-session.lock_dir = %(here)s/data/sessions/lock
 session.key = session_key 
 session.secret = mysecret
 session.cookie_on_exception = true

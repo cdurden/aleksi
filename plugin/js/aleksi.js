@@ -1280,7 +1280,7 @@ function configure_dialog() {
 function initialize_aleksi() {
     console.log("Initializing Aleksi...");
     window.aleksi = {};
-    createContextImgCanvas();
+    //createContextImgCanvas();
     canvas = $jquery_aleksi(document.createElement("canvas")).hide();
     canvas.attr("id","aleksi-canvas");
     $jquery_aleksi('body').append(canvas);

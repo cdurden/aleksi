@@ -18,6 +18,8 @@ var/
 *.bak
 
 plugin/manifest.json
+aleksi-plugin-mozilla.zip
+aleksi-plugin-chrome.zip
 plugin.zip
 apache.ini
 aleksi.log

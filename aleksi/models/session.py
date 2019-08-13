@@ -50,7 +50,7 @@ class Session(Base):
     hash = Column(Text)
     title = Column(Text)
     owner_id = Column(Integer, ForeignKey('users.id'))
-    permissions = Column(Integer)
+    permissions = Column(Integer, default=256+128+64, nullable=False)
     website_id = Column(Integer, ForeignKey('websites.id'))
     last_active = Column(DateTime)
     quizlet_user_id = Column(Text)

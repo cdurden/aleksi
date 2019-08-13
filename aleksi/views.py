@@ -7,6 +7,7 @@ from tempfile import mkstemp
 
 from paste.deploy.converters import asbool
 from pyramid.response import Response
+from pyramid.request import Request
 from pyramid.view import view_config
 from pyramid.decorator import reify
 from pyramid.renderers import get_renderer
@@ -312,8 +313,8 @@ def browse_sessions(request):
     # get user's sessions
     #sessions = DBSession.query(Session).join(User).filter(and_(Session.permissions.op('&')(256+32+4)>0,User.id=user.id)).all()
     sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)>0,Session.owner_id!=user.id)).all()
-    my_shared_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)>0,Session.owner_id==user.id)).all()
-    my_private_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(256+32+4)==0,Session.owner_id==user.id)).all()
+    my_shared_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(32+4)>0,Session.owner_id==user.id)).all()
+    my_private_sessions = DBSession.query(Session).filter(and_(Session.permissions.op('&')(32+4)==0,Session.owner_id==user.id)).all()
     #my_shared_sessions = DBSession.query(Session).filter(Session.permissions.op('&')(256+32+4)>0).all()
     websites = DBSession.query(Website).all()
     website_visits = {}
@@ -347,6 +348,17 @@ def delete_session(request):
     DBSession.flush()
     return exc.HTTPFound(request.route_url("browse_sessions"))
 
+@view_config(route_name='load_session_by_hash')
+def load_session_by_hash(request):
+    session_hash = request.matchdict['session_hash']
+    session = DBSession.query(Session).filter_by(hash=session_hash).one()
+    request.matchdict['session_id'] = session.id
+    return load_session(request)
+    #subrequest = Request.blank(request.route_url("load_session", session_id=session.id))
+    #response = request.invoke_subrequest(subrequest)
+    #return response
+    ##return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
+
 @view_config(route_name='load_session')
 def load_session(request):
     session_id = request.matchdict['session_id']
@@ -355,18 +367,17 @@ def load_session(request):
     if user is None:
         request.session['next'] = request.url
         raise exc.HTTPFound(request.route_url("start"))
-        #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
-    # get requested session
+    # FIXME: check user permissions
     try:
-        session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
+        #session = DBSession.query(Session).filter_by(id=session_id,owner_id=user.id).one()
+        session = DBSession.query(Session).filter_by(id=session_id).one()
+        assert((session.permissions & 4) > 0 or session.group in user.groups and (session.permissions & 32) > 0 or session.owner_id == user.id and (session.permissions & 256) > 0)
+    except AssertionError:
+        raise exc.HTTPForbidden()
     except NoResultFound:
-        request.session['next'] = request.url
-        raise exc.HTTPFound(request.route_url("start"))
-        #raise exc.HTTPFound(request.route_url("social.auth", backend="quizlet",_query={'next':request.url}))
-    # check session permissions for user
-    # render session
-    # get website by id
-    #website = Website.query.get(session.website_id)
+        raise exc.HTTPNotFound()
+        #request.session['next'] = request.url
+        #raise exc.HTTPFound(request.route_url("start"))
     website = session.website
     website.html_path = request.registry.settings['cached_website_dir']
     request.session['aleksi_session_id'] = session_id
@@ -375,22 +386,22 @@ def load_session(request):
     navbar_html = render_view_to_response(request.context, request, name='navbar').body
     return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
 
-@view_config(route_name='load_shared_session')
-def load_shared_session(request):
-    shared_session_hash = request.matchdict['shared_session_hash']
-    shared_session = DBSession.query(SharedSession).filter_by(hash=shared_session_hash).one()
-    session = shared_session.session
-    # check session permissions for user
-    # render session
-    # get website by id
-    #website = Website.query.get(session.website_id)
-    website = session.website
-    website.html_path = request.registry.settings['cached_website_dir']
-    #request.session['aleksi_session_id'] = session.id
-    dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
-    request.context.session = session
-    navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
-    return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+#@view_config(route_name='load_shared_session')
+#def load_shared_session(request):
+#    shared_session_hash = request.matchdict['shared_session_hash']
+#    shared_session = DBSession.query(SharedSession).filter_by(hash=shared_session_hash).one()
+#    session = shared_session.session
+#    # check session permissions for user
+#    # render session
+#    # get website by id
+#    #website = Website.query.get(session.website_id)
+#    website = session.website
+#    website.html_path = request.registry.settings['cached_website_dir']
+#    #request.session['aleksi_session_id'] = session.id
+#    dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
+#    request.context.session = session
+#    navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
+#    return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
 
 
 #@view_config(route_name='index', renderer='templates/sites.pt')
@@ -937,6 +948,7 @@ def create_session(request):
     if user is not None:
         session = Session(website=website, title=website.title, websites=[website])
         session.owner = user
+        session.hash = hashlib.sha224(json.dumps(session.to_dict(), sort_keys=True).encode('utf-8')).hexdigest()
         session.save()
     return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
     #return Response(website.aleksi_html(request, aleksi_blank_html))

@@ -250,8 +250,8 @@ function get_session() {
 	  $jquery_aleksi("#lang_selector option[value='"+session.lang+"']").prop('selected', true);
           if (session.shared_session) {
             $jquery_aleksi("#share_session_button").hide();
-            var load_shared_session_url = get_setting('load_shared_session_url').replace("__shared_session_hash",session.shared_session.hash);
-            $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
+            var load_session_by_hash_url = get_setting('load_session_by_hash_url').replace("__session_hash",session.shared_session.hash);
+            $jquery_aleksi("#shared_session_link").attr("href", load_session_by_hash_url);
           } else {
             $jquery_aleksi("#shared_session").hide();
           }
@@ -293,8 +293,8 @@ function share_session(){
         type    : 'POST',
         dataType: 'json',
         success : function(shared_session){
-          var load_shared_session_url = get_setting('load_shared_session_url').replace("__shared_session_hash",shared_session.hash);
-          $jquery_aleksi("#shared_session_link").attr("href", load_shared_session_url);
+          var load_session_by_hash_url = get_setting('load_session_by_hash_url').replace("__session_hash",shared_session.hash);
+          $jquery_aleksi("#shared_session_link").attr("href", load_session_by_hash_url);
           $jquery_aleksi("#share_session_button").hide();
           $jquery_aleksi("#shared_session").show();
           hide_overlay();

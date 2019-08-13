@@ -47,9 +47,10 @@ class SharedSession(Base):
 class Session(Base):
     __tablename__ = 'sessions'
     id = Column(Integer, primary_key=True)
+    hash = Column(Text)
     title = Column(Text)
     owner_id = Column(Integer, ForeignKey('users.id'))
-    permissions = Column(Integer)
+    permissions = Column(Integer, default=256+128+64, nullable=False)
     website_id = Column(Integer, ForeignKey('websites.id'))
     last_active = Column(DateTime)
     quizlet_user_id = Column(Text)
@@ -58,6 +59,7 @@ class Session(Base):
     lang = Column(Text)
     website = relationship("Website")
     owner = relationship("User", back_populates="sessions")
+    group = Column(Text)
     pins = relationship("Pin")
     shared_session = relationship("SharedSession", uselist=False)
     #quizlet_set = relationship("QuizletSet")

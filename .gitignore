@@ -17,10 +17,16 @@ var/
 *.egg
 *.bak
 
+plugin.zip
+apache.ini
 aleksi.log
 aleksi.sqlite
+wikt.words
 aleksi/content/websites/html/*
 aleksi/content/websites/snapshots/*
 aleksi/__pycache__
 aleksi/models/__pycache__
 enwiktlookup/target/enwiktlookup-1.0-SNAPSHOT-jar-with-dependencies.jar
+WiktionaryParser/target/classes/com/mycompany/app/MainClass.class
+WiktionaryParser/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+WiktionaryParser/target/WiktionaryParser-1.0-jar-with-dependencies.jar

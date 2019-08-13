@@ -17,6 +17,7 @@ var/
 *.egg
 *.bak
 
+plugin/manifest.json
 plugin.zip
 apache.ini
 aleksi.log

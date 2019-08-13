@@ -352,10 +352,12 @@ def delete_session(request):
 def load_session_by_hash(request):
     session_hash = request.matchdict['session_hash']
     session = DBSession.query(Session).filter_by(hash=session_hash).one()
-    subrequest = Request.blank(request.route_url("load_session", session_id=session.id))
-    response = request.invoke_subrequest(subrequest)
-    return response
-    #return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
+    request.matchdict['session_id'] = session.id
+    return load_session(request)
+    #subrequest = Request.blank(request.route_url("load_session", session_id=session.id))
+    #response = request.invoke_subrequest(subrequest)
+    #return response
+    ##return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
 
 @view_config(route_name='load_session')
 def load_session(request):

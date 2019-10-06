@@ -11,21 +11,22 @@ https://console.developers.google.com/?pli=1
 
 # Setting up the wiktionary database
  1. Download the wiktionary dump, e.g.
-    wget https://dumps.wikimedia.org/enwiktionary/20190501/enwiktionary-20190501-pages-articles.xml.bz2
+    wget https://dumps.wikimedia.org/enwiktionary/latest/enwiktionary-latest-pages-articles.xml.bz2
  2. Generate the database files
-    java -jar enwiktlookup/target/enwiktlookup-1.0-SNAPSHOT-jar-with-dependencies.jar -d ~/Downloads/enwiktionary-20190501-pages-articles.xml.bz2 ~/tmp/enwikt/
+    mkdir /enwikt
+    java -jar enwiktlookup/target/enwiktlookup-1.0-SNAPSHOT-jar-with-dependencies.jar -d enwiktionary-latest-pages-articles.xml.bz2 /enwikt/
 
 # setup virtualenv
 
-    virtualenv /virtualenv/master
+    virtualenv /virtualenv
     source /virtualenv/bin/activate
-    cd aleksi
+    cd /wsgi/aleksi
     python setup.py develop
 
 # Setup aleksi
 The main configuration settings are:
 
-enwikt_db_dir = /home/cld/tmp/enwikt/
+enwikt_db_dir = /enwikt/
 
 # anki integration
 
@@ -35,7 +36,7 @@ export PYTHONPATH="${APACHE_WSGI_PYTHON_PATH}/lib64/"
 
 # Prepopulating the Finnish translation database
 screen
-wiktwords /opt/enwiktionary-20190723-pages-articles.xml.bz2 --out /tmp/wikt.words --language Finnish
-sudo cp /tmp/wikt.words /opt
-ln -s /opt/wikt.words ${WSGI_APPS_PATH}/master/aleksi/
+wiktwords enwiktionary-latest-pages-articles.xml.bz2 --out wikt.words --language Finnish
+sudo cp wikt.words ${WSGI_APPS_PATH}/master/aleksi/
+ln -s ${WSGI_APPS_PATH}/master/aleksi/wikt.words ${WSGI_APPS_PATH}/dev/aleksi/
 python initdb.py apache.ini

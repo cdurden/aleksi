@@ -1,0 +1,18 @@
+# Use only 1 Python sub-interpreter.  Multiple sub-interpreters
+# play badly with C extensions.  See
+# http://stackoverflow.com/a/10558360/209039
+WSGIApplicationGroup %{GLOBAL}
+WSGIPassAuthorization On
+WSGIPythonHome ${APACHE_WSGI_PYTHON_HOME}
+WSGIDaemonProcess wsgi threads=1 lang='en_US.UTF-8' locale='en_US.UTF-8' \
+   maximum-requests=0 inactivity-timeout=0 \
+   python-home="${APACHE_WSGI_PYTHON_HOME}"
+WSGIScriptAlias / ${WSGI_APPS_PATH}/aleksi/aleksi.wsgi
+LogLevel info
+
+<Directory ${WSGI_APPS_PATH_PYTHON2}>
+  WSGIProcessGroup wsgi
+  Order allow,deny
+  Allow from all
+  Require all granted
+</Directory>

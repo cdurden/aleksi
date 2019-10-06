@@ -9,11 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"> 
     <link rel="stylesheet" href="${request.static_path('aleksi:content/css/main.css')}"/>
     <link rel="stylesheet" href="${request.static_path('aleksi:content/css/themes/jquery.mobile.icons.min.css')}" />
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile.structure-1.4.5.min.css" />
-    <link href="https://www.hs.fi/assets/css/fonts-main-hs.a90caa2de849f1e7.css" rel="stylesheet"/>
-    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
+    <link rel="stylesheet" href="${request.static_path('aleksi:content/js/jquery.mobile.structure-1.4.5.min.css')}" />
+    <link href="${request.static_path('aleksi:content/css/fonts-main-hs.a90caa2de849f1e7.css')}" rel="stylesheet"/>
+    <link href="${request.static_path('aleksi:content/css/font-awesome.css')}" rel="stylesheet">
+    <script src="${request.static_path('aleksi:content/js/jquery-1.11.1.min.js')}"></script> 
+    <script src="${request.static_path('aleksi:content/js/jquery.mobile-1.4.5.min.js')}"></script> 
     <title>${title}</title>
     <script src="${request.static_path('aleksi:content/js/main.js')}"></script>
     <more metal:define-slot="head-more"></more>

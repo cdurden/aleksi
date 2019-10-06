@@ -37,6 +37,10 @@ export PYTHONPATH="${APACHE_WSGI_PYTHON_PATH}/lib64/"
     mkdir /enwikt
     java -jar enwiktlookup/target/enwiktlookup-1.0-SNAPSHOT-jar-with-dependencies.jar -d enwiktionary-latest-pages-articles.xml.bz2 /enwikt/
 
+# Build WiktionaryParser
+cd WiktionaryParser
+./make.sh
+
 # Prepopulating the Finnish translation database
 pip install wiktextract
 screen

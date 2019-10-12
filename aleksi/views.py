@@ -579,7 +579,7 @@ def save_session(request):
         set_website(request)
     session = DBSession.query(Session).filter_by(id=session_id).one()
     session.title = session_title
-    session.quizlet_set_id = quizlet_set_id
+    #session.quizlet_set_id = quizlet_set_id
     session.link_behavior = link_behavior
     session.lang = lang
     session.save()

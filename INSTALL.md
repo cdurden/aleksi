@@ -41,6 +41,9 @@ export PYTHONPATH="${APACHE_WSGI_PYTHON_PATH}/lib64/"
 cd WiktionaryParser
 ./make.sh
 
+# Spanish support
+git clone https://github.com/gebetix/spanish-morphology.git
+
 # Prepopulating the Finnish translation database
 pip install wiktextract
 screen

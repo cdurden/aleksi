@@ -570,7 +570,7 @@ def save_session(request):
     #session_id = data['session_id']
     session_title = data['session_title']
     lang = data['lang']
-    quizlet_set_id = data['quizlet_set_id']
+    #quizlet_set_id = data['quizlet_set_id']
     link_behavior = data['link_behavior']
     website_setter_value = data['website_setter_value']
     if website_setter_value == 'set_url':

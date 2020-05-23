@@ -352,7 +352,7 @@ def delete_session(request):
 def load_session_by_hash(request):
     session_hash = request.matchdict['session_hash']
     try:
-        shared_session = DBSession.query(SharedSession).filter_by(hash=shared_session_hash).one()
+        shared_session = DBSession.query(SharedSession).filter_by(hash=session_hash).one()
         session = shared_session.session
         # check session permissions for user
         # render session

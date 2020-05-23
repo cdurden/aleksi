@@ -363,7 +363,7 @@ def load_session_by_hash(request):
         #request.session['aleksi_session_id'] = session.id
         dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
         #request.context.session = session
-        request.session = session
+        request.aleksi_session = session
         navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
         return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
     except NoResultFound:

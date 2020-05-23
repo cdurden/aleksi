@@ -351,13 +351,24 @@ def delete_session(request):
 @view_config(route_name='load_session_by_hash')
 def load_session_by_hash(request):
     session_hash = request.matchdict['session_hash']
-    session = DBSession.query(Session).filter_by(hash=session_hash).one()
-    request.matchdict['session_id'] = session.id
-    return load_session(request)
-    #subrequest = Request.blank(request.route_url("load_session", session_id=session.id))
-    #response = request.invoke_subrequest(subrequest)
-    #return response
-    ##return exc.HTTPFound(request.route_url("load_session", session_id=session.id))
+    try:
+        shared_session = DBSession.query(SharedSession).filter_by(hash=shared_session_hash).one()
+        session = shared_session.session
+        # check session permissions for user
+        # render session
+        # get website by id
+        #website = Website.query.get(session.website_id)
+        website = session.website
+        website.html_path = request.registry.settings['cached_website_dir']
+        #request.session['aleksi_session_id'] = session.id
+        dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
+        request.context.session = session
+        navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
+        return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+    except NoResultFound:
+        session = DBSession.query(Session).filter_by(hash=session_hash).one()
+        request.matchdict['session_id'] = session.id
+        return load_session(request)
 
 @view_config(route_name='load_session')
 def load_session(request):
@@ -386,22 +397,22 @@ def load_session(request):
     navbar_html = render_view_to_response(request.context, request, name='navbar').body
     return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
 
-#@view_config(route_name='load_shared_session')
-#def load_shared_session(request):
-#    shared_session_hash = request.matchdict['shared_session_hash']
-#    shared_session = DBSession.query(SharedSession).filter_by(hash=shared_session_hash).one()
-#    session = shared_session.session
-#    # check session permissions for user
-#    # render session
-#    # get website by id
-#    #website = Website.query.get(session.website_id)
-#    website = session.website
-#    website.html_path = request.registry.settings['cached_website_dir']
-#    #request.session['aleksi_session_id'] = session.id
-#    dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
-#    request.context.session = session
-#    navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
-#    return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+@view_config(route_name='load_shared_session')
+def load_shared_session(request):
+    shared_session_hash = request.matchdict['shared_session_hash']
+    shared_session = DBSession.query(SharedSession).filter_by(hash=shared_session_hash).one()
+    session = shared_session.session
+    # check session permissions for user
+    # render session
+    # get website by id
+    #website = Website.query.get(session.website_id)
+    website = session.website
+    website.html_path = request.registry.settings['cached_website_dir']
+    #request.session['aleksi_session_id'] = session.id
+    dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
+    request.context.session = session
+    navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
+    return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
 
 
 #@view_config(route_name='index', renderer='templates/sites.pt')

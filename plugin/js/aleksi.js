@@ -204,6 +204,9 @@ function ocrHandler(message) {
 }
 
 function bindHandlers() {
+    $jquery_aleksi("iframe").each(function() {
+        $jquery_aleksi(this.contentWindow.document).bind("click.doc",clickHandler);
+    });
     $jquery_aleksi(document).bind("click.doc",clickHandler);
     $jquery_aleksi("a").on("click",linkHandler);
     $jquery_aleksi(document).on("ocr",ocrHandler);

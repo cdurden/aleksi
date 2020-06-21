@@ -365,7 +365,10 @@ def load_session_by_hash(request):
         #request.context.session = session
         request.aleksi_session = session
         navbar_html = render_view_to_response(request.context, request, name='navbar_noauth').body
-        return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+        response = Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+        response.headers.update({
+            'Access-Control-Allow-Origin': '*'})
+        return response
     except NoResultFound:
         session = DBSession.query(Session).filter_by(hash=session_hash).one()
         request.matchdict['session_id'] = session.id
@@ -396,7 +399,10 @@ def load_session(request):
     request.aleksi_session = session
     dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
     navbar_html = render_view_to_response(request.context, request, name='navbar').body
-    return Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+    respponse = Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+    response.headers.update({
+        'Access-Control-Allow-Origin': '*'})
+    return response
 
 #@view_config(route_name='load_shared_session')
 #def load_shared_session(request):

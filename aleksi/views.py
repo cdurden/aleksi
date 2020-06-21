@@ -399,7 +399,7 @@ def load_session(request):
     request.aleksi_session = session
     dialog_blank_html = render_view_to_response(request.context, request, name='dialog_blank').body
     navbar_html = render_view_to_response(request.context, request, name='navbar').body
-    respponse = Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
+    response = Response(website.aleksi_html(request, dialog_blank_html, navbar_html))
     response.headers.update({
         'Access-Control-Allow-Origin': '*'})
     return response

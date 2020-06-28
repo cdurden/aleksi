@@ -1439,7 +1439,7 @@ function update_translations_table(result) {
                         val_cell.append('negative');
                     } else {
                         if (tagdict[key]=='both') {
-                              val_cell.append('both')
+                              val_cell.append('positive or negative')
                         }
                     }
                 } else {

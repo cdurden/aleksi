@@ -1434,8 +1434,14 @@ function update_translations_table(result) {
                 var key_cell = $jquery_aleksi(document.createElement("td"));
                 var val_cell = $jquery_aleksi(document.createElement("td"));
                 key_cell.attr("class", "aleksi_table_heading");
-                if (key=='NEGATIVE' && tagdict[key]=='true') {
-                    val_cell.append('negative');
+                if (key=='NEGATIVE') {
+                    if (tagdict[key]=='true') {
+                        val_cell.append('negative');
+                    } else {
+                        if (tagdict[key]=='both') {
+                              val_cell.append('both')
+                        }
+                    }
                 } else {
                     val_cell.append(tagdict[key]);
                 }

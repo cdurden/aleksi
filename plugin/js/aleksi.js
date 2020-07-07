@@ -1,6 +1,7 @@
 var menu_anchor = "left top";
 var menu_placement = "left bottom";
 
+var settings = { 'disable_links': true };
 var tag_types =[ { 'key': 'CLASS', 'label': 'Class' },
                  { 'key': 'SIJAMUOTO', 'label': 'Case' },
                  { 'key': 'NUMBER', 'label': 'Number' },

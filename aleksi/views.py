@@ -370,9 +370,10 @@ def load_session_by_hash(request):
             'Access-Control-Allow-Origin': '*'})
         return response
     except NoResultFound:
-        session = DBSession.query(Session).filter_by(hash=session_hash).one()
-        request.matchdict['session_id'] = session.id
-        return load_session(request)
+        raise exc.HTTPNotFound()
+        #session = DBSession.query(Session).filter_by(hash=session_hash).one()
+        #request.matchdict['session_id'] = session.id
+        #return load_session(request)
 
 @view_config(route_name='load_session')
 def load_session(request):

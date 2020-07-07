@@ -82,7 +82,7 @@ function update_settings() {
     $jquery_aleksi("#disable_links_checkbox").prop("checked",get_setting('disable_links'));
 }
 function get_setting(setting) {
-    if (typeof settings != 'undefined' && setting in settings) {
+    if (typeof settings != 'undefined' && typeof settings[settings] != 'undefined') {
         return(settings[setting]);
     }
 }

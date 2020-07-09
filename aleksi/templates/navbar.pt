@@ -229,7 +229,7 @@
       </div>
     </fieldset>
     -->
-  <div id="quizlet_connecting"><center><img src="${request.static_path('aleksi:content/img/loading_spinner.gif')}" height="25"/></center></div>
+  <div id="quizlet_connecting"><center><img src="${request.static_path('aleksi:content/img/loading_spinner.gif')}" height="25" style="display: none;"/></center></div>
   <a id="save_session_button" href="javascript:save_session()">Save</a>
   <a id="share_session_button" href="javascript:share_session()">Share</a>
   <div id="shared_session">

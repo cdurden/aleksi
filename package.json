@@ -1,0 +1,35 @@
+{
+  "name": "aleksi",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Aleksi on auttaja lukemaan esineitä suomenkielella internetissa.",
+  "scripts": {
+    "dev:website": "vite --config vite.config.website.js",
+    "dev:extension": "vite --config vite.config.extension.js",
+    "dev": "concurrently \"npm run dev:website\" \"npm run dev:extension\"",
+    "build:website": "tsc && vite build --config vite.config.website",
+    "build:extension": "tsc && vite build --config vite.config.extension",
+    "build": "npm run build:website",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "typescript",
+    "vite"
+  ],
+  "author": "Chris Durden",
+  "license": "MIT",
+  "dependencies": {
+    "@webcomponents/custom-elements": "^1.6.0",
+    "black-no-sugar": "*",
+    "fufu": "*"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.0.0",
+    "@types/chrome": "^0.0.260",
+    "typescript": "^5.4.0",
+    "vite": "^8.1.5"
+  }
+}

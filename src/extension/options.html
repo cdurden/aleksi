@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Extension Options</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+      }
+      div {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Activation Behavior</h3>
+    <label>
+      <input type="radio" name="behavior" value="always" /> Always active </label
+    ><br />
+    <label>
+      <input type="radio" name="behavior" value="lang_fi" /> Activate when page
+      language is Finnish ("fi") </label
+    ><br />
+    <label>
+      <input type="radio" name="behavior" value="toggle" /> Toggle activation
+      when clicking icon
+    </label>
+
+    <div style="margin-top: 15px" id="status"></div>
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

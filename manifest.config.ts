@@ -11,7 +11,6 @@ export default defineManifest({
     service_worker: "extension/background.ts",
   },
   host_permissions: ["https://aleksi.juttelijat.lol/*"],
-  key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvB8+1bY9X/7uBJhQpvqmCCgZY0ObX3o5EJ/jzbXJTaRuWlD5PHV6TIwa5QPeuVQ81dnIztPbIfF4+spo4yPIDd68q34Jrc0vJ2lSaNDivnPkYIwWzxe39ripoL8AiFL76rPWrjjaHtf8Zx588hxDbeMpKX31oR598ELjixNlwJZHXFkrj6anXqKcahVYaGYCo+fj35I/ptqNBedGYpYOMPqb1l6ytrMJreWP0/FjoDoN6cI0cX3Tesf/RKTAwvnugvx4XD4Z8H5tTtDA7HcmWwmeaFyy0gP1fovga/piTYu1W/96MKcV7RvjZa1nwbZTxr1UBcmDb3w1sj0YKMiWtQIDAQAB",
   /*
   content_scripts: [
     {

@@ -2,3 +2,5 @@ dist/
 dist-website/
 dist-extension/
 node_modules/
+aleksi-extension.zip
+aleksi-extension.pem

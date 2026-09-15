@@ -6,17 +6,20 @@ import {
   type ResizableMsg,
   type MaybeSize,
 } from "fufu/layouts/resizable.js";
+import { HighlighterPayload } from "fufu/managers/highlighter.js";
 
 export type AleksiModel<P = any> = {
   payloads: Map<string, P>;
   currentQuery: string | null;
   errorMessages: string[];
   resizable: ResizableModel;
+  autoResize: boolean;
   visible: boolean;
   contentHeight: number | undefined;
   minHeight: number;
   maxHeight: number | null;
   queryOrdering: number[];
+  highlightersState: Map<HighlighterSpecName, { attached: boolean }>;
 };
 
 export type AleksiMsg =
@@ -27,7 +30,8 @@ export type AleksiMsg =
   | { type: "UpdatePopupSize"; size: MaybeSize }
   | { type: "ResizableMsg"; resizableMsg: ResizableMsg }
   | { type: "HideAleksi" }
-  | { type: "ActivateHighlighter"; id: string; clientSelector: Selector };
+  | { type: "HighlighterAttached"; highlighterId: string }
+  | { type: "AttachHighlighters"; clientSelector: Selector };
 
 interface TranslationItem {
   pin: string;
@@ -52,7 +56,7 @@ interface AleksiFiScope {
   iconsStyle: Record<string, string>;
   allowPins: boolean;
   savedPins: Set<string>;
-  source_url: (t: TranslationItem) => string;
+  source_url: (l: LemmaItem, t: TranslationItem) => string;
   togglePin: (pin: string) => void;
   tagLabels: Map<string, string>;
 }
@@ -80,6 +84,25 @@ export interface AleksiConfigContext {
   };
 }
 
+const highlighterSpecs = {
+  NetflixCaptionNavigator: {
+    targetsSelector: ".player-timedtext",
+    //excludeSelector: clientSelector.queryString,
+  },
+  NetflixClickWordInCaption: {
+    targetsSelector: ".player-timedtext",
+    //excludeSelector: clientSelector.queryString,
+  },
+  ClickWordInBody: {
+    targetsSelector: "body",
+    type: "ClickWordInTarget",
+    //excludeSelector: clientSelector.queryString,
+  },
+};
+
+type HighlighterSpecName = keyof typeof highlighterSpecs;
+type ExtensionMode = "netflix" | "default";
+
 export const aleksiComponent: Component<
   AleksiMsg,
   AleksiModel,
@@ -90,20 +113,39 @@ export const aleksiComponent: Component<
     ctx: any,
     recurse,
   ): [AleksiModel, Cmd<AleksiMsg>] {
+    const mode: ExtensionMode =
+      new URL(String(window.location)).hostname === "www.netflix.com"
+        ? "netflix"
+        : "default";
+    const highlightersState = new Map();
+    switch (mode) {
+      case "netflix": {
+        highlightersState.set("NetflixCaptionNavigator", {
+          attached: false,
+        });
+        highlightersState.set("NetflixClickWordInCaption", { attached: false });
+      }
+      default:
+        highlightersState.set("ClickWordInBody", { attached: false });
+    }
     const model = {
       payloads: new Map(),
       currentQuery: initialQuery,
       errorMessages: [],
       visible: false,
       contentHeight: undefined,
-      minWidth: ctx?.config?.aleksi?.minWidth ?? 100,
-      minHeight: ctx?.config?.aleksi?.minHeight ?? 100,
+      minWidth:
+        ctx?.config?.aleksi?.minWidth ?? (mode === "netflix" ? 200 : 400),
+      minHeight: ctx?.config?.aleksi?.minHeight ?? 200,
       maxHeight: ctx?.config?.aleksi?.maxHeight ?? null,
+      autoResize: mode === "netflix" ? false : true,
       queryOrdering: [],
+      highlightersState,
     };
     const resizableMeta = {
       dragSelector: ".drag-el",
-      w: 400,
+      w: model.minWidth,
+      h: model.minHeight,
       fitParent: true,
       l: 0,
       t: 0,
@@ -198,34 +240,42 @@ export const aleksiComponent: Component<
         model.visible = false;
         return [model, Cmd.none()];
       }
-      case "ActivateHighlighter": {
-        const targetsSelector =
-          new URL(String(window.location)).hostname === "www.netflix.com"
-            ? ".player-timedtext-text-container"
-            : "body";
-        const activateHighlighterCmd: Cmd<AleksiMsg> = Cmd.batch([
-          Cmd.custom("highlighter", {
-            action: "ActivateHighlighter",
-            id: `${msg.clientSelector.id}-NetflixClosedCaptionsNavigator`,
-            highlighterType: "NetflixClosedCaptionsNavigator",
-            targetsSelector,
-            excludeSelector: msg.clientSelector.queryString,
-          }),
-          Cmd.custom("highlighter", {
-            action: "ActivateHighlighter",
-            id: `${msg.clientSelector.id}-ClickWordInTarget`,
-            highlighterType: "ClickWordInTarget",
-            targetsSelector,
-            excludeSelector: msg.clientSelector.queryString,
-          }),
-        ]);
-        return [model, activateHighlighterCmd];
+      case "HighlighterAttached": {
+        const highlighter = model.highlightersState.get(
+          msg.highlighterId as HighlighterSpecName,
+        );
+        if (!highlighter) return [model, Cmd.none()];
+        model.highlightersState.set(msg.highlighterId as HighlighterSpecName, {
+          ...highlighter,
+          attached: true,
+        });
+        return [model, Cmd.none()];
+      }
+
+      case "AttachHighlighters": {
+        const activateHighlightersCmd: Cmd<AleksiMsg> = Cmd.batch(
+          Array.from(model.highlightersState.entries())
+            .filter(([_, { attached }]) => !attached)
+            .map(([type, _]) => {
+              if (!(type in highlighterSpecs)) return Cmd.none();
+              return Cmd.custom("highlighter", {
+                action: "AttachHighlighters",
+                type,
+                clientSelector: msg.clientSelector,
+                ...highlighterSpecs[type],
+                onSuccess: (): AleksiMsg => ({
+                  type: "HighlighterAttached",
+                  highlighterId: type,
+                }),
+              });
+            }),
+        );
+        return [model, activateHighlightersCmd];
       }
       default:
         return [model, Cmd.none()];
     }
   },
-
   subscriptions: (_model) => {
     return {
       type: "ListenToChannel",
@@ -250,7 +300,13 @@ export const aleksiComponent: Component<
       iconsStyle: {} as Record<string, any>,
       allowPins: false,
       savedPins: new Set([]) as Set<string>,
-      source_url: (_t: TranslationItem) => "",
+      source_url: (l: LemmaItem, t: TranslationItem) => {
+        if (t.source === "Wiktionary") {
+          return `https://en.wiktionary.org/wiki/${l.lemma}`;
+        } else {
+          return "";
+        }
+      },
       togglePin: (_pin: string) => {},
       tagLabels: new Map([
         ["BASEFORM", "Base word"],
@@ -274,6 +330,49 @@ export const aleksiComponent: Component<
       tagLabels,
     } = scope;
 
+    function sourceAnchor(l: LemmaItem, t: TranslationItem): VNode {
+      switch (t.source) {
+        case "Wiktionary": {
+          return h(
+            "a",
+            {
+              href: source_url(l, t),
+              class: "icon-link",
+              title: `Source: ${t.source}`,
+              target: "_blank",
+            },
+            [text("['w]")],
+          );
+        }
+        default:
+          return text("");
+      }
+    }
+    function decorateTag(tagKey: string, tag: string) {
+      switch (tagKey) {
+        case "WORDBASES": {
+          const maTagMatch = tag.match(/\+m\+a|\+m\+ä/);
+          if (maTagMatch?.index) {
+            return h("span", {}, [
+              text(tag.substring(0, maTagMatch.index)),
+              h(
+                "a",
+                {
+                  href: "https://en.wiktionary.org/wiki/-ma#Finnish:_participial",
+                  target: "_blank",
+                },
+                [text(maTagMatch[0])],
+              ),
+              text(tag.substring(maTagMatch.index + 4, tag.length)),
+            ]);
+          } else {
+            return text(tag);
+          }
+        }
+        default:
+          return text(tag);
+      }
+    }
     const payload = model.payloads.get(model.currentQuery);
     const lemmas = payload?.lemmas ?? [];
     const tagsets = payload?.tagsets ?? [];
@@ -354,17 +453,7 @@ export const aleksiComponent: Component<
 
                           h("td", {}, [
                             h("div", {}, [
-                              h(
-                                "a",
-                                {
-                                  href: source_url(translationItem),
-                                  class: "icon-link",
-                                  title: `Source: ${translationItem.source}`,
-                                  target: "_blank",
-                                },
-                                [h("i", {}, [])],
-                              ),
-
+                              sourceAnchor(lemma, translationItem),
                               // Pin Control Button mapping pass (v-show evaluated to display props styles)
                               h(
                                 "button",
@@ -415,7 +504,9 @@ export const aleksiComponent: Component<
                           .map(([tagKey, tagLabel]) =>
                             h("tr", {}, [
                               h("th", {}, [text(tagLabel ?? "")]),
-                              h("td", {}, [text(tagset[tagKey] ?? "")]),
+                              h("td", {}, [
+                                decorateTag(tagKey, tagset[tagKey]),
+                              ]),
                             ]),
                           ),
                       ]),
@@ -468,8 +559,7 @@ export const aleksiComponent: Component<
         // It seems like this queueMicrotask solution is just a trick that
         // prevents the engine from following its normal update cycle
         dispatch({
-          type: "ActivateHighlighter",
-          id: selector.id,
+          type: "AttachHighlighters",
           clientSelector: selector,
         });
       },
@@ -502,6 +592,7 @@ export const aleksiComponent: Component<
       {},
       (elmt: HTMLElement | null) => {
         if (!elmt) return;
+        if (!model.autoResize) return;
         const dragBarElmt = elmt.querySelector(".drag-bar");
         const contentElmt = elmt.querySelector(".aleksi-content");
         const footerElmt = elmt.querySelector(".aleksi-footer");
@@ -603,6 +694,9 @@ const aleksiFiStyle = `
     height: 100%;
     cursor: grab;
   }
+  table {
+    border-spacing: 0;
+  }
   table tbody tr td {
     padding: 2px;
   }
@@ -611,7 +705,7 @@ const aleksiFiStyle = `
 ￼   font-weight: bold;
 ￼   word-break: normal;
   }
-  table tbody tr:nth-child(even) td:nth-child(2) {
+  table tbody tr:nth-child(even) td:nth-child(2), table tbody tr:nth-child(even) td:nth-child(3) {
     background: #eee;
   }
   .morph-list-container {
@@ -638,5 +732,11 @@ const aleksiFiStyle = `
   div.powered-by {
     text-align: right;
     font-size: smaller;
+  }
+  .icon-link {
+    font-size: x-small;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
   }
 `;

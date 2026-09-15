@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 260px;
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        padding: 16px;
+        margin: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+      h3 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 16px;
+        color: #111;
+      }
+      p {
+        font-size: 13px;
+        line-height: 1.4;
+        margin-bottom: 16px;
+        color: #666;
+      }
+      button {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      button:active {
+        background-color: #004085;
+      }
+      .status {
+        display: none;
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+        color: #28a745;
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Activate Aleksi</h3>
+    <p>
+      Click below to grant the Aleksi extension permission to send word data to
+      the Aleksi server when you left-click on a word.
+    </p>
+
+    <button id="enable-btn">Enable Extension</button>
+    <div id="status-msg" class="status">✓ Activated successfully!</div>
+
+    <script type="module" src="./popup.js"></script>
+  </body>
+</html>

@@ -8,12 +8,14 @@ import { popupsLayout } from "fufu/layouts/popups.js";
 import { resizableSpec } from "fufu/layouts/resizable.js";
 import { aleksiComponent } from "./components/aleksi.js";
 
+import { defaultAleksiServerUrl } from "./extension/settings.js";
+
 export const aleksiConfig = {
   type: "contextProvider",
   meta: {
     config: {
       aleksi: {
-        apiBaseUrl: "http://aleksi.juttelijat.lol",
+        apiBaseUrl: defaultAleksiServerUrl,
         maxHeight: 400,
       },
     },

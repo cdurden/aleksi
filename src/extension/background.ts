@@ -7,10 +7,12 @@ if (typeof globalThis !== "undefined" && !("__LIVE_RELOAD__" in globalThis)) {
 }
 
 import contentScriptUrl from "./content.ts?script";
-
-interface ExtensionSettings {
-  activationBehavior: "always" | "lang_fi" | "toggle";
-}
+import {
+  defaultActivationBehavior,
+  type ExtensionSettings,
+  aleksiContentScriptId,
+  requireEnable,
+} from "./settings.js";
 
 type IncomingMessage =
   | {
@@ -20,7 +22,9 @@ type IncomingMessage =
     }
   | {
       action: "RegisterTab";
-    };
+    }
+  | { action: "ActivateExtension" }
+  | { action: "DeactivateExtension" };
 
 interface ProxyResponse {
   success: boolean;
@@ -56,28 +60,28 @@ async function updateTab(
       await chrome.tabs.sendMessage(tabId, {
         action: "MountAleksi",
       });
+      setBadge(tabId, shouldBeActive);
     } else {
       await chrome.tabs.sendMessage(tabId, {
         action: "UnmountAleksi",
       });
+      setBadge(tabId, shouldBeActive);
     }
   } catch (error) {
     // Failsafe catch block for restricted system pages (e.g. chrome:// or extensions gallery)
     console.warn("Could not modify tab UI:", error);
+    setBadge(tabId, false);
   }
 }
 
 // Re-architected evaluation engine
-async function evaluateTabActivation(tab: chrome.tabs.Tab): Promise<void> {
-  //if (!tab.id || !tab.url || tab.url.startsWith("chrome://")) return;
-  if (!tab.id) return;
-  const tabId = tab.id;
+async function evaluateTabActivation(tabId: number): Promise<void> {
+  const data = await chrome.storage.local.get({
+    activationBehavior: defaultActivationBehavior,
+  });
 
-  const data = await chrome.storage.local.get({ activationBehavior: "always" });
   const settings = data as ExtensionSettings;
-
   if (settings.activationBehavior === "always") {
-    setBadge(tabId, true);
     await updateTab(tabId, true);
   } else if (settings.activationBehavior === "lang_fi") {
     chrome.scripting.executeScript(
@@ -88,7 +92,6 @@ async function evaluateTabActivation(tab: chrome.tabs.Tab): Promise<void> {
       async (results) => {
         if (results && results[0]) {
           const isFi = results[0].result === "fi";
-          setBadge(tabId, isFi);
           // Explicitly turns ON or OFF depending on the language calculation match
           await updateTab(tabId, isFi);
         }
@@ -96,7 +99,6 @@ async function evaluateTabActivation(tab: chrome.tabs.Tab): Promise<void> {
     );
   } else if (settings.activationBehavior === "toggle") {
     const isToggledOn = !!tabToggleStates[tabId];
-    setBadge(tabId, isToggledOn);
     await updateTab(tabId, isToggledOn);
   }
 }
@@ -104,9 +106,10 @@ async function evaluateTabActivation(tab: chrome.tabs.Tab): Promise<void> {
 chrome.tabs.onActivated.addListener(({ tabId }): void => {
   const tab = getTab(tabId);
   if (!tab) throw Error(`Tab ${tabId} not found in Aleksi tab registry`);
-  evaluateTabActivation(tab);
+  evaluateTabActivation(tabId);
 });
 
+/*
 // Listen for tab updates (navigating to a new URL or loading finishes)
 chrome.tabs.onUpdated.addListener(
   (
@@ -121,6 +124,7 @@ chrome.tabs.onUpdated.addListener(
           target: { tabId },
           files: [contentScriptUrl],
         });
+        evaluateTabActivation(tabId);
       } catch (error) {
         // Failsafe catch block for restricted system pages (e.g. chrome:// or extensions gallery)
         console.warn("Could not execute content script in tab:", error);
@@ -128,23 +132,34 @@ chrome.tabs.onUpdated.addListener(
     }
   },
 );
+	*/
 
 // Handle extension icon clicks
 chrome.action.onClicked.addListener(
   async (tab: chrome.tabs.Tab): Promise<void> => {
     if (!tab.id) return;
     const tabId = tab.id;
-
-    const data = await chrome.storage.local.get({
-      activationBehavior: "always",
-    });
-    const settings = data as ExtensionSettings;
-
-    if (settings.activationBehavior === "toggle") {
-      tabToggleStates[tabId] = !tabToggleStates[tabId];
-      evaluateTabActivation(tab);
+    if (!getTab(tabId)) {
+      try {
+        await chrome.scripting.executeScript({
+          target: { tabId },
+          files: [contentScriptUrl],
+        });
+      } catch (err) {
+        console.error("Failed to register or execute script:", err);
+      }
     } else {
-      evaluateTabActivation(tab);
+      const data = await chrome.storage.local.get({
+        activationBehavior: defaultActivationBehavior,
+      });
+      const settings = data as ExtensionSettings;
+
+      if (settings.activationBehavior === "toggle") {
+        tabToggleStates[tabId] = !tabToggleStates[tabId];
+        evaluateTabActivation(tabId);
+      } else {
+        evaluateTabActivation(tabId);
+      }
     }
   },
 );
@@ -162,7 +177,8 @@ chrome.runtime.onMessage.addListener(
   ): boolean | undefined => {
     if (message.action === "RegisterTab" && sender.tab?.id) {
       // Now you can safely send a message back to this specific tab
-      evaluateTabActivation(sender.tab);
+      setTab(sender.tab.id, sender.tab);
+      evaluateTabActivation(sender.tab.id);
     }
     if (message.action === "BackgroundHTTPProxyRequest" && message.url) {
       fetch(message.url, message.options)
@@ -179,5 +195,90 @@ chrome.runtime.onMessage.addListener(
       return true;
     }
     return undefined;
+  },
+);
+
+// Helper: Dynamically updates whether clicking the extension icon opens the popup or fires a click event
+async function syncPopupState() {
+  try {
+    const existing = await chrome.scripting.getRegisteredContentScripts();
+    const isActive = existing.some((s) => s.id === aleksiContentScriptId);
+
+    if (!requireEnable || isActive) {
+      // Content script is active -> Disable the popup so clicking triggers chrome.action.onClicked
+      await chrome.action.setPopup({ popup: "" });
+      console.log(`[${aleksiContentScriptId}] App active. Popup disabled.`);
+    } else {
+      // Content script is missing -> Re-enable popup so user can configure the URL
+      await chrome.action.setPopup({ popup: "extension/popup.html" });
+      console.log(`[${aleksiContentScriptId}] App inactive. Popup enabled.`);
+    }
+  } catch (err) {
+    console.error("Error setting popup state:", err);
+  }
+}
+
+// 1. Run the check whenever the background worker spins up or installs
+chrome.runtime.onStartup.addListener(syncPopupState);
+chrome.runtime.onInstalled.addListener(syncPopupState);
+
+chrome.runtime.onMessage.addListener(
+  (
+    message: IncomingMessage,
+    sender: chrome.runtime.MessageSender,
+    sendResponse: (response: ProxyResponse) => void,
+  ) => {
+    if (message.action === "ActivateExtension") {
+      (async () => {
+        try {
+          const existing = await chrome.scripting.getRegisteredContentScripts();
+          const isRegistered = existing.some(
+            (s) => s.id === aleksiContentScriptId,
+          );
+
+          const scriptConfig = {
+            id: aleksiContentScriptId,
+            js: [contentScriptUrl],
+            matches: ["<all_urls>"],
+            runAt: "document_idle" as const,
+          };
+
+          if (isRegistered) {
+            await chrome.scripting.updateContentScripts([scriptConfig]);
+          } else {
+            await chrome.scripting.registerContentScripts([scriptConfig]);
+          }
+          syncPopupState();
+
+          // Notify popup that registration is completely finished
+          sendResponse({ success: true });
+        } catch (err: any) {
+          console.error("Background script registration fault:", err);
+          sendResponse({ success: false, error: err.message });
+        }
+      })();
+      return true; // Keeps the channel open for async sendResponse
+    }
+
+    if (message.action === "DeactivateExtension") {
+      (async () => {
+        try {
+          const existing = await chrome.scripting.getRegisteredContentScripts();
+          if (existing.some((s) => s.id === aleksiContentScriptId)) {
+            await chrome.scripting.unregisterContentScripts({
+              ids: [aleksiContentScriptId],
+            });
+          }
+
+          // Notify popup that cleanup is completely finished
+          sendResponse({ success: true });
+        } catch (err: any) {
+          console.error("Background cleanup execution failed:", err);
+          sendResponse({ success: false, error: err.message });
+        }
+      })();
+      syncPopupState();
+      return true; // Keeps the channel open for async sendResponse
+    }
   },
 );
